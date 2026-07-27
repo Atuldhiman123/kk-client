@@ -88,6 +88,7 @@ export interface ContactInfo {
   email: string;
   address: string;
   mapsUrl: string;
+  instagram?: string;
 }
 
 export interface PaymentConfig {

@@ -34,7 +34,7 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-neutral-50 px-4">
       <div className="w-full max-w-sm rounded-2xl border border-neutral-200 bg-white p-8 shadow-sm">
         <h1 className="text-center text-xl font-bold text-neutral-900">Admin Login</h1>
-        <p className="mt-1 text-center text-sm text-neutral-500">AstroConsult Admin Panel</p>
+        <p className="mt-1 text-center text-sm text-neutral-500">Kundli Kendra Admin Panel</p>
 
         <Form layout="vertical" className="mt-6" onFinish={onFinish} requiredMark="optional">
           <Form.Item

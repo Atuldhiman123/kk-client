@@ -6,7 +6,7 @@ import { GemstoneSearch, GemstonePagination } from '@/components/gemstone/Gemsto
 const PAGE_SIZE = 12;
 
 export const metadata = {
-  title: 'Certified Gemstones | AstroConsult',
+  title: 'Certified Gemstones | Kundli Kendra',
   description: 'Browse 100% natural, lab-certified gemstones recommended for your birth chart and planetary alignments.',
 };
 

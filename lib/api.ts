@@ -67,11 +67,11 @@ export function adminRequest<T>(path: string, options: RequestInit = {}): Promis
 
 export const DEFAULT_PAYMENT_CONFIG: PaymentConfig = {
   id: 'payment-cfg-1',
-  upiName: 'AstroConsult Official',
-  upiId: 'astroconsult@upi',
+  upiName: 'Kundli Kendra Official',
+  upiId: 'atuldhiman.1998@okicici',
   phone: '+91 98765 43210',
-  qrImage: 'https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=upi://pay?pa=astroconsult@upi&pn=AstroConsult',
-  instructions: 'Scan the QR code using Google Pay, PhonePe, or Paytm. Enter the transaction ID and upload a screenshot of your payment confirmation.',
+  qrImage: '/upi-qr.jpg',
+  instructions: 'Scan the Google Pay QR code using Google Pay, PhonePe, Paytm, or any UPI App. Enter the transaction ID and upload a screenshot of your payment confirmation.',
   isActive: true,
 };
 
@@ -184,7 +184,7 @@ export const DEFAULT_HOME_DATA: HomeData = {
   categories: DEFAULT_CATEGORIES,
   combos: DEFAULT_COMBOS,
   stats: [
-    { label: 'Years Experience', value: '15+' },
+    { label: 'Years Experience', value: '10+' },
     { label: 'Happy Clients', value: '12,000+' },
     { label: 'Consultations Completed', value: '25,000+' },
     { label: 'Average Rating', value: '4.9★' },
@@ -248,9 +248,10 @@ export const DEFAULT_HOME_DATA: HomeData = {
   contact: {
     phone: '+91 98765 43210',
     whatsapp: '+91 98765 43210',
-    email: 'contact@astroconsult.com',
+    email: 'contact@kundlikendra.com',
     address: 'Sector 62, Noida, Uttar Pradesh 201301, India',
     mapsUrl: 'https://maps.google.com',
+    instagram: 'https://www.instagram.com/astrologer__atul/',
   },
   paymentConfig: DEFAULT_PAYMENT_CONFIG,
 };

@@ -51,7 +51,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     <div className="flex min-h-screen bg-neutral-50">
       <aside className="hidden w-64 shrink-0 border-r border-neutral-200 bg-white p-4 sm:block">
         <div className="px-2 text-lg font-semibold text-neutral-900">
-          Astro<span style={{ color: '#B8860B' }}>Consult</span>
+          Kundli <span style={{ color: '#B8860B' }}>Kendra</span>
         </div>
         <div className="px-2 text-xs text-neutral-400">Admin Panel</div>
 

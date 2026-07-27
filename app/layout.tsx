@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Astrology Consultation | Book Your Session",
+  title: "Kundli Kendra | Authentic Vedic Astrology & Consultations",
   description:
-    "Book a personalized astrology consultation for career, marriage, love, business, health and more. Accurate predictions, confidential sessions.",
+    "Book a personalized astrology consultation with Kundli Kendra for career, marriage, love, business, health and more. Accurate predictions & confidential sessions.",
 };
 
 export default function RootLayout({

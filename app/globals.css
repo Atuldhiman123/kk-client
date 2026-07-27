@@ -24,6 +24,19 @@ body {
   overflow-x: hidden;
 }
 
+/* Prevent AntD from overriding link text color on buttons and components */
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.text-white,
+a.text-white,
+button.text-white,
+.text-white * {
+  color: #ffffff !important;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

@@ -5,7 +5,7 @@ import { formatInr } from '@/lib/format';
 import { telLink, waLink } from '@/lib/contact';
 
 export const metadata = {
-  title: 'Booking Confirmed | AstroConsult',
+  title: 'Booking Confirmed | Kundli Kendra',
 };
 
 const PAYMENT_STATUS_STYLES: Record<string, string> = {

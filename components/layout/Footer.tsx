@@ -1,12 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { MailOutlined, PhoneOutlined, EnvironmentOutlined, WhatsAppOutlined } from '@ant-design/icons';
+import { MailOutlined, PhoneOutlined, EnvironmentOutlined, WhatsAppOutlined, InstagramOutlined } from '@ant-design/icons';
 import type { ContactInfo } from '@/lib/types';
 import { telLink, waLink } from '@/lib/contact';
 
 export function Footer({ contact }: { contact?: ContactInfo }) {
   const year = new Date().getFullYear();
+  const instagramUrl = contact?.instagram || 'https://www.instagram.com/astrologer__atul/';
 
   return (
     <footer className="border-t border-neutral-800 bg-neutral-950 text-neutral-300">
@@ -17,26 +18,35 @@ export function Footer({ contact }: { contact?: ContactInfo }) {
               🔮
             </span>
             <span>
-              Astro<span className="text-amber-500">Consult</span>
+              Kundli <span className="text-amber-500">Kendra</span>
             </span>
           </Link>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-neutral-400">
             Personalized, 100% confidential Vedic astrology consultations for career, marriage, love, wealth, health and business.
             Rooted in authentic Kundli analysis and practical remedies.
           </p>
-          {contact?.whatsapp && (
-            <div className="mt-5">
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            {contact?.whatsapp && (
               <a
                 href={waLink(contact.whatsapp)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:opacity-90"
-                style={{ backgroundColor: '#25D366' }}
+                style={{ backgroundColor: '#25D366', color: '#ffffff' }}
               >
                 <WhatsAppOutlined /> Connect on WhatsApp
               </a>
-            </div>
-          )}
+            )}
+            <a
+              href={instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:opacity-90"
+              style={{ color: '#ffffff' }}
+            >
+              <InstagramOutlined /> Follow on Instagram
+            </a>
+          </div>
         </div>
 
         <div className="text-sm">
@@ -89,6 +99,11 @@ export function Footer({ contact }: { contact?: ContactInfo }) {
                   <MailOutlined className="text-amber-500" /> {contact.email}
                 </a>
               </li>
+              <li>
+                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 transition hover:text-amber-400">
+                  <InstagramOutlined className="text-pink-500" /> @astrologer__atul
+                </a>
+              </li>
               <li className="flex items-start gap-2.5">
                 <EnvironmentOutlined className="mt-1 text-amber-500" />
                 <span className="leading-snug">{contact.address}</span>
@@ -99,7 +114,7 @@ export function Footer({ contact }: { contact?: ContactInfo }) {
       </div>
 
       <div className="border-t border-neutral-900 py-6 text-center text-xs text-neutral-500">
-        © {year} AstroConsult Kundli Kendra. All rights reserved. &middot; 100% Confidential & Private Guidance.
+        © {year} Kundli Kendra. All rights reserved. &middot; 100% Confidential & Private Guidance.
       </div>
     </footer>
   );

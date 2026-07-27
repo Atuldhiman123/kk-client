@@ -25,7 +25,7 @@ export function HowItWorks({ steps }: { steps: HowItWorksStep[] }) {
                 {step.step === 1 && 'Pick a specific topic or combo package.'}
                 {step.step === 2 && 'Choose your convenient date & available time slot.'}
                 {step.step === 3 && 'Complete quick payment via UPI & get instant confirmation.'}
-                {step.step === 4 && 'Connect live with Pandit Sharma on phone or WhatsApp.'}
+                {step.step === 4 && 'Connect live with Astrologer Atul on phone or WhatsApp.'}
               </p>
             </div>
           ))}

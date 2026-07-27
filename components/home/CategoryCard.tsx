@@ -54,8 +54,9 @@ export function CategoryCard({ category }: { category: ConsultationCategory }) {
       <Link
         href={`/?category=${category.slug}#booking`}
         className="mt-5 flex w-full items-center justify-center rounded-full bg-gradient-to-r from-amber-500 to-amber-600 py-3.5 text-center text-sm font-bold text-white shadow-xs transition hover:from-amber-600 hover:to-amber-700"
+        style={{ color: '#ffffff' }}
       >
-        Book Consultation &rarr;
+        <span className="text-white" style={{ color: '#ffffff' }}>Book Consultation &rarr;</span>
       </Link>
     </div>
   );

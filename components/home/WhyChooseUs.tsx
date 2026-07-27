@@ -10,7 +10,7 @@ export function WhyChooseUs({ items }: { items: string[] }) {
           💎 Our Commitment
         </span>
         <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-neutral-900 sm:text-4xl">
-          Why Choose AstroConsult
+          Why Choose Kundli Kendra
         </h2>
         <p className="mt-3 max-w-xl mx-auto text-base text-neutral-600">
           Trusted by thousands of clients across India and globally for reliable Vedic guidance.

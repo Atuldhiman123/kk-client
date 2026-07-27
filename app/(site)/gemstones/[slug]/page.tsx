@@ -10,11 +10,11 @@ export async function generateMetadata(props: PageProps<'/gemstones/[slug]'>) {
   try {
     const gemstone = await getGemstone(slug);
     return {
-      title: `${gemstone.name} | AstroConsult Gemstones`,
+      title: `${gemstone.name} | Kundli Kendra Gemstones`,
       description: gemstone.shortDescription ?? gemstone.description ?? undefined,
     };
   } catch {
-    return { title: 'Gemstone | AstroConsult' };
+    return { title: 'Gemstone | Kundli Kendra' };
   }
 }
 

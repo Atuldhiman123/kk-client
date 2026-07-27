@@ -1,10 +1,12 @@
 'use client';
 
-import { MailOutlined, EnvironmentOutlined, PhoneOutlined, WhatsAppOutlined } from '@ant-design/icons';
+import { MailOutlined, EnvironmentOutlined, PhoneOutlined, WhatsAppOutlined, InstagramOutlined } from '@ant-design/icons';
 import type { ContactInfo } from '@/lib/types';
 import { telLink, waLink } from '@/lib/contact';
 
 export function ContactSection({ contact }: { contact: ContactInfo }) {
+  const instagramUrl = contact.instagram || 'https://www.instagram.com/astrologer__atul/';
+
   return (
     <section id="contact" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <div className="text-center">
@@ -13,7 +15,7 @@ export function ContactSection({ contact }: { contact: ContactInfo }) {
         </span>
         <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-neutral-900 sm:text-4xl">Get In Touch</h2>
         <p className="mt-3 max-w-xl mx-auto text-base text-neutral-600">
-          Have a question before booking? Feel free to reach out directly via phone, email, or WhatsApp.
+          Have a question before booking? Feel free to reach out directly via phone, email, WhatsApp, or Instagram.
         </p>
       </div>
 
@@ -51,6 +53,23 @@ export function ContactSection({ contact }: { contact: ContactInfo }) {
         </a>
 
         <a
+          href={instagramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center gap-4 rounded-3xl border border-pink-200 bg-white p-6 shadow-xs transition hover:border-pink-400 hover:shadow-md"
+        >
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-pink-100 text-pink-600 transition group-hover:scale-110">
+            <InstagramOutlined className="text-xl text-pink-600" />
+          </div>
+          <div>
+            <div className="text-xs font-bold uppercase tracking-wider text-neutral-500">Instagram Profile</div>
+            <div className="mt-0.5 text-base font-bold text-neutral-900 group-hover:text-pink-600 transition">
+              @astrologer__atul
+            </div>
+          </div>
+        </a>
+
+        <a
           href={`mailto:${contact.email}`}
           className="group flex items-center gap-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-xs transition hover:border-amber-400 hover:shadow-md"
         >
@@ -61,23 +80,6 @@ export function ContactSection({ contact }: { contact: ContactInfo }) {
             <div className="text-xs font-bold uppercase tracking-wider text-neutral-500">Email Query</div>
             <div className="mt-0.5 text-base font-bold text-neutral-900 group-hover:text-amber-600 transition">
               {contact.email}
-            </div>
-          </div>
-        </a>
-
-        <a
-          href={contact.mapsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group flex items-center gap-4 rounded-3xl border border-amber-200 bg-white p-6 shadow-xs transition hover:border-amber-400 hover:shadow-md"
-        >
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-amber-100 text-amber-700 transition group-hover:scale-110">
-            <EnvironmentOutlined className="text-xl text-amber-600" />
-          </div>
-          <div>
-            <div className="text-xs font-bold uppercase tracking-wider text-neutral-500">Office Location</div>
-            <div className="mt-0.5 text-base font-bold text-neutral-900 group-hover:text-amber-600 transition">
-              {contact.address}
             </div>
           </div>
         </a>

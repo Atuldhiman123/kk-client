@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { PhoneOutlined, WhatsAppOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons';
+import { PhoneOutlined, WhatsAppOutlined, MenuOutlined, CloseOutlined, InstagramOutlined } from '@ant-design/icons';
 import type { ContactInfo } from '@/lib/types';
 import { waLink, telLink } from '@/lib/contact';
 
 export function Header({ contact }: { contact?: ContactInfo }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const instagramUrl = contact?.instagram || 'https://www.instagram.com/astrologer__atul/';
 
   return (
     <header className="sticky top-0 z-50 border-b border-amber-100 bg-white/95 shadow-sm backdrop-blur-md">
@@ -17,7 +18,7 @@ export function Header({ contact }: { contact?: ContactInfo }) {
             🔮
           </span>
           <span>
-            Astro<span className="text-amber-600">Consult</span>
+            Kundli <span className="text-amber-600">Kendra</span>
           </span>
         </Link>
 
@@ -43,6 +44,15 @@ export function Header({ contact }: { contact?: ContactInfo }) {
         </nav>
 
         <div className="flex items-center gap-3">
+          <a
+            href={instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden items-center gap-1.5 rounded-full border border-pink-200 bg-pink-50/80 px-3 py-1.5 text-xs font-semibold text-pink-700 transition hover:bg-pink-100 lg:inline-flex"
+            aria-label="Instagram Profile"
+          >
+            <InstagramOutlined className="text-pink-600 text-sm" /> Instagram
+          </a>
           {contact?.phone && (
             <a
               href={telLink(contact.phone)}
@@ -57,7 +67,7 @@ export function Header({ contact }: { contact?: ContactInfo }) {
               target="_blank"
               rel="noopener noreferrer"
               className="hidden items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold text-white shadow-xs transition hover:opacity-95 sm:inline-flex"
-              style={{ backgroundColor: '#25D366' }}
+              style={{ backgroundColor: '#25D366', color: '#ffffff' }}
             >
               <WhatsAppOutlined /> WhatsApp
             </a>
@@ -65,8 +75,9 @@ export function Header({ contact }: { contact?: ContactInfo }) {
           <Link
             href="/#booking"
             className="rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition hover:from-amber-600 hover:to-amber-700"
+            style={{ color: '#ffffff' }}
           >
-            Book Now
+            <span className="text-white" style={{ color: '#ffffff' }}>Book Now</span>
           </Link>
 
           <button

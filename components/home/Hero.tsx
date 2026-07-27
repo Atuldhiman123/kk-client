@@ -22,11 +22,11 @@ export function Hero({ contact }: { contact: ContactInfo }) {
           </div>
 
           <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-neutral-900 sm:text-5xl lg:text-6xl">
-            Acharya Pandit <span className="text-amber-600">Sharma</span>
+            Astrologer <span className="text-amber-600">Atul</span>
           </h1>
 
           <p className="mt-2 text-xl font-semibold text-neutral-800">
-            Master Vedic Astrologer &middot; 15+ Years Experience
+            Master Vedic Astrologer &middot; 10+ Years Experience
           </p>
 
           <p className="mt-4 max-w-xl text-base leading-relaxed text-neutral-700">
@@ -37,8 +37,9 @@ export function Hero({ contact }: { contact: ContactInfo }) {
             <Link
               href="#booking"
               className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-600 to-amber-700 px-7 py-3.5 text-sm font-bold text-white shadow-md transition hover:scale-105 hover:from-amber-700 hover:to-amber-800"
+              style={{ color: '#ffffff' }}
             >
-              <span>🔮 Book Consultation</span>
+              <span className="text-white" style={{ color: '#ffffff' }}>🔮 Book Consultation</span>
             </Link>
 
             <Link
@@ -60,9 +61,9 @@ export function Hero({ contact }: { contact: ContactInfo }) {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full px-5 py-3.5 text-sm font-semibold text-white shadow-xs transition hover:opacity-95"
-              style={{ backgroundColor: '#25D366' }}
+              style={{ backgroundColor: '#25D366', color: '#ffffff' }}
             >
-              💬 WhatsApp
+              <span className="text-white" style={{ color: '#ffffff' }}>💬 WhatsApp</span>
             </a>
           </div>
 
@@ -78,11 +79,12 @@ export function Hero({ contact }: { contact: ContactInfo }) {
 
         <div className="flex justify-center md:justify-end">
           <div className="relative">
-            <div
-              className="flex h-72 w-72 items-center justify-center rounded-3xl bg-gradient-to-br from-amber-300 via-amber-400 to-amber-600 text-8xl shadow-2xl transition hover:rotate-1 sm:h-96 sm:w-96"
-              aria-hidden
-            >
-              🔮
+            <div className="h-72 w-72 overflow-hidden rounded-3xl border-4 border-amber-300/80 shadow-2xl transition hover:scale-102 sm:h-96 sm:w-96">
+              <img
+                src="/astrologer-atul.jpg"
+                alt="Astrologer Atul"
+                className="h-full w-full object-cover object-top"
+              />
             </div>
             <div className="absolute -bottom-6 -left-6 rounded-2xl border border-white/80 bg-white/95 p-4 shadow-xl backdrop-blur-md">
               <div className="flex items-center gap-3">

@@ -45,8 +45,9 @@ export function ComboCard({ combo }: { combo: ComboOffer }) {
       <Link
         href={`/?combo=${combo.slug}#booking`}
         className="mt-5 flex w-full items-center justify-center rounded-full bg-gradient-to-r from-amber-600 to-amber-700 py-3 text-center text-sm font-bold text-white shadow-xs transition hover:from-amber-700 hover:to-amber-800"
+        style={{ color: '#ffffff' }}
       >
-        Claim Combo Package &rarr;
+        <span className="text-white" style={{ color: '#ffffff' }}>Claim Combo Package &rarr;</span>
       </Link>
     </div>
   );

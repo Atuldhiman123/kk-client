@@ -1,10 +1,9 @@
-/* Preflight is intentionally omitted so it doesn't fight Ant Design's own CSS reset. */
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #faf8f5;
+  --foreground: #1c1917;
 }
 
 @theme inline {
@@ -14,15 +13,40 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #faf8f5;
+  color: #1c1917;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #faf8f5;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4af37;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b8860b;
+}
+
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #d4af37 100%);
+}
+
+.text-gold {
+  color: #b8860b;
+}
+
+.border-gold {
+  border-color: #f3d98b;
 }

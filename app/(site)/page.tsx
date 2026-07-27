@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { getHome } from '@/lib/api';
+import { getHome, DEFAULT_HOME_DATA } from '@/lib/api';
 import { Hero } from '@/components/home/Hero';
 import { Stats } from '@/components/home/Stats';
 import { ConsultationCategories } from '@/components/home/ConsultationCategories';
@@ -12,7 +12,7 @@ import { ContactSection } from '@/components/home/ContactSection';
 import { BookingForm } from '@/components/booking/BookingForm';
 
 export default async function HomePage() {
-  const home = await getHome();
+  const home = await getHome().catch(() => DEFAULT_HOME_DATA);
 
   return (
     <>

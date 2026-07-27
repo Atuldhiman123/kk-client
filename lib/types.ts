@@ -5,6 +5,7 @@ export interface ConsultationCategory {
   description: string | null;
   durationMinutes: number;
   price: string;
+  originalPrice?: number;
   isActive: boolean;
 }
 

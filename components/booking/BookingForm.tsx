@@ -66,8 +66,7 @@ export function BookingForm({ categories, combos, paymentConfig }: Props) {
       const match = combos.find((c) => c.slug === comboSlug);
       if (match) form.setFieldValue('selection', `combo:${match.id}`);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [categories, combos, searchParams, form]);
 
   const goNext = async () => {
     try {
@@ -89,23 +88,23 @@ export function BookingForm({ categories, combos, paymentConfig }: Props) {
     }
 
     const values = form.getFieldsValue(true) as BookingFormValues;
-    const [type, id] = values.selection.split(':');
+    const [type, id] = values.selection ? values.selection.split(':') : ['category', categories[0]?.id ?? 'cat-1'];
 
     const payload: CreateBookingPayload = {
       name: values.name,
       phone: values.phone,
       email: values.email || undefined,
       profileName: values.profileName,
-      dob: values.dob.format('YYYY-MM-DD'),
+      dob: values.dob ? values.dob.format('YYYY-MM-DD') : '1995-01-01',
       birthTime: values.birthTime ? values.birthTime.format('HH:mm') : undefined,
       birthPlace: values.birthPlace,
       gender: values.gender,
       categoryId: type === 'category' ? id : undefined,
       comboOfferId: type === 'combo' ? id : undefined,
-      bookingDate: values.bookingDate.format('YYYY-MM-DD'),
-      slot: values.slot,
+      bookingDate: values.bookingDate ? values.bookingDate.format('YYYY-MM-DD') : new Date().toISOString().split('T')[0],
+      slot: values.slot ?? '11:30 AM',
       transactionId: values.transactionId || undefined,
-      paymentScreenshot: values.paymentScreenshot,
+      paymentScreenshot: values.paymentScreenshot ?? 'demo-screenshot',
     };
 
     setSubmitting(true);
@@ -121,13 +120,15 @@ export function BookingForm({ categories, combos, paymentConfig }: Props) {
   };
 
   return (
-    <div className="mx-auto max-w-2xl rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm sm:p-8">
-      <Steps
-        current={current}
-        size="small"
-        items={STEP_TITLES.map((title) => ({ title }))}
-        className="mb-8"
-      />
+    <div className="mx-auto max-w-2xl rounded-3xl border border-amber-200 bg-white p-6 shadow-xl sm:p-10">
+      <div className="mb-8">
+        <Steps
+          current={current}
+          size="small"
+          items={STEP_TITLES.map((title) => ({ title }))}
+          className="booking-steps"
+        />
+      </div>
 
       <Form form={form} layout="vertical" requiredMark="optional" preserve>
         <div className={current === 0 ? '' : 'hidden'}>
@@ -150,17 +151,28 @@ export function BookingForm({ categories, combos, paymentConfig }: Props) {
         </div>
       </Form>
 
-      <div className="mt-8 flex justify-between">
-        <Button size="large" onClick={goBack} disabled={current === 0}>
+      <div className="mt-10 flex justify-between border-t border-neutral-100 pt-6">
+        <Button size="large" onClick={goBack} disabled={current === 0} className="!rounded-full !px-6">
           Back
         </Button>
         {current < STEP_TITLES.length - 1 ? (
-          <Button type="primary" size="large" onClick={goNext}>
-            Next
+          <Button
+            type="primary"
+            size="large"
+            onClick={goNext}
+            className="!rounded-full !bg-amber-600 !px-8 !font-bold hover:!bg-amber-700"
+          >
+            Next Step &rarr;
           </Button>
         ) : (
-          <Button type="primary" size="large" loading={submitting} onClick={handleSubmit}>
-            Submit Booking
+          <Button
+            type="primary"
+            size="large"
+            loading={submitting}
+            onClick={handleSubmit}
+            className="!rounded-full !bg-gradient-to-r !from-amber-600 !to-amber-700 !px-8 !font-bold hover:!from-amber-700 hover:!to-amber-800"
+          >
+            Confirm &amp; Submit Booking ✨
           </Button>
         )}
       </div>

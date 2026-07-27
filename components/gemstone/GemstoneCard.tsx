@@ -7,26 +7,46 @@ export function GemstoneCard({ gemstone }: { gemstone: Gemstone }) {
   const imageUrl = gemstone.image ?? gemstone.images[0]?.imageUrl;
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm transition hover:shadow-md">
-      <div className="relative h-48 w-full bg-neutral-100">
+    <div className="group flex flex-col overflow-hidden rounded-3xl border border-amber-200 bg-white shadow-xs transition-all duration-200 hover:-translate-y-1 hover:border-amber-400 hover:shadow-xl">
+      <div className="relative h-52 w-full overflow-hidden bg-gradient-to-b from-amber-50 to-neutral-100">
         {imageUrl ? (
-          <Image src={imageUrl} alt={gemstone.name} fill unoptimized className="object-cover" />
+          <Image
+            src={imageUrl}
+            alt={gemstone.name}
+            fill
+            unoptimized
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+          />
         ) : (
-          <div className="flex h-full items-center justify-center text-4xl">💎</div>
+          <div className="flex h-full items-center justify-center text-5xl">💎</div>
         )}
+        <div className="absolute top-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-bold text-amber-800 shadow-2xs backdrop-blur-xs">
+          ✨ Lab Certified
+        </div>
       </div>
-      <div className="flex flex-1 flex-col p-5">
-        <h3 className="text-lg font-semibold text-neutral-900">{gemstone.name}</h3>
+
+      <div className="flex flex-1 flex-col p-6">
+        <h3 className="text-xl font-bold text-neutral-900 group-hover:text-amber-700 transition">
+          {gemstone.name}
+        </h3>
         {gemstone.shortDescription && (
-          <p className="mt-1 flex-1 text-sm text-neutral-600">{gemstone.shortDescription}</p>
+          <p className="mt-2 flex-1 text-xs leading-relaxed text-neutral-600 line-clamp-2">
+            {gemstone.shortDescription}
+          </p>
         )}
-        <div className="mt-3 font-semibold text-neutral-900">{formatInr(gemstone.price)}</div>
+
+        <div className="mt-5 flex items-baseline justify-between border-t border-neutral-100 pt-4">
+          <div>
+            <div className="text-xs text-neutral-500 font-medium">Starting Price</div>
+            <div className="text-2xl font-extrabold text-neutral-900">{formatInr(gemstone.price)}</div>
+          </div>
+        </div>
+
         <Link
           href={`/gemstones/${gemstone.slug}`}
-          className="mt-4 rounded-full py-2 text-center text-sm font-semibold text-white"
-          style={{ backgroundColor: '#B8860B' }}
+          className="mt-4 flex w-full items-center justify-center rounded-full bg-gradient-to-r from-amber-500 to-amber-600 py-3 text-center text-xs font-bold text-white shadow-xs transition hover:from-amber-600 hover:to-amber-700"
         >
-          View Details
+          View Gemstone &rarr;
         </Link>
       </div>
     </div>

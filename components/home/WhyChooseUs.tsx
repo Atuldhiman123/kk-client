@@ -4,15 +4,29 @@ import { CheckCircleFilled } from '@ant-design/icons';
 
 export function WhyChooseUs({ items }: { items: string[] }) {
   return (
-    <section id="about" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <section id="why-choose-us" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <div className="text-center">
-        <h2 className="text-3xl font-bold text-neutral-900">Why Choose Us</h2>
+        <span className="rounded-full bg-amber-100 px-4 py-1.5 text-xs font-bold text-amber-900 uppercase tracking-wider">
+          💎 Our Commitment
+        </span>
+        <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-neutral-900 sm:text-4xl">
+          Why Choose AstroConsult
+        </h2>
+        <p className="mt-3 max-w-xl mx-auto text-base text-neutral-600">
+          Trusted by thousands of clients across India and globally for reliable Vedic guidance.
+        </p>
       </div>
-      <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+      <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item) => (
-          <div key={item} className="flex items-start gap-3 rounded-xl border border-neutral-200 p-4">
-            <CheckCircleFilled style={{ color: '#B8860B' }} className="mt-0.5 text-lg" />
-            <span className="text-sm font-medium text-neutral-800">{item}</span>
+          <div
+            key={item}
+            className="flex items-center gap-4 rounded-2xl border border-amber-200/80 bg-white p-5 shadow-xs transition hover:border-amber-400 hover:shadow-md"
+          >
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
+              <CheckCircleFilled className="text-xl text-amber-600" />
+            </div>
+            <span className="text-sm font-bold text-neutral-900 leading-snug">{item}</span>
           </div>
         ))}
       </div>

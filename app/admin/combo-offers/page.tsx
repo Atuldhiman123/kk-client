@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { App, Button, Form, Input, InputNumber, Modal, Popconfirm, Select, Switch, Table } from 'antd';
+import { App, Button, Form, Input, InputNumber, Modal, Popconfirm, Select, Switch, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { EditOutlined, PoweroffOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   createAdminComboOffer,
   deleteAdminComboOffer,
@@ -89,23 +90,51 @@ export default function AdminComboOffersPage() {
   };
 
   const columns: ColumnsType<ComboOffer> = [
-    { title: 'Name', dataIndex: 'name' },
+    { title: 'Name', dataIndex: 'name', className: 'font-semibold text-neutral-800' },
     {
-      title: 'Categories',
-      render: (_, record) => record.categories.map((c) => c.category.name).join(', '),
-    },
-    { title: 'Price', dataIndex: 'discountedPrice', render: (v: string) => formatInr(v) },
-    { title: 'Active', dataIndex: 'isActive', render: (v: boolean) => (v ? 'Yes' : 'No') },
-    {
-      title: '',
+      title: 'Included Categories',
       render: (_, record) => (
-        <div className="flex gap-3">
-          <button className="font-medium" style={{ color: '#B8860B' }} onClick={() => openEdit(record)}>
-            Edit
+        <div className="flex flex-wrap gap-1.5">
+          {record.categories.map((c) => (
+            <Tag key={c.category.id} color="amber" className="font-semibold rounded-lg text-[10px] px-2 py-0.5">
+              {c.category.name}
+            </Tag>
+          ))}
+        </div>
+      ),
+    },
+    {
+      title: 'Price',
+      dataIndex: 'discountedPrice',
+      render: (v: string) => <span className="font-bold">{formatInr(v)}</span>,
+    },
+    {
+      title: 'Active',
+      dataIndex: 'isActive',
+      render: (v: boolean) => (
+        <Tag color={v ? 'success' : 'default'} className="font-bold rounded-lg px-2.5 py-0.5">
+          {v ? 'Active' : 'Inactive'}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Actions',
+      render: (_, record) => (
+        <div className="flex gap-4">
+          <button
+            className="font-bold text-xs inline-flex items-center gap-1 hover:text-amber-800 transition"
+            style={{ color: '#B8860B' }}
+            onClick={() => openEdit(record)}
+          >
+            <EditOutlined className="text-xs" /> Edit
           </button>
-          <Popconfirm title="Deactivate this combo?" onConfirm={() => handleDelete(record.id)}>
-            <button className="font-medium text-red-600">Deactivate</button>
-          </Popconfirm>
+          {record.isActive && (
+            <Popconfirm title="Deactivate this combo?" onConfirm={() => handleDelete(record.id)}>
+              <button className="font-bold text-xs text-red-600 inline-flex items-center gap-1 hover:text-red-700 transition">
+                <PoweroffOutlined className="text-xs" /> Deactivate
+              </button>
+            </Popconfirm>
+          )}
         </div>
       ),
     },
@@ -113,9 +142,12 @@ export default function AdminComboOffersPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-neutral-900">Combo Offers</h1>
-        <Button type="primary" onClick={openCreate}>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl font-bold text-neutral-900 tracking-tight">Combo Offers</h1>
+          <p className="text-xs text-neutral-500 font-medium">Create packages bundling multiple astrology sessions at a discount.</p>
+        </div>
+        <Button type="primary" icon={<PlusOutlined />} onClick={openCreate} className="h-10 rounded-xl font-bold">
           Add Combo Offer
         </Button>
       </div>

@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { App, Button, Form, Input, Spin, Switch, Upload, type UploadFile, type UploadProps } from 'antd';
+import { App, Button, Form, Input, Spin, Switch, Upload, Card, type UploadFile, type UploadProps } from 'antd';
+import { CreditCardOutlined, UserOutlined, WalletOutlined, PhoneOutlined, SaveOutlined } from '@ant-design/icons';
 import {
   getAdminPaymentConfig,
   upsertAdminPaymentConfig,
@@ -72,54 +73,66 @@ export default function AdminPaymentConfigPage() {
 
   return (
     <div className="max-w-xl">
-      <h1 className="text-xl font-bold text-neutral-900">Payment Configuration</h1>
+      <div className="flex flex-col gap-1 mb-6">
+        <h1 className="text-2xl font-bold text-neutral-900 tracking-tight">Payment Configuration</h1>
+        <p className="text-xs text-neutral-500 font-medium">Manage UPI accounts, QR codes, and instruction guidelines for booking payments.</p>
+      </div>
 
-      <Form
-        form={form}
-        layout="vertical"
-        requiredMark="optional"
-        className="mt-6"
-        onFinish={handleSubmit}
-        initialValues={{ isActive: true }}
+      <Card
+        title={
+          <span className="flex items-center gap-2 text-neutral-900 font-extrabold">
+            <CreditCardOutlined className="text-amber-600" />
+            <span>UPI Account Settings</span>
+          </span>
+        }
+        className="shadow-2xs rounded-3xl border-neutral-200 mt-6"
       >
-        <Form.Item label="UPI Name" name="upiName" rules={[{ required: true }]}>
-          <Input />
-        </Form.Item>
-        <Form.Item label="UPI ID" name="upiId" rules={[{ required: true }]}>
-          <Input placeholder="example@upi" />
-        </Form.Item>
-        <Form.Item label="Contact Phone" name="phone">
-          <Input />
-        </Form.Item>
-        <Form.Item label="Payment Instructions" name="instructions">
-          <Input.TextArea rows={3} />
-        </Form.Item>
+        <Form
+          form={form}
+          layout="vertical"
+          requiredMark="optional"
+          onFinish={handleSubmit}
+          initialValues={{ isActive: true }}
+        >
+          <Form.Item label="UPI Holder Name" name="upiName" rules={[{ required: true, message: 'Please enter UPI holder name' }]}>
+            <Input prefix={<UserOutlined className="text-neutral-400" />} placeholder="e.g. Atul Sharma" className="h-10" />
+          </Form.Item>
+          <Form.Item label="UPI ID" name="upiId" rules={[{ required: true, message: 'Please enter UPI ID' }]}>
+            <Input prefix={<WalletOutlined className="text-neutral-400" />} placeholder="e.g. example@upi" className="h-10" />
+          </Form.Item>
+          <Form.Item label="Contact Phone" name="phone">
+            <Input prefix={<PhoneOutlined className="text-neutral-400" />} placeholder="e.g. +91 9876543210" className="h-10" />
+          </Form.Item>
+          <Form.Item label="Payment Instructions" name="instructions">
+            <Input.TextArea rows={3} placeholder="Provide scanning or transfer instructions for customers..." />
+          </Form.Item>
 
-        <Form.Item label="QR Code Image">
-          <Upload
-            listType="picture-card"
-            fileList={
-              qrImage
-                ? [{ uid: 'qr', name: 'qr', status: 'done', url: toAbsolute(qrImage) } as UploadFile]
-                : []
-            }
-            customRequest={customRequest}
-            onRemove={() => setQrImage(undefined)}
-            accept="image/png,image/jpeg,image/webp"
-            maxCount={1}
-          >
-            {qrImage ? null : '+ Upload'}
-          </Upload>
-        </Form.Item>
+          <Form.Item label="QR Code Image">
+            <Upload
+              listType="picture-card"
+              fileList={
+                qrImage
+                  ? [{ uid: 'qr', name: 'qr', status: 'done', url: toAbsolute(qrImage) } as UploadFile]
+                  : []
+              }
+              customRequest={customRequest}
+              onRemove={() => setQrImage(undefined)}
+              accept="image/png,image/jpeg,image/webp"
+              maxCount={1}
+            >
+              {qrImage ? null : '+ Upload'}
+            </Upload>
+          </Form.Item>
 
-        <Form.Item label="Active" name="isActive" valuePropName="checked">
-          <Switch />
-        </Form.Item>
+          <Form.Item label="Payment Setup Active" name="isActive" valuePropName="checked">
+            <Switch />
+          </Form.Item>
 
-        <Button type="primary" htmlType="submit" loading={saving}>
-          Save
-        </Button>
-      </Form>
+          <Button type="primary" htmlType="submit" loading={saving} icon={<SaveOutlined />} className="h-10 rounded-xl font-bold px-6">
+            Save Settings
+          </Button>
+        </Form>
+      </Card>
     </div>
   );
 }

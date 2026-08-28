@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { App, Button, Form, Input, InputNumber, Modal, Popconfirm, Switch, Table } from 'antd';
+import { App, Button, Form, Input, InputNumber, Modal, Popconfirm, Switch, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { EditOutlined, PoweroffOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   createAdminCategory,
   deleteAdminCategory,
@@ -84,21 +85,37 @@ export default function AdminCategoriesPage() {
   };
 
   const columns: ColumnsType<ConsultationCategory> = [
-    { title: 'Name', dataIndex: 'name' },
-    { title: 'Slug', dataIndex: 'slug' },
+    { title: 'Name', dataIndex: 'name', className: 'font-semibold text-neutral-800' },
+    { title: 'Slug', dataIndex: 'slug', className: 'font-mono text-neutral-500 text-xs' },
     { title: 'Duration', dataIndex: 'durationMinutes', render: (v: number) => `${v} min` },
-    { title: 'Price', dataIndex: 'price', render: (v: string) => formatInr(v) },
-    { title: 'Active', dataIndex: 'isActive', render: (v: boolean) => (v ? 'Yes' : 'No') },
+    { title: 'Price', dataIndex: 'price', render: (v: string) => <span className="font-bold">{formatInr(v)}</span> },
     {
-      title: '',
+      title: 'Active',
+      dataIndex: 'isActive',
+      render: (v: boolean) => (
+        <Tag color={v ? 'success' : 'default'} className="font-bold rounded-lg px-2.5 py-0.5">
+          {v ? 'Active' : 'Inactive'}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Actions',
       render: (_, record) => (
-        <div className="flex gap-3">
-          <button className="font-medium" style={{ color: '#B8860B' }} onClick={() => openEdit(record)}>
-            Edit
+        <div className="flex gap-4">
+          <button
+            className="font-bold text-xs inline-flex items-center gap-1 hover:text-amber-800 transition"
+            style={{ color: '#B8860B' }}
+            onClick={() => openEdit(record)}
+          >
+            <EditOutlined className="text-xs" /> Edit
           </button>
-          <Popconfirm title="Deactivate this category?" onConfirm={() => handleDelete(record.id)}>
-            <button className="font-medium text-red-600">Deactivate</button>
-          </Popconfirm>
+          {record.isActive && (
+            <Popconfirm title="Deactivate this category?" onConfirm={() => handleDelete(record.id)}>
+              <button className="font-bold text-xs text-red-600 inline-flex items-center gap-1 hover:text-red-700 transition">
+                <PoweroffOutlined className="text-xs" /> Deactivate
+              </button>
+            </Popconfirm>
+          )}
         </div>
       ),
     },
@@ -106,9 +123,12 @@ export default function AdminCategoriesPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-neutral-900">Consultation Categories</h1>
-        <Button type="primary" onClick={openCreate}>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl font-bold text-neutral-900 tracking-tight">Consultation Categories</h1>
+          <p className="text-xs text-neutral-500 font-medium">Define pricing and duration options for consultations.</p>
+        </div>
+        <Button type="primary" icon={<PlusOutlined />} onClick={openCreate} className="h-10 rounded-xl font-bold">
           Add Category
         </Button>
       </div>

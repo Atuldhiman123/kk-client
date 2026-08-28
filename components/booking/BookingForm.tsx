@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { App, Button, Form, Steps } from 'antd';
+import { App, Button, Form } from 'antd';
 import type { ComboOffer, ConsultationCategory, CreateBookingPayload, PaymentConfig } from '@/lib/types';
 import { ApiError, createBooking } from '@/lib/api';
 import { PersonalDetailsStep } from './steps/PersonalDetailsStep';
@@ -17,6 +17,7 @@ interface Props {
   categories: ConsultationCategory[];
   combos: ComboOffer[];
   paymentConfig: PaymentConfig | null;
+  isModal?: boolean;
 }
 
 interface BookingFormValues {
@@ -46,7 +47,7 @@ const STEP_FIELDS: (keyof BookingFormValues)[][] = [
 
 const STEP_TITLES = ['Personal', 'Birth Details', 'Consultation', 'Slot', 'Payment', 'Confirm'];
 
-export function BookingForm({ categories, combos, paymentConfig }: Props) {
+export function BookingForm({ categories, combos, paymentConfig, isModal }: Props) {
   const [form] = Form.useForm<BookingFormValues>();
   const [current, setCurrent] = useState(0);
   const [submitting, setSubmitting] = useState(false);
@@ -119,15 +120,68 @@ export function BookingForm({ categories, combos, paymentConfig }: Props) {
     }
   };
 
+  const wrapperClass = isModal
+    ? 'mx-auto max-w-2xl p-4 sm:p-6 bg-[#FFFDF9]'
+    : 'mx-auto max-w-2xl rounded-3xl border border-orange-200 bg-[#FFFDF9] p-6 shadow-xl sm:p-10';
+
   return (
-    <div className="mx-auto max-w-2xl rounded-3xl border border-amber-200 bg-white p-6 shadow-xl sm:p-10">
-      <div className="mb-8">
-        <Steps
-          current={current}
-          size="small"
-          items={STEP_TITLES.map((title) => ({ title }))}
-          className="booking-steps"
-        />
+    <div className={wrapperClass}>
+      {/* Custom Stepper */}
+      <div className="mb-8 select-none">
+        {/* Desktop Stepper */}
+        <div className="hidden md:flex items-center justify-between">
+          {STEP_TITLES.map((title, idx) => {
+            const isCompleted = current > idx;
+            const isActive = current === idx;
+            const isLast = idx === STEP_TITLES.length - 1;
+
+            return (
+              <div key={title} className={`flex items-center ${isLast ? 'flex-none' : 'flex-1'}`}>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <div
+                    className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 ${
+                      isCompleted
+                        ? 'bg-orange-600 text-white border-2 border-orange-600 shadow-xs'
+                        : isActive
+                        ? 'bg-orange-100 text-orange-950 border-2 border-orange-600 scale-102 shadow-sm ring-4 ring-orange-500/15'
+                        : 'bg-neutral-50 text-neutral-400 border-2 border-neutral-200'
+                    }`}
+                  >
+                    {isCompleted ? '✓' : idx + 1}
+                  </div>
+                  <span
+                    className={`text-[11px] font-bold transition-colors whitespace-nowrap ${
+                      isActive ? 'text-orange-950 font-black' : isCompleted ? 'text-neutral-700 font-bold' : 'text-neutral-400 font-semibold'
+                    }`}
+                  >
+                    {title}
+                  </span>
+                </div>
+                {!isLast && (
+                  <div
+                    className={`h-[2px] flex-1 mx-2.5 rounded-full transition-all duration-300 ${
+                      isCompleted ? 'bg-orange-500' : 'bg-neutral-200'
+                    }`}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Mobile Stepper */}
+        <div className="flex md:hidden flex-col gap-2">
+          <div className="flex items-center justify-between text-xs font-bold text-neutral-800">
+            <span className="text-orange-800">Step {current + 1} of {STEP_TITLES.length}</span>
+            <span className="text-neutral-900 font-black">{STEP_TITLES[current]}</span>
+          </div>
+          <div className="h-2 w-full bg-neutral-100 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-orange-500 to-red-600 rounded-full transition-all duration-300"
+              style={{ width: `${((current + 1) / STEP_TITLES.length) * 100}%` }}
+            />
+          </div>
+        </div>
       </div>
 
       <Form form={form} layout="vertical" requiredMark="optional" preserve>
@@ -160,7 +214,7 @@ export function BookingForm({ categories, combos, paymentConfig }: Props) {
             type="primary"
             size="large"
             onClick={goNext}
-            className="!rounded-full !bg-amber-600 !px-8 !font-bold hover:!bg-amber-700"
+            className="!rounded-full !bg-orange-600 !px-8 !font-bold hover:!bg-orange-700"
           >
             Next Step &rarr;
           </Button>
@@ -170,7 +224,7 @@ export function BookingForm({ categories, combos, paymentConfig }: Props) {
             size="large"
             loading={submitting}
             onClick={handleSubmit}
-            className="!rounded-full !bg-gradient-to-r !from-amber-600 !to-amber-700 !px-8 !font-bold hover:!from-amber-700 hover:!to-amber-800"
+            className="!rounded-full !bg-gradient-to-r !from-orange-500 !to-red-600 !px-8 !font-bold hover:!from-orange-600 hover:!to-red-700"
           >
             Confirm &amp; Submit Booking ✨
           </Button>

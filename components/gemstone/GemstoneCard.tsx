@@ -26,7 +26,7 @@ export function GemstoneCard({ gemstone }: { gemstone: Gemstone }) {
       </div>
 
       <div className="flex flex-1 flex-col p-6">
-        <h3 className="text-xl font-bold text-neutral-900 group-hover:text-amber-700 transition">
+        <h3 className="text-xl font-bold text-neutral-900 group-hover:text-amber-700 transition font-serif">
           {gemstone.name}
         </h3>
         {gemstone.shortDescription && (
@@ -44,7 +44,7 @@ export function GemstoneCard({ gemstone }: { gemstone: Gemstone }) {
 
         <Link
           href={`/gemstones/${gemstone.slug}`}
-          className="mt-4 flex w-full items-center justify-center rounded-full bg-gradient-to-r from-amber-500 to-amber-600 py-3 text-center text-xs font-bold text-white shadow-xs transition hover:from-amber-600 hover:to-amber-700"
+          className="mt-4 flex w-full items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-orange-600 py-3 text-center text-xs font-bold text-white shadow-xs transition hover:from-orange-600 hover:to-orange-700"
         >
           View Gemstone &rarr;
         </Link>

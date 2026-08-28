@@ -11,11 +11,13 @@ import {
   Popconfirm,
   Switch,
   Table,
+  Tag,
   Upload,
   type UploadFile,
   type UploadProps,
 } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { EditOutlined, PoweroffOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   createAdminGemstone,
   deleteAdminGemstone,
@@ -145,20 +147,44 @@ export default function AdminGemstonesPage() {
   };
 
   const columns: ColumnsType<Gemstone> = [
-    { title: 'Name', dataIndex: 'name' },
-    { title: 'Price', dataIndex: 'price', render: (v: string) => formatInr(v) },
-    { title: 'Featured', dataIndex: 'isFeatured', render: (v: boolean) => (v ? 'Yes' : 'No') },
-    { title: 'Active', dataIndex: 'isActive', render: (v: boolean) => (v ? 'Yes' : 'No') },
+    { title: 'Name', dataIndex: 'name', className: 'font-semibold text-neutral-800' },
+    { title: 'Price', dataIndex: 'price', render: (v: string) => <span className="font-bold">{formatInr(v)}</span> },
     {
-      title: '',
+      title: 'Featured',
+      dataIndex: 'isFeatured',
+      render: (v: boolean) => (
+        <Tag color={v ? 'warning' : 'default'} className="font-bold rounded-lg px-2.5 py-0.5">
+          {v ? '★ Featured' : 'Standard'}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Active',
+      dataIndex: 'isActive',
+      render: (v: boolean) => (
+        <Tag color={v ? 'success' : 'default'} className="font-bold rounded-lg px-2.5 py-0.5">
+          {v ? 'Active' : 'Inactive'}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Actions',
       render: (_, record) => (
-        <div className="flex gap-3">
-          <button className="font-medium" style={{ color: '#B8860B' }} onClick={() => openEdit(record)}>
-            Edit
+        <div className="flex gap-4">
+          <button
+            className="font-bold text-xs inline-flex items-center gap-1 hover:text-amber-800 transition"
+            style={{ color: '#B8860B' }}
+            onClick={() => openEdit(record)}
+          >
+            <EditOutlined className="text-xs" /> Edit
           </button>
-          <Popconfirm title="Deactivate this gemstone?" onConfirm={() => handleDelete(record.id)}>
-            <button className="font-medium text-red-600">Deactivate</button>
-          </Popconfirm>
+          {record.isActive && (
+            <Popconfirm title="Deactivate this gemstone?" onConfirm={() => handleDelete(record.id)}>
+              <button className="font-bold text-xs text-red-600 inline-flex items-center gap-1 hover:text-red-700 transition">
+                <PoweroffOutlined className="text-xs" /> Deactivate
+              </button>
+            </Popconfirm>
+          )}
         </div>
       ),
     },
@@ -166,9 +192,12 @@ export default function AdminGemstonesPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-neutral-900">Gemstones</h1>
-        <Button type="primary" onClick={openCreate}>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl font-bold text-neutral-900 tracking-tight">Gemstones</h1>
+          <p className="text-xs text-neutral-500 font-medium">Add, edit, or configure natural lab-certified gemstone inventory.</p>
+        </div>
+        <Button type="primary" icon={<PlusOutlined />} onClick={openCreate} className="h-10 rounded-xl font-bold">
           Add Gemstone
         </Button>
       </div>

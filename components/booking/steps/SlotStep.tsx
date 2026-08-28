@@ -65,7 +65,7 @@ export function SlotStep({ form }: { form: FormInstance }) {
           ) : error ? (
             <p className="text-sm text-red-600">{error}</p>
           ) : slots.length === 0 ? (
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-neutral-550">
               No slots available on this date. Please choose another date.
             </p>
           ) : (

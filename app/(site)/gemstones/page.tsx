@@ -18,13 +18,13 @@ export default async function GemstonesPage(props: PageProps<'/gemstones'>) {
   const result = await getGemstones({ search, page, limit: PAGE_SIZE });
 
   return (
-    <div className="bg-gradient-to-b from-amber-50/50 via-white to-faf8f5 py-16">
+    <div className="bg-gradient-to-b from-orange-100/50 via-amber-50/80 to-[#FFF3E0]/40 py-16 min-h-screen">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <span className="rounded-full bg-amber-100 px-4 py-1.5 text-xs font-bold text-amber-900 uppercase tracking-wider">
+          <span className="rounded-full bg-orange-600/10 px-4 py-1.5 text-xs font-bold text-orange-950 uppercase tracking-wider border border-orange-300">
             💎 100% Authentic &amp; Unheated
           </span>
-          <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-neutral-900 sm:text-5xl">
+          <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-neutral-900 sm:text-5xl font-serif">
             Certified Gemstones
           </h1>
           <p className="mt-3 max-w-2xl mx-auto text-base text-neutral-600">
@@ -39,7 +39,7 @@ export default async function GemstonesPage(props: PageProps<'/gemstones'>) {
         </div>
 
         {result.items.length === 0 ? (
-          <div className="mt-16 text-center py-12 rounded-3xl border border-dashed border-amber-300 bg-white">
+          <div className="mt-16 text-center py-12 rounded-3xl border border-dashed border-orange-300 bg-white">
             <p className="text-lg font-bold text-neutral-800">No gemstones found matching your search.</p>
             <p className="text-sm text-neutral-500 mt-1">Try searching for &quot;Ruby&quot;, &quot;Sapphire&quot;, &quot;Pukhraj&quot;, or &quot;Emerald&quot;.</p>
           </div>

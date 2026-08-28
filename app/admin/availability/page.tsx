@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { App, Button, Form, Modal, Popconfirm, Select, Switch, Table, TimePicker } from 'antd';
+import { App, Button, Form, Modal, Popconfirm, Select, Switch, Table, Tag, TimePicker } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs, { type Dayjs } from 'dayjs';
+import { EditOutlined, PoweroffOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   createAdminAvailability,
   deleteAdminAvailability,
@@ -94,19 +95,37 @@ export default function AdminAvailabilityPage() {
   };
 
   const columns: ColumnsType<WeeklyAvailability> = [
-    { title: 'Day', dataIndex: 'dayOfWeek', render: (v: number) => DAY_NAMES[v] },
-    { title: 'Start Time', dataIndex: 'startTime' },
-    { title: 'End Time', dataIndex: 'endTime' },
-    { title: 'Active', dataIndex: 'isActive', render: (v: boolean) => (v ? 'Yes' : 'No') },
     {
-      title: '',
+      title: 'Day',
+      dataIndex: 'dayOfWeek',
+      render: (v: number) => <span className="font-semibold text-neutral-800">{DAY_NAMES[v]}</span>,
+    },
+    { title: 'Start Time', dataIndex: 'startTime', className: 'font-mono text-xs text-neutral-700' },
+    { title: 'End Time', dataIndex: 'endTime', className: 'font-mono text-xs text-neutral-700' },
+    {
+      title: 'Active',
+      dataIndex: 'isActive',
+      render: (v: boolean) => (
+        <Tag color={v ? 'success' : 'default'} className="font-bold rounded-lg px-2.5 py-0.5">
+          {v ? 'Active' : 'Inactive'}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Actions',
       render: (_, record) => (
-        <div className="flex gap-3">
-          <button className="font-medium" style={{ color: '#B8860B' }} onClick={() => openEdit(record)}>
-            Edit
+        <div className="flex gap-4">
+          <button
+            className="font-bold text-xs inline-flex items-center gap-1 hover:text-amber-800 transition"
+            style={{ color: '#B8860B' }}
+            onClick={() => openEdit(record)}
+          >
+            <EditOutlined className="text-xs" /> Edit
           </button>
           <Popconfirm title="Remove this availability entry?" onConfirm={() => handleDelete(record.id)}>
-            <button className="font-medium text-red-600">Delete</button>
+            <button className="font-bold text-xs text-red-600 inline-flex items-center gap-1 hover:text-red-700 transition">
+              <PoweroffOutlined className="text-xs" /> Remove
+            </button>
           </Popconfirm>
         </div>
       ),
@@ -115,9 +134,12 @@ export default function AdminAvailabilityPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-neutral-900">Weekly Availability</h1>
-        <Button type="primary" onClick={openCreate}>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl font-bold text-neutral-900 tracking-tight">Weekly Availability</h1>
+          <p className="text-xs text-neutral-500 font-medium">Configure day-wise slots and active consultation hours.</p>
+        </div>
+        <Button type="primary" icon={<PlusOutlined />} onClick={openCreate} className="h-10 rounded-xl font-bold">
           Add Availability
         </Button>
       </div>

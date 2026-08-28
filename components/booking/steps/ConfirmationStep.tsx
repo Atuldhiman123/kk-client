@@ -43,18 +43,18 @@ export function ConfirmationStep({ form, categories, combos, error }: Props) {
 
   return (
     <div className="space-y-4">
-      <div className="overflow-hidden rounded-xl border border-neutral-200">
+      <div className="overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50/50">
         {rows.map(([label, value]) => (
-          <div key={label} className="flex justify-between border-b border-neutral-100 px-4 py-3 last:border-0">
-            <span className="text-sm text-neutral-500">{label}</span>
-            <span className="text-sm font-medium text-neutral-900">{value}</span>
+          <div key={label} className="flex justify-between border-b border-neutral-200/60 px-4 py-3 last:border-0">
+            <span className="text-sm text-neutral-550">{label}</span>
+            <span className="text-sm font-semibold text-neutral-900">{value}</span>
           </div>
         ))}
       </div>
 
       {error && <Alert type="error" message={error} showIcon />}
 
-      <p className="text-xs text-neutral-500">
+      <p className="text-xs text-neutral-500 leading-relaxed">
         By submitting, you confirm the above details are correct. Our team will contact you via
         Call/WhatsApp to confirm your consultation.
       </p>

@@ -39,7 +39,7 @@ export function PaymentStep({ form, paymentConfig }: Props) {
 
   return (
     <div className="space-y-4">
-      <Form.Item name="paymentMethod" initialValue="UPI" label="Select Payment Method">
+      <Form.Item name="paymentMethod" initialValue="UPI" label="Select Payment Method" required>
         <Radio.Group onChange={(e) => {
           setMethod(e.target.value);
           form.setFieldValue('paymentMethod', e.target.value);

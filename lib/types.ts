@@ -182,6 +182,7 @@ export interface CreateBookingPayload {
   bookingDate: string;
   slot: string;
   notes?: string;
+  paymentMethod?: string;
   transactionId?: string;
   paymentScreenshot?: string;
 }

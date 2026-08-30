@@ -575,3 +575,10 @@ export const adminLogin = (email: string, password: string) =>
     '/admin/auth/login',
     jsonBody({ email, password }),
   );
+
+export const verifyRazorpayPayment = (payload: {
+  bookingId: string;
+  razorpayOrderId: string;
+  razorpayPaymentId: string;
+  razorpaySignature: string;
+}) => request<{ success: boolean; message: string }>('/bookings/verify-razorpay', jsonBody(payload));

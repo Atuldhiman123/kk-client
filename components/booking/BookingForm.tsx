@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { App, Button, Form } from 'antd';
-import type { ComboOffer, ConsultationCategory, CreateBookingPayload, PaymentConfig } from '@/lib/types';
+import type { ComboOffer, ConsultationCategory, CreateBookingPayload, PaymentConfig } from '../../lib/types';
 import { ApiError, createBooking } from '@/lib/api';
 import { PersonalDetailsStep } from './steps/PersonalDetailsStep';
 import { BirthDetailsStep } from './steps/BirthDetailsStep';
@@ -32,6 +32,7 @@ interface BookingFormValues {
   selection: string;
   bookingDate: Dayjs;
   slot: string;
+  paymentMethod: 'UPI' | 'Razorpay';
   transactionId?: string;
   paymentScreenshot: string;
 }
@@ -69,9 +70,28 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
     }
   }, [categories, combos, searchParams, form]);
 
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      if ((window as any).Razorpay) {
+        resolve(true);
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
   const goNext = async () => {
     try {
-      await form.validateFields(STEP_FIELDS[current]);
+      const paymentMethod = form.getFieldValue('paymentMethod') ?? 'UPI';
+      let fields = STEP_FIELDS[current];
+      if (current === 4 && paymentMethod === 'Razorpay') {
+        fields = [];
+      }
+      await form.validateFields(fields);
       setCurrent((c) => c + 1);
     } catch {
       // validation errors are shown inline by AntD
@@ -104,18 +124,74 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
       comboOfferId: type === 'combo' ? id : undefined,
       bookingDate: values.bookingDate ? values.bookingDate.format('YYYY-MM-DD') : new Date().toISOString().split('T')[0],
       slot: values.slot ?? '11:30 AM',
-      transactionId: values.transactionId || undefined,
-      paymentScreenshot: values.paymentScreenshot ?? 'demo-screenshot',
+      paymentMethod: values.paymentMethod ?? 'UPI',
+      transactionId: values.paymentMethod === 'Razorpay' ? undefined : (values.transactionId || undefined),
+      paymentScreenshot: values.paymentMethod === 'Razorpay' ? undefined : (values.paymentScreenshot ?? 'demo-screenshot'),
     };
 
     setSubmitting(true);
     try {
       const booking = await createBooking(payload);
-      message.success('Booking submitted successfully!');
-      router.push(`/booking/success/${booking.id}`);
+
+      if (values.paymentMethod === 'Razorpay' && (booking as any).razorpayOrder) {
+        const order = (booking as any).razorpayOrder;
+
+        const scriptLoaded = await loadRazorpayScript();
+        if (!scriptLoaded) {
+          setError('Failed to load Razorpay SDK. Please check your internet connection.');
+          setSubmitting(false);
+          return;
+        }
+
+        const options = {
+          key: order.keyId,
+          amount: order.amount,
+          currency: order.currency,
+          name: 'Kundli Kendra',
+          description: 'Astro Consultation Session',
+          order_id: order.id,
+          handler: async (response: any) => {
+            setSubmitting(true);
+            try {
+              const { verifyRazorpayPayment } = await import('@/lib/api');
+              await verifyRazorpayPayment({
+                bookingId: booking.id,
+                razorpayOrderId: response.razorpay_order_id,
+                razorpayPaymentId: response.razorpay_payment_id,
+                razorpaySignature: response.razorpay_signature,
+              });
+              message.success('Payment verified & booking confirmed successfully!');
+              router.push(`/booking/success/${booking.id}`);
+            } catch (err: any) {
+              setError(err instanceof ApiError ? err.message : 'Payment verification failed. Please contact support.');
+            } finally {
+              setSubmitting(false);
+            }
+          },
+          prefill: {
+            name: values.name,
+            email: values.email || '',
+            contact: values.phone,
+          },
+          theme: {
+            color: '#EA580C',
+          },
+          modal: {
+            ondismiss: () => {
+              setError('Payment process was cancelled. You can try confirming again.');
+              setSubmitting(false);
+            }
+          }
+        };
+
+        const rzpay = new (window as any).Razorpay(options);
+        rzpay.open();
+      } else {
+        message.success('Booking submitted successfully!');
+        router.push(`/booking/success/${booking.id}`);
+      }
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Something went wrong. Please try again.');
-    } finally {
       setSubmitting(false);
     }
   };

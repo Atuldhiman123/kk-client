@@ -87,15 +87,14 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
   const goNext = async () => {
     try {
       const paymentMethod = form.getFieldValue('paymentMethod') ?? 'UPI';
-      console.log("[goNext] current:", current, "paymentMethod:", paymentMethod);
       let fields = STEP_FIELDS[current];
       if (current === 4 && paymentMethod === 'Razorpay') {
         fields = [];
       }
       await form.validateFields(fields);
       setCurrent((c) => c + 1);
-    } catch (err) {
-      console.log("[goNext] Validation failed:", err);
+    } catch {
+      // validation errors are shown inline by AntD
     }
   };
 

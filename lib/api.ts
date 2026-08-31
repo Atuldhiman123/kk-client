@@ -132,7 +132,7 @@ export const getGemstones = (params: { search?: string; page?: number; limit?: n
   if (params.limit) query.set('limit', String(params.limit));
   const qs = query.toString();
   return request<PaginatedResult<Gemstone>>(`/gemstones${qs ? `?${qs}` : ''}`, { next: { revalidate: 60 } }).catch(
-    () => ({ data: [], meta: { page: 1, limit: 12, total: 0, totalPages: 0 } }),
+    () => ({ items: [], total: 0, page: 1, limit: 12, totalPages: 0 }),
   );
 };
 

@@ -11,14 +11,14 @@ export function Footer({ contact }: { contact: ContactInfo }) {
 
   return (
     <footer className="border-t border-orange-300 bg-gradient-to-b from-[#FFF3E0] to-[#FFE0B2] text-orange-950">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-4 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-8 sm:gap-10 px-4 py-10 sm:py-14 sm:px-6 md:grid-cols-4 lg:px-8">
         <div className="md:col-span-2">
-          <Link href="/" className="flex items-center gap-2 text-xl font-bold tracking-tight text-orange-950">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-600 text-white text-lg shadow-sm">
-              <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-11.314l.707.707m11.314 11.314l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
-              </svg>
-            </span>
+          <Link href="/" className="flex items-center gap-2.5 text-xl font-bold tracking-tight text-orange-950 group">
+            <img
+              src="/images/logo.png"
+              alt="Kundli Kendra Logo"
+              className="h-10 w-10 rounded-xl object-cover border border-amber-400/80 shadow-xs transition-transform duration-200 group-hover:scale-105"
+            />
             <span className="font-serif">
               Kundli <span className="text-orange-700 font-extrabold">Kendra</span>
             </span>
@@ -27,13 +27,13 @@ export function Footer({ contact }: { contact: ContactInfo }) {
             Personalized, 100% confidential Vedic astrology consultations for career, marriage, love, wealth, health and business.
             Rooted in authentic Kundli analysis and practical remedies.
           </p>
-          <div className="mt-5 flex flex-wrap items-center gap-3">
+          <div className="mt-5 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3">
             {contact.whatsapp && (
               <a
                 href={waLink(contact.whatsapp)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:opacity-90"
+                className="inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-xs font-semibold text-white shadow-xs transition hover:opacity-90"
                 style={{ backgroundColor: '#25D366', color: '#ffffff' }}
               >
                 <WhatsAppOutlined /> Connect on WhatsApp
@@ -43,7 +43,7 @@ export function Footer({ contact }: { contact: ContactInfo }) {
               href={instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 via-pink-650 to-red-650 px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:opacity-90"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 via-pink-600 to-red-600 px-4 py-2.5 text-xs font-semibold text-white shadow-xs transition hover:opacity-90"
               style={{ color: '#ffffff' }}
             >
               <InstagramOutlined /> Follow on Instagram
@@ -52,8 +52,8 @@ export function Footer({ contact }: { contact: ContactInfo }) {
         </div>
 
         <div className="text-sm">
-          <div className="font-bold uppercase tracking-wider text-orange-950">Quick Navigation</div>
-          <ul className="mt-4 space-y-2.5">
+          <div className="font-bold uppercase tracking-wider text-orange-950 text-xs sm:text-sm">Quick Navigation</div>
+          <ul className="mt-3 sm:mt-4 space-y-2 sm:space-y-2.5">
             <li>
               <Link href="/#consultations" className="transition hover:text-red-700">
                 Consultation Categories
@@ -87,34 +87,36 @@ export function Footer({ contact }: { contact: ContactInfo }) {
           </ul>
         </div>
 
-        <div className="text-sm text-orange-950">
-          <div className="font-bold uppercase tracking-wider text-orange-950">Contact Information</div>
-          <ul className="mt-4 space-y-3">
-            <li>
-              <a href={telLink(contact.phone)} className="flex items-center gap-2.5 transition hover:text-red-700">
-                <PhoneOutlined className="text-orange-700" /> {contact.phone}
-              </a>
-            </li>
-            <li>
-              <a href={`mailto:${contact.email}`} className="flex items-center gap-2.5 transition hover:text-red-700">
-                <MailOutlined className="text-orange-700" /> {contact.email}
-              </a>
-            </li>
-            <li>
-              <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 transition hover:text-red-700">
-                <InstagramOutlined className="text-pink-600" /> @astrologer__atul
-              </a>
-            </li>
-            <li className="flex items-start gap-2.5">
-              <EnvironmentOutlined className="mt-1 text-orange-700" />
-              <span className="leading-snug text-orange-900 font-medium">{contact.address}</span>
-            </li>
-          </ul>
-        </div>
+        {contact && (
+          <div className="text-sm text-orange-950">
+            <div className="font-bold uppercase tracking-wider text-orange-950 text-xs sm:text-sm">Contact Information</div>
+            <ul className="mt-3 sm:mt-4 space-y-2.5 sm:space-y-3">
+              <li>
+                <a href={telLink(contact.phone)} className="flex items-center gap-2.5 transition hover:text-red-700 break-all">
+                  <PhoneOutlined className="text-orange-700 shrink-0" /> <span>{contact.phone}</span>
+                </a>
+              </li>
+              <li>
+                <a href={`mailto:${contact.email}`} className="flex items-center gap-2.5 transition hover:text-red-700 break-all">
+                  <MailOutlined className="text-orange-700 shrink-0" /> <span>{contact.email}</span>
+                </a>
+              </li>
+              <li>
+                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 transition hover:text-red-700">
+                  <InstagramOutlined className="text-pink-600 shrink-0" /> <span>@astrologer__atul</span>
+                </a>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <EnvironmentOutlined className="mt-1 text-orange-700 shrink-0" />
+                <span className="leading-snug text-orange-900 font-medium">{contact.address}</span>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
 
-      <div className="border-t border-orange-300/40 py-6 text-center text-xs text-orange-900 font-semibold">
-        © {year} Kundli Kendra. All rights reserved. &middot; 100% Confidential & Private Guidance.
+      <div className="border-t border-orange-300/40 py-5 text-center text-xs text-orange-900 font-semibold px-4">
+        © {year} Kundli Kendra. All rights reserved. &middot; 100% Confidential &amp; Private Guidance.
       </div>
     </footer>
   );

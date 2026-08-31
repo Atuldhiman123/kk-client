@@ -48,13 +48,13 @@ export function BookingModal({ categories, combos, paymentConfig }: Props) {
       open={isOpen}
       onCancel={() => setIsOpen(false)}
       footer={null}
-      width={680}
+      width="100%"
+      style={{ maxWidth: 680, margin: '12px auto' }}
       destroyOnClose
       centered
       className="booking-modal"
-      bodyStyle={{ padding: 0 }}
       modalRender={(node) => (
-        <div className="relative overflow-hidden rounded-3xl border-2 border-orange-300/60 bg-[#FFFDF9] shadow-2xl p-1 md:p-2">
+        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl border-2 border-orange-300/60 bg-[#FFFDF9] shadow-2xl p-0.5 sm:p-1.5">
           {/* Subtle cosmic decorative backgrounds */}
           <div className="absolute -top-16 -right-16 h-36 w-36 rounded-full bg-orange-500/10 blur-xl pointer-events-none" />
           <div className="absolute -bottom-16 -left-16 h-36 w-36 rounded-full bg-red-500/10 blur-xl pointer-events-none" />
@@ -63,7 +63,7 @@ export function BookingModal({ categories, combos, paymentConfig }: Props) {
         </div>
       )}
     >
-      <div className="p-1 max-h-[85vh] overflow-y-auto scrollbar-thin">
+      <div className="p-0 sm:p-1 max-h-[88vh] overflow-y-auto scrollbar-thin">
         <BookingForm
           categories={categories}
           combos={combos}

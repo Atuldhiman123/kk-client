@@ -40,15 +40,15 @@ export function SlotStep({ form }: { form: FormInstance }) {
   }, [bookingDate?.format('YYYY-MM-DD')]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2.5">
       <Form.Item
         label="Select Date"
         name="bookingDate"
         rules={[{ required: true, message: 'Please select a date' }]}
       >
         <DatePicker
-          className="w-full"
-          size="large"
+          className="w-full !rounded-xl"
+          size="middle"
           format="DD-MM-YYYY"
           disabledDate={(date) => date.isBefore(dayjs().startOf('day'))}
         />
@@ -61,18 +61,24 @@ export function SlotStep({ form }: { form: FormInstance }) {
           rules={[{ required: true, message: 'Please select a time slot' }]}
         >
           {loading ? (
-            <Spin size="small" />
+            <div className="py-3 text-center">
+              <Spin size="small" />
+            </div>
           ) : error ? (
-            <p className="text-sm text-red-600">{error}</p>
+            <p className="text-xs text-red-600">{error}</p>
           ) : slots.length === 0 ? (
-            <p className="text-sm text-neutral-550">
+            <p className="text-xs text-neutral-500">
               No slots available on this date. Please choose another date.
             </p>
           ) : (
             <Radio.Group className="w-full">
-              <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5 sm:gap-2">
                 {slots.map((slot) => (
-                  <Radio.Button key={slot} value={slot} className="!text-center">
+                  <Radio.Button
+                    key={slot}
+                    value={slot}
+                    className="!text-center !text-xs !py-1 !h-auto flex items-center justify-center font-semibold !rounded-lg"
+                  >
                     {slot}
                   </Radio.Button>
                 ))}

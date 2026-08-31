@@ -42,21 +42,20 @@ export function ConfirmationStep({ form, categories, combos, error }: Props) {
   ];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2.5">
       <div className="overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50/50">
         {rows.map(([label, value]) => (
-          <div key={label} className="flex justify-between border-b border-neutral-200/60 px-4 py-3 last:border-0">
-            <span className="text-sm text-neutral-550">{label}</span>
-            <span className="text-sm font-semibold text-neutral-900">{value}</span>
+          <div key={label} className="flex justify-between items-center border-b border-neutral-200/60 px-3 py-1.5 sm:py-2.5 last:border-0 text-xs sm:text-sm">
+            <span className="text-neutral-500 font-medium">{label}</span>
+            <span className="font-semibold text-neutral-900 text-right truncate max-w-[60%]">{value}</span>
           </div>
         ))}
       </div>
 
-      {error && <Alert type="error" message={error} showIcon />}
+      {error && <Alert type="error" message={error} showIcon className="!rounded-xl !py-1.5 !text-xs" />}
 
-      <p className="text-xs text-neutral-500 leading-relaxed">
-        By submitting, you confirm the above details are correct. Our team will contact you via
-        Call/WhatsApp to confirm your consultation.
+      <p className="text-[10px] sm:text-xs text-neutral-500 leading-tight">
+        By submitting, you confirm details are correct. Our team will contact you via Call/WhatsApp.
       </p>
     </div>
   );

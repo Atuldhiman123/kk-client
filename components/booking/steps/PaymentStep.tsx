@@ -38,66 +38,73 @@ export function PaymentStep({ form, paymentConfig }: Props) {
   };
 
   return (
-    <div className="space-y-4">
-      <Form.Item name="paymentMethod" initialValue="UPI" label="Select Payment Method" required>
-        <Radio.Group onChange={(e) => {
-          setMethod(e.target.value);
-          form.setFieldValue('paymentMethod', e.target.value);
-        }} className="w-full flex">
-          <Radio.Button value="UPI" className="flex-1 text-center font-semibold py-1 h-auto">UPI (QR Code)</Radio.Button>
-          <Radio.Button value="Razorpay" className="flex-1 text-center font-semibold py-1 h-auto">Razorpay (Online)</Radio.Button>
+    <div className="space-y-2.5">
+      <Form.Item name="paymentMethod" initialValue="UPI" label="Select Payment Method" required className="!mb-2">
+        <Radio.Group
+          onChange={(e) => {
+            setMethod(e.target.value);
+            form.setFieldValue('paymentMethod', e.target.value);
+          }}
+          className="w-full flex gap-1.5"
+        >
+          <Radio.Button value="UPI" className="flex-1 text-center font-semibold py-1 h-auto text-xs !rounded-xl">
+            UPI (QR Code)
+          </Radio.Button>
+          <Radio.Button value="Razorpay" className="flex-1 text-center font-semibold py-1 h-auto text-xs !rounded-xl">
+            Razorpay (Online)
+          </Radio.Button>
         </Radio.Group>
       </Form.Item>
 
       {method === 'Razorpay' ? (
-        <div className="rounded-xl border-2 border-dashed border-orange-200 bg-orange-50/30 p-6 text-center">
-          <div className="text-3xl mb-2">💳</div>
-          <h4 className="font-semibold text-neutral-800">Online Secure Payment</h4>
-          <p className="text-xs text-neutral-500 mt-1 max-w-sm mx-auto">
-            You will pay securely online using Razorpay (Credit/Debit Card, Netbanking, UPI, Wallets) at the confirmation step.
+        <div className="rounded-xl border-2 border-dashed border-orange-200 bg-orange-50/30 p-3 sm:p-5 text-center">
+          <div className="text-2xl mb-1">💳</div>
+          <h4 className="font-semibold text-neutral-800 text-xs sm:text-sm">Online Secure Payment</h4>
+          <p className="text-[11px] text-neutral-500 mt-0.5 max-w-xs mx-auto leading-tight">
+            Pay safely with UPI, Cards, or Netbanking via Razorpay at confirmation.
           </p>
         </div>
       ) : (
         <>
           {!paymentConfig ? (
-            <p className="text-sm text-red-600">
-              Payment details are not configured yet. Please contact us directly to complete your booking.
+            <p className="text-xs text-red-600">
+              Payment details are not configured yet. Please contact us directly.
             </p>
           ) : (
             <>
-              <div className="rounded-xl border border-neutral-200 p-4">
-                <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
+              <div className="rounded-xl border border-neutral-200 p-2.5 sm:p-3.5 bg-white">
+                <div className="flex flex-col items-center gap-2.5 sm:flex-row sm:items-start text-center sm:text-left">
                   {paymentConfig.qrImage && (
                     <Image
                       src={paymentConfig.qrImage}
                       alt="Payment QR code"
-                      width={160}
-                      height={160}
-                      className="rounded-lg border border-neutral-200"
+                      width={110}
+                      height={110}
+                      className="rounded-lg border border-neutral-200 shrink-0"
                       unoptimized
                     />
                   )}
-                  <div className="text-sm text-neutral-700">
+                  <div className="text-xs text-neutral-700 space-y-0.5">
                     <div>
-                      <span className="font-semibold">UPI Name:</span> {paymentConfig.upiName}
+                      <span className="font-semibold text-neutral-900">UPI Name:</span> {paymentConfig.upiName}
                     </div>
-                    <div>
-                      <span className="font-semibold">UPI ID:</span> {paymentConfig.upiId}
+                    <div className="break-all">
+                      <span className="font-semibold text-neutral-900">UPI ID:</span> {paymentConfig.upiId}
                     </div>
                     {paymentConfig.phone && (
                       <div>
-                        <span className="font-semibold">Contact:</span> {paymentConfig.phone}
+                        <span className="font-semibold text-neutral-900">Contact:</span> {paymentConfig.phone}
                       </div>
                     )}
                     {paymentConfig.instructions && (
-                      <p className="mt-2 text-neutral-500">{paymentConfig.instructions}</p>
+                      <p className="mt-1 text-[10px] text-neutral-500 leading-tight">{paymentConfig.instructions}</p>
                     )}
                   </div>
                 </div>
               </div>
 
               <Form.Item label="Transaction ID (Optional)" name="transactionId">
-                <Input placeholder="UPI transaction / reference ID" size="large" />
+                <Input placeholder="UPI reference ID" size="middle" className="!rounded-xl" />
               </Form.Item>
 
               <Form.Item label="Upload Payment Screenshot" required>
@@ -107,12 +114,15 @@ export function PaymentStep({ form, paymentConfig }: Props) {
                   fileList={fileList}
                   onChange={handleChange}
                   customRequest={customRequest}
+                  className="!rounded-xl !p-2"
                 >
-                  <p className="ant-upload-drag-icon">
-                    <InboxOutlined />
+                  <p className="ant-upload-drag-icon !mb-1">
+                    <InboxOutlined className="text-xl text-orange-600" />
                   </p>
-                  <p className="ant-upload-text">Click or drag payment screenshot to upload</p>
-                  <p className="ant-upload-hint">JPG, PNG or WEBP, up to 5MB</p>
+                  <p className="ant-upload-text text-xs font-semibold">
+                    Click or drag screenshot to upload
+                  </p>
+                  <p className="ant-upload-hint text-[10px]">JPG, PNG or WEBP, up to 5MB</p>
                 </Upload.Dragger>
               </Form.Item>
             </>
@@ -120,16 +130,20 @@ export function PaymentStep({ form, paymentConfig }: Props) {
         </>
       )}
 
-      <Form.Item name="paymentScreenshot" rules={[
-        {
-          validator: (_, value) => {
-            if (method === 'UPI' && !value) {
-              return Promise.reject(new Error('Please upload your payment screenshot'));
-            }
-            return Promise.resolve();
-          }
-        }
-      ]} className="!hidden">
+      <Form.Item
+        name="paymentScreenshot"
+        rules={[
+          {
+            validator: (_, value) => {
+              if (method === 'UPI' && !value) {
+                return Promise.reject(new Error('Please upload your payment screenshot'));
+              }
+              return Promise.resolve();
+            },
+          },
+        ]}
+        className="!hidden"
+      >
         <Input type="hidden" />
       </Form.Item>
     </div>

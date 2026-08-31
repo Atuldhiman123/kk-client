@@ -58,21 +58,21 @@ export function CategoryCard({ category }: { category: ConsultationCategory }) {
   const discountPercent = origPriceNum && origPriceNum > currentPriceNum ? Math.round((savings / origPriceNum) * 100) : 0;
 
   return (
-    <div className="relative group flex flex-col justify-between overflow-hidden rounded-3xl border border-orange-200/80 bg-[#FFFDF9] shadow-xs transition-all duration-200 hover:-translate-y-1 hover:border-orange-450 hover:shadow-md h-full">
+    <div className="relative group flex flex-col justify-between overflow-hidden rounded-3xl border border-orange-200/80 bg-[#FFFDF9] shadow-xs transition-all duration-200 hover:-translate-y-1 hover:border-orange-400 hover:shadow-md h-full">
       {/* Top Image Banner */}
-      <div className="relative h-30 w-full overflow-hidden bg-orange-50 shrink-0">
+      <div className="relative h-28 sm:h-30 w-full overflow-hidden bg-orange-50 shrink-0">
         <img
           src={categoryImage(category.slug)}
           alt={category.name}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-103"
           loading="lazy"
         />
-        {/* Subtle gradient overlay to fade into bottom card */}
+        {/* Subtle gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#FFFDF9] via-transparent to-black/10" />
 
         {/* Floating Duration and Discount Badges */}
         <div className="absolute top-2.5 right-3 flex items-center gap-1.5">
-          <span className="rounded-full bg-white/90 backdrop-blur-xs border border-orange-100 px-2 py-0.5 text-[8.5px] font-extrabold text-orange-955 shadow-2xs">
+          <span className="rounded-full bg-white/90 backdrop-blur-xs border border-orange-100 px-2 py-0.5 text-[8.5px] font-extrabold text-orange-950 shadow-2xs">
             ⏱️ {category.durationMinutes} min
           </span>
         </div>
@@ -84,19 +84,19 @@ export function CategoryCard({ category }: { category: ConsultationCategory }) {
       </div>
 
       {/* Bottom Content Area */}
-      <div className="flex-1 p-4.5 pt-3.5 flex flex-col justify-between bg-[#FFFDF9]">
+      <div className="flex-1 p-3.5 sm:p-4.5 pt-3.5 flex flex-col justify-between bg-[#FFFDF9]">
         <div className="relative">
           {/* Floating Category Icon (Offset overlapping the image) */}
-          <div className="absolute -top-9 left-1 flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-50 to-orange-100/70 text-xl shadow-md border border-orange-200/50">
+          <div className="absolute -top-8 sm:-top-9 left-1 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-50 to-orange-100/70 text-lg sm:text-xl shadow-md border border-orange-200/50">
             {categoryIcon(category.slug)}
           </div>
 
-          <div className="pl-12">
-            <h3 className="text-sm font-extrabold tracking-tight text-neutral-900 group-hover:text-orange-700 transition font-serif leading-tight">
+          <div className="pl-11 sm:pl-12">
+            <h3 className="text-sm sm:text-base font-extrabold tracking-tight text-neutral-900 group-hover:text-orange-700 transition font-serif leading-tight">
               {category.name}
             </h3>
             {category.description && (
-              <p className="mt-1 text-[10.5px] leading-snug text-neutral-500 font-medium line-clamp-2 h-8">
+              <p className="mt-1 text-[10.5px] sm:text-xs leading-snug text-neutral-600 font-medium line-clamp-2 min-h-[30px]">
                 {category.description}
               </p>
             )}
@@ -106,9 +106,9 @@ export function CategoryCard({ category }: { category: ConsultationCategory }) {
         {/* Price & Action Row */}
         <div className="mt-3 flex items-center justify-between border-t border-orange-100 pt-3">
           <div className="flex items-baseline gap-1.5">
-            <span className="text-base font-black text-neutral-900">{formatInr(category.price)}</span>
+            <span className="text-base sm:text-lg font-black text-neutral-900">{formatInr(category.price)}</span>
             {origPriceNum && origPriceNum > currentPriceNum && (
-              <span className="text-[10px] font-semibold text-neutral-400 line-through">
+              <span className="text-[10px] sm:text-xs font-semibold text-neutral-400 line-through">
                 {formatInr(origPriceNum)}
               </span>
             )}
@@ -116,7 +116,7 @@ export function CategoryCard({ category }: { category: ConsultationCategory }) {
 
           <Link
             href={`/?category=${category.slug}#booking`}
-            className="rounded-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 px-3.5 py-1.5 text-[10px] font-bold text-white shadow-xs transition duration-150 shrink-0"
+            className="rounded-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 px-3.5 py-1.5 text-[11px] sm:text-xs font-bold text-white shadow-xs transition duration-150 shrink-0"
             style={{ color: '#ffffff' }}
           >
             <span className="text-white" style={{ color: '#ffffff' }}>Book Now &rarr;</span>

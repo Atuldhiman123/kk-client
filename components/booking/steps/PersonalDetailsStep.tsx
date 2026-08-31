@@ -2,13 +2,13 @@ import { Form, Input } from 'antd';
 
 export function PersonalDetailsStep() {
   return (
-    <div className="space-y-2">
+    <div className="space-y-1">
       <Form.Item
         label="Full Name"
         name="name"
         rules={[{ required: true, message: 'Please enter your full name' }]}
       >
-        <Input placeholder="Your full name" size="large" />
+        <Input placeholder="Your full name" size="middle" className="!rounded-xl" />
       </Form.Item>
 
       <Form.Item
@@ -19,7 +19,7 @@ export function PersonalDetailsStep() {
           { pattern: /^[+]?[0-9\s-]{7,15}$/, message: 'Enter a valid mobile number' },
         ]}
       >
-        <Input placeholder="e.g. 9876543210" size="large" />
+        <Input placeholder="e.g. 9876543210" size="middle" className="!rounded-xl" />
       </Form.Item>
 
       <Form.Item
@@ -27,7 +27,7 @@ export function PersonalDetailsStep() {
         name="email"
         rules={[{ type: 'email', message: 'Enter a valid email address' }]}
       >
-        <Input placeholder="you@example.com" size="large" />
+        <Input placeholder="you@example.com" size="middle" className="!rounded-xl" />
       </Form.Item>
     </div>
   );

@@ -197,13 +197,13 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
   };
 
   const wrapperClass = isModal
-    ? 'mx-auto max-w-2xl p-4 sm:p-6 bg-[#FFFDF9]'
-    : 'mx-auto max-w-2xl rounded-3xl border border-orange-200 bg-[#FFFDF9] p-6 shadow-xl sm:p-10';
+    ? 'mx-auto max-w-2xl p-2.5 sm:p-5 bg-[#FFFDF9]'
+    : 'mx-auto max-w-2xl rounded-2xl sm:rounded-3xl border border-orange-200 bg-[#FFFDF9] p-3.5 sm:p-7 md:p-9 shadow-lg';
 
   return (
     <div className={wrapperClass}>
       {/* Custom Stepper */}
-      <div className="mb-8 select-none">
+      <div className="mb-3.5 sm:mb-6 select-none">
         {/* Desktop Stepper */}
         <div className="hidden md:flex items-center justify-between">
           {STEP_TITLES.map((title, idx) => {
@@ -246,12 +246,14 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
         </div>
 
         {/* Mobile Stepper */}
-        <div className="flex md:hidden flex-col gap-2">
+        <div className="flex md:hidden flex-col gap-1.5">
           <div className="flex items-center justify-between text-xs font-bold text-neutral-800">
-            <span className="text-orange-800">Step {current + 1} of {STEP_TITLES.length}</span>
-            <span className="text-neutral-900 font-black">{STEP_TITLES[current]}</span>
+            <span className="text-orange-800 font-bold text-[11px]">Step {current + 1} of {STEP_TITLES.length}</span>
+            <span className="text-neutral-900 font-black text-xs flex items-center gap-1">
+              <span>{STEP_TITLES[current]}</span>
+            </span>
           </div>
-          <div className="h-2 w-full bg-neutral-100 rounded-full overflow-hidden">
+          <div className="h-1.5 w-full bg-neutral-100 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-orange-500 to-red-600 rounded-full transition-all duration-300"
               style={{ width: `${((current + 1) / STEP_TITLES.length) * 100}%` }}
@@ -260,7 +262,13 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
         </div>
       </div>
 
-      <Form form={form} layout="vertical" requiredMark="optional" preserve>
+      <Form
+        form={form}
+        layout="vertical"
+        requiredMark="optional"
+        preserve
+        className="[&_.ant-form-item]:!mb-2.5 sm:[&_.ant-form-item]:!mb-4 [&_.ant-form-item-label]:!pb-0.5 [&_.ant-form-item-label_label]:!text-xs sm:[&_.ant-form-item-label_label]:!text-sm [&_.ant-form-item-label_label]:!font-semibold"
+      >
         <div className={current === 0 ? '' : 'hidden'}>
           <PersonalDetailsStep />
         </div>
@@ -281,28 +289,33 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
         </div>
       </Form>
 
-      <div className="mt-10 flex justify-between border-t border-neutral-100 pt-6">
-        <Button size="large" onClick={goBack} disabled={current === 0} className="!rounded-full !px-6">
+      <div className="mt-4 sm:mt-7 flex items-center justify-between gap-2.5 border-t border-neutral-100 pt-3.5 sm:pt-5">
+        <Button
+          size="middle"
+          onClick={goBack}
+          disabled={current === 0}
+          className="!rounded-full !px-4 sm:!px-6 !text-xs sm:!text-sm !h-8.5 sm:!h-10 shrink-0 font-bold border border-orange-200"
+        >
           Back
         </Button>
         {current < STEP_TITLES.length - 1 ? (
           <Button
             type="primary"
-            size="large"
+            size="middle"
             onClick={goNext}
-            className="!rounded-full !bg-orange-600 !px-8 !font-bold hover:!bg-orange-700"
+            className="!rounded-full !bg-orange-600 !px-5 sm:!px-8 !font-bold hover:!bg-orange-700 !text-xs sm:!text-sm !h-8.5 sm:!h-10 flex-1 sm:flex-none justify-center shadow-xs"
           >
             Next Step &rarr;
           </Button>
         ) : (
           <Button
             type="primary"
-            size="large"
+            size="middle"
             loading={submitting}
             onClick={handleSubmit}
-            className="!rounded-full !bg-gradient-to-r !from-orange-500 !to-red-600 !px-8 !font-bold hover:!from-orange-600 hover:!to-red-700"
+            className="!rounded-full !bg-gradient-to-r !from-orange-500 !to-red-600 !px-5 sm:!px-8 !font-bold hover:!from-orange-600 hover:!to-red-700 !text-xs sm:!text-sm !h-8.5 sm:!h-10 flex-1 sm:flex-none justify-center shadow-sm"
           >
-            Confirm &amp; Submit Booking ✨
+            Confirm &amp; Submit ✨
           </Button>
         )}
       </div>

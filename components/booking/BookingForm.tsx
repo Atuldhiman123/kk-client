@@ -89,23 +89,23 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
     }
 
     const values = form.getFieldsValue(true) as BookingFormValues;
-    const [type, id] = values.selection ? values.selection.split(':') : ['category', categories[0]?.id ?? 'cat-1'];
+    const [type, id] = values.selection.split(':');
 
     const payload: CreateBookingPayload = {
       name: values.name,
       phone: values.phone,
       email: values.email || undefined,
       profileName: values.profileName,
-      dob: values.dob ? values.dob.format('YYYY-MM-DD') : '1995-01-01',
+      dob: values.dob.format('YYYY-MM-DD'),
       birthTime: values.birthTime ? values.birthTime.format('HH:mm') : undefined,
       birthPlace: values.birthPlace,
       gender: values.gender,
       categoryId: type === 'category' ? id : undefined,
       comboOfferId: type === 'combo' ? id : undefined,
-      bookingDate: values.bookingDate ? values.bookingDate.format('YYYY-MM-DD') : new Date().toISOString().split('T')[0],
-      slot: values.slot ?? '11:30 AM',
+      bookingDate: values.bookingDate.format('YYYY-MM-DD'),
+      slot: values.slot,
       transactionId: values.transactionId || undefined,
-      paymentScreenshot: values.paymentScreenshot ?? 'demo-screenshot',
+      paymentScreenshot: values.paymentScreenshot,
     };
 
     setSubmitting(true);

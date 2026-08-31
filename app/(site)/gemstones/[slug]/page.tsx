@@ -26,7 +26,7 @@ export default async function GemstoneDetailPage(props: PageProps<'/gemstones/[s
       if (err instanceof ApiError && err.status === 404) return null;
       throw err;
     }),
-    getHome().catch(() => null),
+    getHome(),
   ]);
 
   if (!gemstone) {
@@ -42,7 +42,7 @@ export default async function GemstoneDetailPage(props: PageProps<'/gemstones/[s
     ['Care Instructions', gemstone.careInstructions],
   ];
 
-  const contact = home?.contact;
+  const contact = home.contact;
   const whatsappMessage = `Hi, I'm interested in the ${gemstone.name} (${formatInr(gemstone.price)}).`;
 
   return (

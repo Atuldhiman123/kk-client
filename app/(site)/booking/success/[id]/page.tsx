@@ -22,7 +22,7 @@ export default async function BookingSuccessPage(props: PageProps<'/booking/succ
       if (err instanceof ApiError && err.status === 404) return null;
       throw err;
     }),
-    getHome().catch(() => null),
+    getHome(),
   ]);
 
   if (!booking) {
@@ -30,7 +30,7 @@ export default async function BookingSuccessPage(props: PageProps<'/booking/succ
   }
 
   const consultationName = booking.category?.name ?? (booking.comboOffer ? `${booking.comboOffer.name} (Combo)` : '-');
-  const contact = home?.contact;
+  const contact = home.contact;
   const paymentStatus = booking.payments[0]?.status ?? booking.paymentStatus;
 
   return (

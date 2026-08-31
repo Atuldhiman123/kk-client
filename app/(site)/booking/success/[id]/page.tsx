@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import dayjs from 'dayjs';
 import { ApiError, getBooking, getHome } from '@/lib/api';
 import { formatInr } from '@/lib/format';
@@ -101,6 +102,15 @@ export default async function BookingSuccessPage(props: PageProps<'/booking/succ
             </a>
           </div>
         )}
+
+        <div className="mt-7 pt-4 border-t border-neutral-100 flex justify-center">
+          <Link
+            href="/"
+            className="text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 hover:underline flex items-center gap-1.5 transition-colors"
+          >
+            <span>←</span> Back to Kundli Kendra Home
+          </Link>
+        </div>
       </div>
     </div>
   );

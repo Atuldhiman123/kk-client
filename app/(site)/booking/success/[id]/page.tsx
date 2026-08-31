@@ -70,20 +70,32 @@ export default async function BookingSuccessPage(props: PageProps<'/booking/succ
           </div>
         </div>
 
+        {booking.user?.email && (
+          <div className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-orange-50/80 border border-orange-200/70 px-4 py-2.5 text-xs sm:text-sm text-orange-950">
+            <span>📧</span>
+            <span>
+              Confirmation details sent to <strong className="font-semibold">{booking.user.email}</strong>
+            </span>
+          </div>
+        )}
+
         {contact && (
           <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row justify-center gap-2.5 sm:gap-3">
             <a
-              href={waLink(contact.whatsapp, `Hi, I just booked a consultation (Booking ID: ${booking.id}).`)}
+              href={waLink(
+                contact.whatsapp,
+                `नमस्ते Kundli Kendra, मैंने परामर्श बुक किया है!\n\n📌 Booking ID: ${booking.id}\n👤 नाम: ${booking.user.name}\n📅 दिनांक: ${dayjs(booking.bookingDate).format('DD MMM YYYY')}\n⏰ समय: ${booking.slotTime}\n✨ परामर्श: ${consultationName}\n💰 शुल्क: ${formatInr(booking.amount)}`
+              )}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-xs sm:text-sm font-semibold text-white shadow-xs"
+              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-xs sm:text-sm font-semibold text-white shadow-xs transition-transform hover:scale-102 active:scale-98"
               style={{ backgroundColor: '#25D366' }}
             >
-              <span aria-hidden>💬</span> WhatsApp Us
+              <span aria-hidden>💬</span> WhatsApp पर संपर्क करें
             </a>
             <a
               href={telLink(contact.phone)}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-neutral-300 bg-white px-6 py-3 text-xs sm:text-sm font-semibold text-neutral-800 shadow-2xs hover:border-orange-400"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-neutral-300 bg-white px-6 py-3 text-xs sm:text-sm font-semibold text-neutral-800 shadow-2xs hover:border-orange-400 transition-colors"
             >
               <span aria-hidden>📞</span> Call Now
             </a>

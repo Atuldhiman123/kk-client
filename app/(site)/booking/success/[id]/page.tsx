@@ -15,7 +15,7 @@ const PAYMENT_STATUS_STYLES: Record<string, string> = {
   Failed: 'bg-red-100 text-red-800',
 };
 
-export default async function BookingSuccessPage(props: PageProps<'/booking/success/[id]'>) {
+export default async function BookingSuccessPage(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
 
   const [booking, home] = await Promise.all([

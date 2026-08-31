@@ -10,7 +10,7 @@ export const metadata = {
   description: 'Browse 100% natural, lab-certified gemstones recommended for your birth chart and planetary alignments.',
 };
 
-export default async function GemstonesPage(props: PageProps<'/gemstones'>) {
+export default async function GemstonesPage(props: { searchParams: Promise<{ search?: string; page?: string }> }) {
   const searchParams = await props.searchParams;
   const search = typeof searchParams.search === 'string' ? searchParams.search : undefined;
   const page = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;

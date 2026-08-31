@@ -5,7 +5,7 @@ import { telLink, waLink } from '@/lib/contact';
 import { GemstoneGallery } from '@/components/gemstone/GemstoneGallery';
 import { GemstoneCard } from '@/components/gemstone/GemstoneCard';
 
-export async function generateMetadata(props: PageProps<'/gemstones/[slug]'>) {
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
   try {
     const gemstone = await getGemstone(slug);
@@ -18,7 +18,7 @@ export async function generateMetadata(props: PageProps<'/gemstones/[slug]'>) {
   }
 }
 
-export default async function GemstoneDetailPage(props: PageProps<'/gemstones/[slug]'>) {
+export default async function GemstoneDetailPage(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
 
   const [gemstone, home] = await Promise.all([

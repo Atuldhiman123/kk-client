@@ -41,7 +41,7 @@ const PAYMENT_STATUS_COLORS: Record<PaymentStatus, string> = {
   Failed: 'error',
 };
 
-export default function AdminBookingDetailPage(props: PageProps<'/admin/bookings/[id]'>) {
+export default function AdminBookingDetailPage(props: { params: Promise<{ id: string }> }) {
   const { id } = use(props.params);
   const [booking, setBooking] = useState<Booking | null>(null);
   const [loading, setLoading] = useState(true);

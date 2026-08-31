@@ -5,9 +5,9 @@ import { MailOutlined, PhoneOutlined, EnvironmentOutlined, WhatsAppOutlined, Ins
 import type { ContactInfo } from '@/lib/types';
 import { telLink, waLink } from '@/lib/contact';
 
-export function Footer({ contact }: { contact?: ContactInfo }) {
+export function Footer({ contact }: { contact: ContactInfo }) {
   const year = new Date().getFullYear();
-  const instagramUrl = contact?.instagram || 'https://www.instagram.com/astrologer__atul/';
+  const instagramUrl = contact.instagram || 'https://www.instagram.com/astrologer__atul/';
 
   return (
     <footer className="border-t border-orange-300 bg-gradient-to-b from-[#FFF3E0] to-[#FFE0B2] text-orange-950">
@@ -28,7 +28,7 @@ export function Footer({ contact }: { contact?: ContactInfo }) {
             Rooted in authentic Kundli analysis and practical remedies.
           </p>
           <div className="mt-5 flex flex-wrap items-center gap-3">
-            {contact?.whatsapp && (
+            {contact.whatsapp && (
               <a
                 href={waLink(contact.whatsapp)}
                 target="_blank"
@@ -87,32 +87,30 @@ export function Footer({ contact }: { contact?: ContactInfo }) {
           </ul>
         </div>
 
-        {contact && (
-          <div className="text-sm text-orange-950">
-            <div className="font-bold uppercase tracking-wider text-orange-950">Contact Information</div>
-            <ul className="mt-4 space-y-3">
-              <li>
-                <a href={telLink(contact.phone)} className="flex items-center gap-2.5 transition hover:text-red-700">
-                  <PhoneOutlined className="text-orange-700" /> {contact.phone}
-                </a>
-              </li>
-              <li>
-                <a href={`mailto:${contact.email}`} className="flex items-center gap-2.5 transition hover:text-red-700">
-                  <MailOutlined className="text-orange-700" /> {contact.email}
-                </a>
-              </li>
-              <li>
-                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 transition hover:text-red-700">
-                  <InstagramOutlined className="text-pink-600" /> @astrologer__atul
-                </a>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <EnvironmentOutlined className="mt-1 text-orange-700" />
-                <span className="leading-snug text-orange-900 font-medium">{contact.address}</span>
-              </li>
-            </ul>
-          </div>
-        )}
+        <div className="text-sm text-orange-950">
+          <div className="font-bold uppercase tracking-wider text-orange-950">Contact Information</div>
+          <ul className="mt-4 space-y-3">
+            <li>
+              <a href={telLink(contact.phone)} className="flex items-center gap-2.5 transition hover:text-red-700">
+                <PhoneOutlined className="text-orange-700" /> {contact.phone}
+              </a>
+            </li>
+            <li>
+              <a href={`mailto:${contact.email}`} className="flex items-center gap-2.5 transition hover:text-red-700">
+                <MailOutlined className="text-orange-700" /> {contact.email}
+              </a>
+            </li>
+            <li>
+              <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 transition hover:text-red-700">
+                <InstagramOutlined className="text-pink-600" /> @astrologer__atul
+              </a>
+            </li>
+            <li className="flex items-start gap-2.5">
+              <EnvironmentOutlined className="mt-1 text-orange-700" />
+              <span className="leading-snug text-orange-900 font-medium">{contact.address}</span>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <div className="border-t border-orange-300/40 py-6 text-center text-xs text-orange-900 font-semibold">

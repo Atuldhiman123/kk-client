@@ -6,9 +6,9 @@ import { PhoneOutlined, WhatsAppOutlined, MenuOutlined, CloseOutlined, Instagram
 import type { ContactInfo } from '@/lib/types';
 import { waLink, telLink } from '@/lib/contact';
 
-export function Header({ contact }: { contact?: ContactInfo }) {
+export function Header({ contact }: { contact: ContactInfo }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const instagramUrl = contact?.instagram || 'https://www.instagram.com/astrologer__atul/';
+  const instagramUrl = contact.instagram || 'https://www.instagram.com/astrologer__atul/';
 
   return (
     <header className="sticky top-0 z-50 border-b border-orange-200 bg-orange-50/90 shadow-xs backdrop-blur-md">
@@ -46,18 +46,16 @@ export function Header({ contact }: { contact?: ContactInfo }) {
         </nav>
 
         <div className="flex items-center gap-2.5">
-          {contact && (
-            <a
-              href={instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-8.5 w-8.5 items-center justify-center rounded-full border border-orange-200 bg-white text-orange-900 transition hover:border-orange-400 hover:bg-orange-50/50 hover:text-orange-600"
-              aria-label="Instagram"
-            >
-              <InstagramOutlined className="text-[15px]" />
-            </a>
-          )}
-          {contact?.phone && (
+          <a
+            href={instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex h-8.5 w-8.5 items-center justify-center rounded-full border border-orange-200 bg-white text-orange-900 transition hover:border-orange-400 hover:bg-orange-50/50 hover:text-orange-600"
+            aria-label="Instagram"
+          >
+            <InstagramOutlined className="text-[15px]" />
+          </a>
+          {contact.phone && (
             <a
               href={telLink(contact.phone)}
               className="flex h-8.5 w-8.5 items-center justify-center rounded-full border border-orange-200 bg-white text-orange-900 transition hover:border-orange-400 hover:bg-orange-50/50 hover:text-orange-600"
@@ -66,7 +64,7 @@ export function Header({ contact }: { contact?: ContactInfo }) {
               <PhoneOutlined className="text-[14px]" />
             </a>
           )}
-          {contact?.whatsapp && (
+          {contact.whatsapp && (
             <a
               href={waLink(contact.whatsapp)}
               target="_blank"

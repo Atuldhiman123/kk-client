@@ -1,7 +1,6 @@
 import { Suspense } from 'react';
 import { getHome } from '@/lib/api';
 import { Hero } from '@/components/home/Hero';
-import { Stats } from '@/components/home/Stats';
 import { ConsultationCategories } from '@/components/home/ConsultationCategories';
 import { ComboOffers } from '@/components/home/ComboOffers';
 import { WhyChooseUs } from '@/components/home/WhyChooseUs';
@@ -18,7 +17,6 @@ export default async function HomePage() {
   return (
     <>
       <Hero contact={home.contact} />
-      <Stats stats={home.stats} />
       <ConsultationCategories categories={home.categories} />
       <ComboOffers combos={home.combos} />
       <WhyChooseUs items={home.whyChooseUs} />

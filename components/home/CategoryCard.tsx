@@ -1,11 +1,14 @@
+'use client';
+
 import Link from 'next/link';
+import { ClockCircleOutlined } from '@ant-design/icons';
 import type { ConsultationCategory } from '@/lib/types';
 import { formatInr } from '@/lib/format';
 import { categoryIcon } from '@/lib/category-icons';
 
 function categoryImage(slug: string): string {
   const clean = slug.toLowerCase();
-  
+
   if (clean.includes('career') && clean.includes('business')) {
     return 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80';
   }
@@ -58,65 +61,59 @@ export function CategoryCard({ category }: { category: ConsultationCategory }) {
   const discountPercent = origPriceNum && origPriceNum > currentPriceNum ? Math.round((savings / origPriceNum) * 100) : 0;
 
   return (
-    <div className="relative group flex flex-col justify-between overflow-hidden rounded-3xl border border-orange-200/80 bg-[#FFFDF9] shadow-xs transition-all duration-200 hover:-translate-y-1 hover:border-orange-400 hover:shadow-md h-full">
+    <div className="group flex flex-col overflow-hidden rounded-3xl border border-orange-100 bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-orange-300 hover:shadow-lg">
       {/* Top Image Banner */}
-      <div className="relative h-28 sm:h-30 w-full overflow-hidden bg-orange-50 shrink-0">
+      <div className="relative h-40 sm:h-44 w-full overflow-hidden bg-orange-50 shrink-0">
         <img
           src={categoryImage(category.slug)}
           alt={category.name}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-103"
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           loading="lazy"
         />
-        {/* Subtle gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#FFFDF9] via-transparent to-black/10" />
-
-        {/* Floating Duration and Discount Badges */}
-        <div className="absolute top-2.5 right-3 flex items-center gap-1.5">
-          <span className="rounded-full bg-white/90 backdrop-blur-xs border border-orange-100 px-2 py-0.5 text-[8.5px] font-extrabold text-orange-950 shadow-2xs">
-            ⏱️ {category.durationMinutes} min
-          </span>
-        </div>
         {discountPercent > 0 && (
-          <div className="absolute top-2.5 left-3 rounded-full bg-red-600 px-2 py-0.5 text-[8.5px] font-extrabold uppercase tracking-wider text-white shadow-sm">
-            🔥 {discountPercent}% OFF
+          <div className="absolute top-3 left-3 rounded-full bg-red-600 px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-sm">
+            {discountPercent}% Off
           </div>
         )}
       </div>
 
-      {/* Bottom Content Area */}
-      <div className="flex-1 p-3.5 sm:p-4.5 pt-3.5 flex flex-col justify-between bg-[#FFFDF9]">
-        <div className="relative">
-          {/* Floating Category Icon (Offset overlapping the image) */}
-          <div className="absolute -top-8 sm:-top-9 left-1 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-50 to-orange-100/70 text-lg sm:text-xl shadow-md border border-orange-200/50">
-            {categoryIcon(category.slug)}
-          </div>
-
-          <div className="pl-11 sm:pl-12">
-            <h3 className="text-sm sm:text-base font-extrabold tracking-tight text-neutral-900 group-hover:text-orange-700 transition font-serif leading-tight">
-              {category.name}
-            </h3>
-            {category.description && (
-              <p className="mt-1 text-[10.5px] sm:text-xs leading-snug text-neutral-600 font-medium line-clamp-2 min-h-[30px]">
-                {category.description}
-              </p>
-            )}
-          </div>
+      {/* Floating Category Icon (overlapping image/content boundary) */}
+      <div className="relative flex justify-center">
+        <div className="absolute -top-8 flex h-16 w-16 items-center justify-center rounded-full border border-orange-200 bg-orange-50 text-2xl text-orange-600 shadow-md">
+          {categoryIcon(category.slug)}
         </div>
+      </div>
 
-        {/* Price & Action Row */}
-        <div className="mt-3 flex items-center justify-between border-t border-orange-100 pt-3">
-          <div className="flex items-baseline gap-1.5">
-            <span className="text-base sm:text-lg font-black text-neutral-900">{formatInr(category.price)}</span>
+      {/* Content */}
+      <div className="flex flex-1 flex-col px-5 pb-4 pt-9 text-center">
+        <h3 className="font-serif text-xl font-bold text-neutral-900 transition group-hover:text-orange-700 m-0">
+          {category.name}
+        </h3>
+        <div className="mx-auto mt-1.5 h-0.5 w-6 rounded-full bg-orange-400" />
+
+        {category.description && (
+          <p className="mt-2 text-sm leading-relaxed text-neutral-500 line-clamp-2">
+            {category.description}
+          </p>
+        )}
+
+        <div className="mt-3 flex items-center justify-between gap-2 border-t border-orange-100 pt-3">
+          <span className="inline-flex items-center gap-1 text-xs font-semibold text-neutral-500">
+            <ClockCircleOutlined /> {category.durationMinutes} min
+          </span>
+
+          <span className="flex items-baseline gap-1.5">
+            <span className="text-lg font-black text-neutral-900">{formatInr(category.price)}</span>
             {origPriceNum && origPriceNum > currentPriceNum && (
-              <span className="text-[10px] sm:text-xs font-semibold text-neutral-400 line-through">
+              <span className="text-xs font-semibold text-neutral-400 line-through">
                 {formatInr(origPriceNum)}
               </span>
             )}
-          </div>
+          </span>
 
           <Link
             href={`/?category=${category.slug}#booking`}
-            className="rounded-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 px-3.5 py-1.5 text-[11px] sm:text-xs font-bold text-white shadow-xs transition duration-150 shrink-0"
+            className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-xs transition duration-150 hover:from-orange-600 hover:to-orange-700 shrink-0"
             style={{ color: '#ffffff' }}
           >
             <span className="text-white" style={{ color: '#ffffff' }}>Book Now &rarr;</span>

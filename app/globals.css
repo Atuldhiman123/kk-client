@@ -14,6 +14,21 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Brand orange ramp, anchored at #C14B0F for orange-600 (primary buttons, links, icons) */
+@theme {
+  --color-orange-50: #fef5f0;
+  --color-orange-100: #fde8dd;
+  --color-orange-200: #faceb7;
+  --color-orange-300: #f6ad88;
+  --color-orange-400: #f28954;
+  --color-orange-500: #c06e0e;
+  --color-orange-600: #c14b0f;
+  --color-orange-700: #9c4011;
+  --color-orange-800: #7d3612;
+  --color-orange-900: #682f12;
+  --color-orange-950: #3d1f0f;
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
@@ -25,6 +40,7 @@ body {
   font-family: var(--font-outfit), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
+  margin: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -127,9 +143,9 @@ button.text-white,
 }
 
 .text-gold {
-  color: #b8860b;
+  color: #C14B0F;
 }
 
 .border-gold {
-  border-color: #f3d98b;
+  border-color: #C14B0F;
 }

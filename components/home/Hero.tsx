@@ -2,192 +2,182 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import {
+  UserOutlined,
+  StarFilled,
+  SafetyCertificateOutlined,
+  GlobalOutlined,
+  LockOutlined,
+  CalendarOutlined,
+  ClockCircleOutlined,
+  PhoneOutlined,
+  WhatsAppOutlined,
+} from '@ant-design/icons';
 import type { ContactInfo } from '@/lib/types';
 import { waLink, telLink } from '@/lib/contact';
 
+const statCards = [
+  { icon: <UserOutlined />, value: '12,000+', label: 'Happy Clients' },
+  { icon: <StarFilled />, value: '4.9/5.0', label: 'Client Rating' },
+  { icon: <SafetyCertificateOutlined />, value: '100%', label: 'Privacy Guaranteed' },
+];
+
+const trustFeatures = [
+  { icon: <UserOutlined />, title: 'Personalized Readings', desc: 'Tailored predictions based on your unique Kundli.' },
+  { icon: <GlobalOutlined />, title: 'Accurate Remedies', desc: 'Practical and effective guidance for real-life problems.' },
+  { icon: <LockOutlined />, title: 'Confidential & Secure', desc: 'Your privacy and trust are our priority.' },
+  { icon: <CalendarOutlined />, title: 'Flexible Appointments', desc: 'Book at your convenience with easy scheduling.' },
+];
+
 export function Hero({ contact }: { contact: ContactInfo }) {
-  // Reusable 3D Astrologer Portrait Visual
-  const AstrologerVisual = ({ isMobile }: { isMobile?: boolean }) => (
-    <div className={`relative max-w-full preserve-3d group transition-transform duration-500 hover:rotate-y-[-6deg] hover:rotate-x-[4deg] ${isMobile ? 'my-3.5' : ''}`}>
-      {/* 3D Rotating Background Zodiac Ring */}
-      <div className={`absolute rounded-full border border-dashed border-amber-400/40 animate-spin-slow pointer-events-none opacity-70 ${
-        isMobile ? '-inset-3.5 sm:-inset-5' : '-inset-8 md:-inset-10'
-      }`} />
-      <div className={`absolute rounded-full border border-orange-500/30 pointer-events-none animate-pulse-glow ${
-        isMobile ? '-inset-2' : '-inset-4 md:-inset-5'
-      }`} />
-
-      {/* Floating 3D Janam Kundli Scroll Badge */}
-      <div className={`absolute overflow-hidden rounded-xl sm:rounded-2xl border-2 border-amber-400/80 bg-[#150a05]/95 backdrop-blur-md shadow-[0_8px_20px_rgba(0,0,0,0.7)] transition-all duration-300 hover:scale-105 z-20 animate-float ${
-        isMobile ? '-top-2.5 -left-2.5 p-1' : '-top-5 -left-5 p-1.5'
-      }`}>
-        <img
-          src="/images/kundli-scroll.jpg"
-          alt="Vedic Kundli Scroll"
-          className={`rounded-lg sm:rounded-xl object-cover border border-amber-500/40 ${
-            isMobile ? 'h-9 w-9 sm:h-11 sm:w-11' : 'h-16 w-16'
-          }`}
-        />
-        <div className={`font-black uppercase text-amber-400 text-center ${
-          isMobile ? 'text-[6.5px] mt-0.5' : 'text-[8px] mt-1'
-        }`}>
-          Janam Kundli
+  const StatColumn = ({ mobile }: { mobile?: boolean }) => (
+    <div
+      className={
+        mobile
+          ? 'grid grid-cols-3 divide-x divide-orange-100 rounded-2xl border border-orange-100 bg-orange-50/70 shadow-md md:hidden'
+          : 'relative z-20 -mr-14 hidden w-28 shrink-0 flex-col divide-y divide-orange-100 overflow-hidden rounded-2xl border border-orange-100 bg-orange-50/80 shadow-xl md:flex'
+      }
+    >
+      {statCards.map((stat) => (
+        <div key={stat.label} className="flex flex-col items-center gap-1 px-2 py-2.5 text-center">
+          <span className="text-orange-500">{stat.icon}</span>
+          <span className="text-sm font-extrabold text-neutral-900">{stat.value}</span>
+          <span className="w-full min-w-0 text-[9px] font-semibold uppercase tracking-wide text-neutral-500">{stat.label}</span>
         </div>
-      </div>
-
-      {/* Astrologer Portrait in 3D Glass Frame */}
-      <div className={`relative overflow-hidden rounded-2xl sm:rounded-3xl border-3 sm:border-4 border-amber-400/70 shadow-[0_15px_40px_rgba(245,158,11,0.3)] transition-all duration-300 mx-auto bg-gradient-to-b from-amber-950/40 to-black/80 ${
-        isMobile ? 'h-40 w-40 sm:h-52 sm:w-52' : 'h-80 w-80 md:h-96 md:w-96'
-      }`}>
-        <img
-          src="/astrologer-atul.jpg"
-          alt="Astrologer Atul"
-          className="h-full w-full object-cover object-top filter brightness-105 contrast-105 transition duration-500 group-hover:scale-103"
-        />
-        {/* Subtle gold inner rim ring */}
-        <div className="absolute inset-0 rounded-2xl sm:rounded-3xl ring-1 ring-inset ring-amber-300/40 pointer-events-none" />
-      </div>
-
-      {/* 3D Floating Bottom Booking Badge */}
-      <div className={`absolute right-0 left-0 mx-auto rounded-xl sm:rounded-2xl border border-amber-300/80 bg-[#1c0d06]/95 backdrop-blur-xl shadow-[0_10px_25px_rgba(0,0,0,0.75)] z-20 ${
-        isMobile
-          ? '-bottom-2.5 w-[88%] sm:w-auto p-1.5 sm:p-2 sm:-left-3 sm:right-auto'
-          : '-bottom-4 sm:-left-6 sm:right-auto p-3 sm:p-4 w-auto'
-      }`}>
-        <div className="flex items-center gap-2 sm:gap-3">
-          <img
-            src="/images/kundli-scroll.jpg"
-            alt="Scroll icon"
-            className={`shrink-0 object-cover rounded-lg border border-amber-400/50 ${
-              isMobile ? 'h-6 w-6 sm:h-8 sm:w-8' : 'h-10 w-10'
-            }`}
-          />
-          <div>
-            <div className={`font-bold text-white leading-tight flex items-center gap-1.5 ${
-              isMobile ? 'text-[10px] sm:text-xs' : 'text-xs'
-            }`}>
-              <span>Instant Slot Booking</span>
-              <span className="flex h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-emerald-400 animate-ping shrink-0" />
-            </div>
-            <div className={`text-amber-200/80 mt-0.5 ${
-              isMobile ? 'text-[8.5px] sm:text-[10px]' : 'text-[11px]'
-            }`}>
-              Select date &amp; time in 2 mins
-            </div>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   );
 
   return (
-    <section className="relative overflow-hidden bg-[#0c0704] py-6 sm:py-12 md:py-24 border-b border-amber-900/30">
-      {/* 1. Celestial Cosmic Zodiac Background Image */}
+    <section className="relative overflow-hidden border-b border-orange-100 py-10 sm:py-16 md:py-20">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/hero-cosmic-bg.jpg"
-          alt="Cosmic Zodiac Astrological Background"
+          src="/images/hero-section-bg.png"
+          alt=""
           fill
           priority
           unoptimized
-          className="object-cover object-center sm:object-right-top scale-105 transition-transform duration-1000"
+          className="object-cover object-center"
         />
-        {/* Layered dark atmospheric & nebula gradients for rich text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0c0704]/95 via-[#130a05]/85 to-[#0b0604]/60" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0c0704]/70 via-transparent to-[#0c0704]/90" />
-        {/* Subtle radial cosmic glow lights */}
-        <div className="pointer-events-none absolute -top-20 left-1/4 h-[300px] w-[300px] sm:h-[500px] sm:w-[500px] rounded-full bg-amber-500/15 blur-3xl animate-pulse-glow" />
-        <div className="pointer-events-none absolute bottom-0 right-10 h-[250px] w-[250px] sm:h-[400px] sm:w-[400px] rounded-full bg-orange-600/20 blur-3xl" />
       </div>
 
-      {/* 2. Main Hero Content & 3D Interactive Layout */}
-      <div className="relative z-10 mx-auto grid max-w-7xl gap-6 sm:gap-10 md:grid-cols-2 md:items-center px-4 sm:px-6 lg:px-8">
-        <div>
-          {/* Luminous Vedic Badge */}
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-400/40 bg-amber-500/15 backdrop-blur-md px-2.5 sm:px-3.5 py-1 text-[10px] sm:text-xs font-bold text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.2)]">
-            <span className="text-amber-300">✨</span>
-            <span>100% Authentic Vedic Guidance</span>
-          </div>
-
-          <h1 className="mt-2.5 sm:mt-3 text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white font-serif leading-tight">
-            Astrologer <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-400 to-red-400 font-serif font-black drop-shadow-[0_2px_10px_rgba(249,115,22,0.4)]">Atul</span>
-          </h1>
-
-          <p className="mt-1 sm:mt-1.5 text-xs sm:text-base md:text-lg font-semibold text-amber-100/90 flex flex-wrap items-center gap-1.5">
-            <span>Master Vedic Astrologer</span>
-            <span className="text-amber-500">&middot;</span>
-            <span className="text-amber-300">10+ Years Exp.</span>
-          </p>
-
-          {/* Mobile-Only 3D Astrologer Visual (Proportional & Compact) */}
-          <div className="flex md:hidden justify-center perspective-1000">
-            <AstrologerVisual isMobile />
-          </div>
-
-          <p className="mt-2.5 sm:mt-3 max-w-xl text-xs sm:text-sm md:text-base leading-relaxed text-amber-100/80 line-clamp-2 sm:line-clamp-none">
-            Get personalized, highly accurate Kundli analysis and practical planetary remedies for career, marriage, love, wealth, and health.
-          </p>
-
-          {/* Action CTAs - Responsive Side-by-Side on Mobile */}
-          <div className="mt-3.5 sm:mt-6 flex flex-row items-center gap-2 sm:gap-3.5">
-            <Link
-              href="#booking"
-              className="flex-1 sm:flex-none group relative inline-flex items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-red-600 px-4 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-[0_8px_20px_-4px_rgba(249,115,22,0.5)] transition-all duration-200 hover:scale-102 text-center"
-              style={{ color: '#ffffff' }}
-            >
-              <span className="text-white flex items-center gap-1.5" style={{ color: '#ffffff' }}>
-                <span>🔮</span> Book Now
-              </span>
-            </Link>
-
-            <Link
-              href="#consultations"
-              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1 rounded-full border border-amber-400/40 bg-white/10 backdrop-blur-md px-3.5 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-xs transition hover:border-amber-300 hover:bg-white/20 text-center"
-            >
-              Services &rarr;
-            </Link>
-          </div>
-
-          {/* Quick Direct Queries */}
-          <div className="mt-3 sm:mt-4 flex flex-wrap items-center gap-2 sm:gap-3 text-[10.5px] sm:text-xs font-bold text-amber-200/80">
-            <span className="text-neutral-400">Direct:</span>
-            {contact.phone && (
-              <a
-                href={telLink(contact.phone)}
-                className="inline-flex items-center gap-1 text-amber-300 hover:text-amber-100 transition rounded-full bg-white/5 border border-amber-400/20 px-2 py-0.5 backdrop-blur-xs"
-              >
-                📞 Call
-              </a>
-            )}
-            <span className="text-amber-500/40">|</span>
-            {contact.whatsapp && (
-              <a
-                href={waLink(contact.whatsapp, "Hi, I would like to book a Kundli consultation.")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-200 transition rounded-full bg-emerald-950/40 border border-emerald-500/30 px-2 py-0.5 backdrop-blur-xs"
-              >
-                💬 WhatsApp
-              </a>
-            )}
-          </div>
-
-          {/* Ratings & Trust Indicator */}
-          <div className="mt-3.5 sm:mt-6 flex flex-wrap items-center gap-3 sm:gap-5 border-t border-amber-500/20 pt-3 sm:pt-4">
-            <div className="flex items-center gap-1.5">
-              <span className="text-amber-400 text-xs sm:text-sm">⭐⭐⭐⭐⭐</span>
-              <span className="text-[11px] sm:text-xs font-bold text-white">4.9/5.0</span>
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-10 md:grid-cols-2 md:items-center">
+          {/* Left: Copy */}
+          <div>
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-[11px] font-bold text-orange-900 sm:text-xs">
+              <span className="text-orange-500">✨</span>
+              <span>100% Authentic Vedic Guidance</span>
             </div>
-            <div className="h-3 w-px bg-amber-500/30" />
-            <span className="text-[11px] sm:text-xs font-semibold text-amber-200/80">
-              12,000+ Clients
-            </span>
+
+            <h1 className="mt-3 sm:mt-4 font-serif text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[0.85] tracking-tight text-neutral-900">
+              Astrologer
+              <br />
+              <span className="text-orange-500">Atul</span>
+            </h1>
+
+            <p className="mt-0 flex flex-wrap items-center gap-2 text-sm sm:text-base font-bold text-neutral-800">
+              <span>Master Vedic Astrologer</span>
+              <span className="text-orange-400">&bull;</span>
+              <span className="text-orange-600">10+ Years Experience</span>
+            </p>
+
+            <p className="mt-4 max-w-lg text-sm sm:text-base leading-relaxed text-neutral-600">
+              Get personalized, highly accurate Kundli analysis and practical planetary remedies for career, marriage, love, wealth, and health.
+            </p>
+
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <Link
+                href="#booking"
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-orange-600/25 transition hover:from-orange-600 hover:to-red-700"
+                style={{ color: '#ffffff' }}
+              >
+                <CalendarOutlined />
+                <span style={{ color: '#ffffff' }}>Book Consultation</span>
+              </Link>
+
+              <Link
+                href="#consultations"
+                className="inline-flex items-center gap-1.5 rounded-full border border-orange-300 bg-gradient-to-b from-white to-white px-5 py-3 text-sm font-bold text-orange-700 transition hover:from-orange-50 hover:to-orange-50"
+              >
+                Explore Services <span>&rarr;</span>
+              </Link>
+            </div>
+
+            <div className="mt-5 flex flex-wrap items-center gap-2.5 text-sm">
+              <span className="font-semibold text-neutral-500">Connect Directly:</span>
+              {contact.phone && (
+                <a
+                  href={telLink(contact.phone)}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 bg-gradient-to-b from-white to-white px-3.5 py-1.5 font-semibold text-neutral-800 transition hover:border-orange-300 hover:text-orange-700"
+                >
+                  <PhoneOutlined /> Call
+                </a>
+              )}
+              {contact.whatsapp && (
+                <a
+                  href={waLink(contact.whatsapp, 'Hi, I would like to book a Kundli consultation.')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 bg-gradient-to-b from-white to-white px-3.5 py-1.5 font-semibold text-neutral-800 transition hover:border-emerald-300 hover:text-emerald-700"
+                >
+                  <WhatsAppOutlined /> WhatsApp
+                </a>
+              )}
+            </div>
+          </div>
+
+          {/* Right: Visual */}
+          <div className="flex flex-col items-center gap-6 md:items-end">
+            <div className="flex items-center mt-6 md:mt-0 md:mr-6 lg:mr-10">
+              <StatColumn />
+
+              {/* Image + badges */}
+              <div className="relative z-10">
+                {/* Portrait */}
+                <div className="h-80 w-80 overflow-hidden rounded-[28px] border-2 border-amber-300 shadow-2xl sm:h-96 sm:w-96 sm:rounded-[32px] md:h-[26rem] md:w-[26rem] lg:h-[28rem] lg:w-[28rem]">
+                  <img
+                    src="/images/hero-person.png"
+                    alt="Astrologer Atul"
+                    className="h-full w-full object-cover object-top"
+                  />
+                </div>
+
+                {/* Instant Slot Booking badge */}
+                <div className="absolute -bottom-4 right-2 z-20 flex items-center gap-2.5 rounded-2xl border border-emerald-900/40 bg-[#14241a] px-3.5 py-2.5 shadow-xl sm:-bottom-5 sm:right-4 sm:px-4 sm:py-3">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-amber-300 sm:h-9 sm:w-9">
+                    <ClockCircleOutlined />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-white sm:text-sm">
+                      Instant Slot Booking
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    </div>
+                    <div className="text-[10px] text-amber-100/70 sm:text-[11px]">Select date &amp; time in 2 mins</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <StatColumn mobile />
           </div>
         </div>
 
-        {/* Desktop-Only 3D Visual Section (Right Column) */}
-        <div className="hidden md:flex justify-end perspective-1000">
-          <AstrologerVisual />
+        {/* Trust Feature Strip */}
+        <div className="mt-14 rounded-2xl border border-orange-100 bg-orange-50/70 p-5 shadow-sm sm:mt-16 sm:p-6">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+            {trustFeatures.map((feature) => (
+              <div key={feature.title} className="flex items-start gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-orange-200 text-lg text-orange-600">
+                  {feature.icon}
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-neutral-900">{feature.title}</div>
+                  <div className="mt-0.5 text-xs leading-snug text-neutral-500">{feature.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

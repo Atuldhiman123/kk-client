@@ -29,12 +29,19 @@ const trustFeatures = [
   { icon: <CalendarOutlined />, title: 'Flexible Appointments', desc: 'Book at your convenience with easy scheduling.' },
 ];
 
+const cosmicPills = [
+  { icon: '✨', label: '27 Nakshatras', sub: 'Ashwini to Revati' },
+  { icon: '♈', label: '12 Rashis', sub: 'Zodiac Constellations' },
+  { icon: '🪐', label: '9 Grahas', sub: 'Planetary Gochar' },
+  { icon: '🔮', label: '3D Bha-Chakra', sub: 'Vedic Ephemeris' },
+];
+
 export function Hero({ contact }: { contact: ContactInfo }) {
   const StatColumn = ({ mobile }: { mobile?: boolean }) => (
     <div
       className={
         mobile
-          ? 'mt-5 grid grid-cols-3 divide-x divide-orange-100 rounded-2xl border border-orange-100/90 bg-orange-50/80 shadow-xs md:hidden'
+          ? 'mt-4 grid grid-cols-3 divide-x divide-orange-100 rounded-2xl border border-orange-100/90 bg-orange-50/80 shadow-xs md:hidden'
           : 'relative z-20 -mr-14 hidden w-28 shrink-0 flex-col divide-y divide-orange-100 overflow-hidden rounded-2xl border border-orange-100 bg-orange-50/80 shadow-xl md:flex'
       }
     >
@@ -49,7 +56,8 @@ export function Hero({ contact }: { contact: ContactInfo }) {
   );
 
   return (
-    <section className="relative overflow-hidden border-b border-orange-100 pt-6 pb-10 sm:py-16 md:py-20">
+    <section className="relative overflow-hidden border-b border-orange-100 pt-5 pb-10 sm:py-16 md:py-20">
+      {/* Background with layered 3D cosmic nakshatra depth */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/hero-section-bg.png"
@@ -58,6 +66,11 @@ export function Hero({ contact }: { contact: ContactInfo }) {
           priority
           unoptimized
           className="object-cover object-center"
+        />
+        {/* Subtle 3D celestial sphere texture layer */}
+        <div
+          className="absolute inset-0 opacity-15 mix-blend-multiply bg-center bg-cover pointer-events-none"
+          style={{ backgroundImage: 'url(/images/vedic-3d-nakshatra-bg.jpg)' }}
         />
       </div>
 
@@ -84,32 +97,29 @@ export function Hero({ contact }: { contact: ContactInfo }) {
               </p>
             </div>
 
-            {/* Mobile-Only Cinematic Atmospheric Hero Card (Large Photo, Lighter Bottom Fade with Overlays) */}
-            <div className="relative my-2.5 w-full overflow-hidden rounded-3xl border-2 border-amber-400/80 shadow-xl shadow-orange-950/15 md:hidden">
-              <div className="relative h-72 xs:h-80 w-full bg-[#0d1f15]">
+            {/* Mobile-Only Cinematic 3D Celestial & Astrologer Hero Showcase */}
+            <div className="relative my-2.5 w-full overflow-hidden rounded-3xl border-2 border-amber-400/90 shadow-2xl shadow-orange-950/20 md:hidden bg-[#06111d]">
+              <div className="relative h-80 xs:h-88 w-full">
+                {/* 3D Celestial Sphere & Astrologer Portrait */}
                 <img
-                  src="/images/hero-person.png"
-                  alt="Astrologer Atul"
+                  src="/images/hero-person-3d-nakshatra.jpg"
+                  alt="Astrologer Atul with 3D Nakshatras & Rashis Sphere"
                   className="h-full w-full object-cover object-top"
                 />
 
-                {/* Lighter, Subtle Bottom Fade so Astrologer Portrait is Much More Visible & Clear */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#09170f]/95 via-[#09170f]/35 via-25% to-transparent" />
+                {/* Faded softer bottom gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#050e18]/80 via-[#050e18]/15 via-25% to-transparent" />
 
-                {/* Top Floating Frosted Glass Pills */}
-                <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 z-10">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-1 text-[10px] font-extrabold text-amber-300 border border-amber-400/40 shadow-xs">
-                    <span>✨ Authentic Vedic</span>
-                  </span>
-
-                  <span className="inline-flex items-center gap-1 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-1 text-[10px] font-extrabold text-amber-300 border border-amber-400/40 shadow-xs">
+                {/* Top Floating Badge (Rating only) */}
+                <div className="absolute top-3 right-3 z-10">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-1 text-[10px] font-extrabold text-amber-300 border border-amber-400/40 shadow-md">
                     <StarFilled className="text-amber-400 text-[10px]" />
                     <span>4.9 (12k+)</span>
                   </span>
                 </div>
 
-                {/* Overlaid Title & Credentials on Faded Region */}
-                <div className="absolute bottom-3 left-3.5 right-3.5 z-10 text-left">
+                {/* Overlaid Title & Credentials */}
+                <div className="absolute bottom-2.5 left-3.5 right-3.5 z-10 text-left">
                   <div className="flex items-center gap-1.5 mb-1">
                     <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                     <span className="text-[10px] font-bold tracking-wide text-emerald-300 drop-shadow-md">
@@ -120,17 +130,32 @@ export function Hero({ contact }: { contact: ContactInfo }) {
                   <div className="flex items-end justify-between gap-2">
                     <div>
                       <div className="text-[11px] font-semibold text-amber-200 drop-shadow-sm leading-tight">Master Vedic Astrologer</div>
-                      <h1 className="font-serif text-2xl xs:text-3xl font-extrabold text-white leading-none drop-shadow-md m-0">
-                        Astrologer <span className="text-amber-400">Atul</span>
+                      <h1 className="font-serif text-2xl xs:text-3xl font-extrabold leading-none drop-shadow-md m-0">
+                        <span style={{ color: '#ffffff' }}>Astrologer </span>
+                        <span style={{ color: '#FACC15' }} className="text-yellow-400 font-extrabold">Atul</span>
                       </h1>
                     </div>
 
-                    <div className="rounded-full bg-gradient-to-r from-orange-500 to-amber-500 px-3 py-1 text-[10px] font-extrabold text-white shadow-xs shrink-0 drop-shadow-xs">
+                    <div className="rounded-full bg-gradient-to-r from-orange-500 via-orange-600 to-amber-500 px-3 py-1 text-[10px] font-extrabold text-white shadow-xs shrink-0 drop-shadow-xs">
                       10+ Yrs Exp
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Mobile Cosmic Nakshatra & Rashi Mini Highlights Pill Row */}
+            <div className="grid grid-cols-4 gap-1.5 w-full my-2 md:hidden">
+              {cosmicPills.map((pill) => (
+                <div
+                  key={pill.label}
+                  className="flex flex-col items-center justify-center p-1.5 rounded-xl border border-orange-200/80 bg-gradient-to-b from-white via-orange-50/50 to-amber-50/70 shadow-2xs text-center"
+                >
+                  <span className="text-xs">{pill.icon}</span>
+                  <span className="text-[10px] font-extrabold text-neutral-900 leading-tight mt-0.5">{pill.label}</span>
+                  <span className="text-[8px] text-neutral-500 font-medium leading-tight line-clamp-1">{pill.sub}</span>
+                </div>
+              ))}
             </div>
 
             <p className="mt-1 sm:mt-4 max-w-lg text-xs xs:text-sm sm:text-base leading-relaxed text-neutral-600">
@@ -183,7 +208,7 @@ export function Hero({ contact }: { contact: ContactInfo }) {
             </div>
           </div>
 
-          {/* Right: Desktop Visual (completely unchanged on desktop) */}
+          {/* Right: Desktop Visual with 3D Celestial Nakshatra Sphere */}
           <div className="hidden md:flex flex-col items-end gap-6">
             <div className="flex items-center mt-0 md:mr-6 lg:mr-10">
               <StatColumn />
@@ -191,10 +216,10 @@ export function Hero({ contact }: { contact: ContactInfo }) {
               {/* Image + badges */}
               <div className="relative z-10">
                 {/* Portrait */}
-                <div className="h-80 w-80 overflow-hidden rounded-[28px] border-2 border-amber-300 shadow-2xl sm:h-96 sm:w-96 sm:rounded-[32px] md:h-[26rem] md:w-[26rem] lg:h-[28rem] lg:w-[28rem]">
+                <div className="h-80 w-80 overflow-hidden rounded-[28px] border-2 border-amber-300 shadow-2xl sm:h-96 sm:w-96 sm:rounded-[32px] md:h-[26rem] md:w-[26rem] lg:h-[28rem] lg:w-[28rem] bg-[#06111d]">
                   <img
-                    src="/images/hero-person.png"
-                    alt="Astrologer Atul"
+                    src="/images/hero-person-3d-nakshatra.jpg"
+                    alt="Astrologer Atul with 3D Nakshatras & Rashis Sphere"
                     className="h-full w-full object-cover object-top"
                   />
                 </div>

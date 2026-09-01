@@ -10,48 +10,48 @@ function categoryImage(slug: string): string {
   const clean = slug.toLowerCase();
 
   if (clean.includes('career') && clean.includes('business')) {
-    return 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80';
+    return '/images/categories/career.jpg';
   }
   if (clean.includes('career')) {
-    return 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80';
+    return '/images/categories/career.jpg';
   }
   if (clean.includes('business')) {
-    return 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80';
+    return '/images/categories/business.jpg';
   }
   if (clean.includes('marriage') || clean.includes('compatibility')) {
-    return 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=600&q=80';
+    return '/images/categories/marriage.jpg';
   }
   if (clean.includes('love') || clean.includes('relationship')) {
-    return 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=600&q=80';
+    return '/images/categories/love.jpg';
   }
   if (clean.includes('health') || clean.includes('wellbeing')) {
-    return 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80';
+    return '/images/categories/health.jpg';
   }
   if (clean.includes('education') || clean.includes('study')) {
-    return 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=600&q=80';
+    return '/images/categories/education.jpg';
   }
   if (clean.includes('property') || clean.includes('land')) {
-    return 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80';
+    return '/images/categories/property.jpg';
   }
   if (clean.includes('settlement') || clean.includes('foreign') || clean.includes('travel')) {
-    return 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=600&q=80';
+    return '/images/categories/travel.jpg';
   }
   if (clean.includes('matching') || clean.includes('kundli-matching')) {
-    return 'https://images.unsplash.com/photo-1543168256-418811576f13?auto=format&fit=crop&w=600&q=80';
+    return '/images/categories/matching.jpg';
   }
   if (clean.includes('child') || clean.includes('birth')) {
-    return 'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=600&q=80';
+    return '/images/categories/child.jpg';
   }
   if (clean.includes('finance') || clean.includes('wealth') || clean.includes('money')) {
-    return 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=600&q=80';
+    return '/images/categories/wealth.jpg';
   }
   if (clean.includes('family') || clean.includes('problems') || clean.includes('home')) {
-    return 'https://images.unsplash.com/photo-1609234656388-0ff363383899?auto=format&fit=crop&w=600&q=80';
+    return '/images/categories/family.jpg';
   }
   if (clean.includes('full-life') || clean.includes('reading') || clean.includes('life')) {
     return '/images/kundli-scroll.jpg';
   }
-  return 'https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=600&q=80';
+  return '/images/categories/default.jpg';
 }
 
 export function CategoryCard({ category }: { category: ConsultationCategory }) {

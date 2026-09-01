@@ -18,26 +18,26 @@ const trustPoints = [
 
 export function ConsultationCategories({ categories }: { categories: ConsultationCategory[] }) {
   return (
-    <section id="consultations" className="py-12 sm:py-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="consultations" className="py-8 sm:py-16 lg:py-20">
+      <div className="mx-auto max-w-7xl px-3.5 sm:px-6 lg:px-8">
         <div className="text-center">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-100 px-3.5 sm:px-4 py-1 sm:py-1.5 text-xs font-bold text-orange-800 uppercase tracking-wider">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-100 px-3 sm:px-4 py-1 sm:py-1.5 text-[11px] sm:text-xs font-bold text-orange-800 uppercase tracking-wider">
             🏷️ Specialized Guidance
           </span>
-          <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-neutral-900 font-serif">
+          <h2 className="mt-2.5 sm:mt-3 text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-neutral-900 font-serif">
             Consultation Categories
           </h2>
-          <div className="mx-auto mt-3 flex items-center justify-center gap-2 text-orange-300">
-            <span className="h-px w-10 bg-orange-200" />
+          <div className="mx-auto mt-2 sm:mt-3 flex items-center justify-center gap-2 text-orange-300">
+            <span className="h-px w-8 sm:w-10 bg-orange-200" />
             <span className="text-orange-400">✦</span>
-            <span className="h-px w-10 bg-orange-200" />
+            <span className="h-px w-8 sm:w-10 bg-orange-200" />
           </div>
-          <p className="mt-3 max-w-2xl mx-auto text-sm sm:text-base text-neutral-600">
+          <p className="mt-2 sm:mt-3 max-w-2xl mx-auto text-xs sm:text-base text-neutral-600">
             Select your area of interest to receive tailored birth chart readings, predictions, and authentic Vedic remedies.
           </p>
         </div>
 
-        <div className="mt-10 sm:mt-14 grid grid-cols-1 gap-6 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 sm:mt-12 grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((category) => (
             <CategoryCard key={category.id} category={category} />
           ))}

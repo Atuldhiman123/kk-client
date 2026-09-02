@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const ALLOWED_TOKENS = [
   process.env.WHATSAPP_VERIFY_TOKEN,
-  "kundlikendra@123",
+  "kundlikendra@153255876",
   "astrology_secret_123",
 ].filter(Boolean);
 

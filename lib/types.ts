@@ -199,3 +199,77 @@ export interface WeeklyAvailability {
   isActive: boolean;
 }
 
+export interface BirthDetailsPayload {
+  dateOfBirth: string; // YYYY-MM-DD
+  timeOfBirth: string; // HH:mm
+  latitude: number;
+  longitude: number;
+  timezone?: number;
+}
+
+export interface AiChatPayload {
+  message: string;
+  conversationId?: string;
+  birthDetails?: BirthDetailsPayload;
+}
+
+export interface AiChatResponse {
+  conversationId: string;
+  message: string;
+  usedBirthChart: boolean;
+}
+
+export interface AstrologyChartResponse {
+  birthDetails: {
+    dateOfBirth: string;
+    timeOfBirth: string;
+    latitude: number;
+    longitude: number;
+    timezone: number;
+  };
+  ascendant: {
+    sign: string;
+    signDegree: number;
+    totalDegree: number;
+    nakshatra: string;
+    nakshatraLord: string;
+    pada: number;
+    house: number;
+  };
+  planets: Array<{
+    name: string;
+    sign: string;
+    signDegree: number;
+    totalDegree: number;
+    house: number;
+    nakshatra: string;
+    nakshatraLord: string;
+    pada: number;
+    isRetrograde: boolean;
+  }>;
+  houses: Array<{
+    house: number;
+    sign: string;
+    cuspDegree: number;
+    signLord: string;
+    subLord?: string;
+  }>;
+  dashas: {
+    mahadashas: Array<{
+      planet: string;
+      startDate: string;
+      endDate: string;
+      antardashas?: Array<{
+        planet: string;
+        startDate: string;
+        endDate: string;
+      }>;
+    }>;
+    currentMahadasha?: {
+      planet: string;
+      startDate: string;
+      endDate: string;
+    };
+  };
+}
+

@@ -1,5 +1,9 @@
 import type {
+  AiChatPayload,
+  AiChatResponse,
+  AstrologyChartResponse,
   AvailabilityResponse,
+  BirthDetailsPayload,
   Booking,
   ComboOffer,
   ConsultationCategory,
@@ -156,6 +160,35 @@ export const verifyRazorpayPayment = (payload: {
   razorpayPaymentId: string;
   razorpaySignature: string;
 }) => request<{ success: boolean; message: string }>('/bookings/verify-razorpay', jsonBody(payload));
+
+// Public — AI Chatbot & Astrology Chart
+export const sendAiChat = (payload: AiChatPayload) =>
+  request<AiChatResponse>('/ai/chat', jsonBody(payload));
+
+export const generateAstrologyChart = async (payload: BirthDetailsPayload): Promise<AstrologyChartResponse> => {
+  if (typeof window !== 'undefined') {
+    const cacheKey = `kk_chart_${payload.dateOfBirth}_${payload.timeOfBirth}_${payload.latitude}_${payload.longitude}`;
+    try {
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        return JSON.parse(cached);
+      }
+    } catch (e) {}
+
+    const result = await request<AstrologyChartResponse>('/astrology/chart', jsonBody(payload));
+    try {
+      localStorage.setItem(cacheKey, JSON.stringify(result));
+    } catch (e) {}
+    return result;
+  }
+  return request<AstrologyChartResponse>('/astrology/chart', jsonBody(payload));
+};
+
+export const searchAstrologyKnowledge = (query: string, topK = 5) =>
+  request<{ query: string; totalResults: number; results: any[] }>(
+    '/ai/knowledge/search',
+    jsonBody({ query, topK }),
+  );
 
 // Admin auth
 export const adminLogin = (email: string, password: string) =>

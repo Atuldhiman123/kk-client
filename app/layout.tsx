@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit, Playfair_Display, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { AiChatWidget } from "@/components/ai/AiChatWidget";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -37,7 +38,10 @@ export default function RootLayout({
       className={`${outfit.variable} ${playfair.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <AiChatWidget />
+        </Providers>
       </body>
     </html>
   );

@@ -26,7 +26,11 @@ export function Header({ contact }: { contact: ContactInfo }) {
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden items-center gap-6 lg:gap-7 text-xs font-bold uppercase tracking-wider md:flex">
+        <nav className="hidden items-center gap-5 lg:gap-6 text-xs font-bold uppercase tracking-wider md:flex">
+          <Link href="/ai-astrologer" className="flex items-center gap-1 text-orange-600 transition duration-150 hover:text-orange-700 bg-orange-100/70 px-2.5 py-1 rounded-full border border-orange-300/80 shadow-2xs">
+            <span>✨</span>
+            <span>AI Astrologer</span>
+          </Link>
           <Link href="/#consultations" className="text-orange-950/90 transition duration-150 hover:text-orange-600">
             Consultations
           </Link>
@@ -102,6 +106,14 @@ export function Header({ contact }: { contact: ContactInfo }) {
       {mobileMenuOpen && (
         <div className="border-t border-orange-200/70 bg-[#FFFDF9] px-4 py-4 shadow-lg md:hidden">
           <nav className="flex flex-col space-y-1 font-medium text-neutral-800">
+            <Link
+              href="/ai-astrologer"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-bold text-orange-700 bg-orange-50/80 border border-orange-200/70 hover:bg-orange-100 transition"
+            >
+              <span>✨ AI Vedic Astrologer (New)</span>
+              <span className="text-orange-500">&rarr;</span>
+            </Link>
             <Link
               href="/#consultations"
               onClick={() => setMobileMenuOpen(false)}

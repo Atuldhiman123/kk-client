@@ -3,6 +3,7 @@
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { App, ConfigProvider } from 'antd';
 import type { ReactNode } from 'react';
+import { LanguageProvider } from '@/lib/i18n';
 
 const theme = {
   token: {
@@ -40,10 +41,13 @@ const theme = {
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <AntdRegistry>
-      <ConfigProvider theme={theme}>
-        <App>{children}</App>
-      </ConfigProvider>
-    </AntdRegistry>
+    <LanguageProvider>
+      <AntdRegistry>
+        <ConfigProvider theme={theme}>
+          <App>{children}</App>
+        </ConfigProvider>
+      </AntdRegistry>
+    </LanguageProvider>
   );
 }
+

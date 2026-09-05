@@ -1,10 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { ClockCircleOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined, StarFilled, CheckCircleFilled, ThunderboltFilled } from '@ant-design/icons';
 import type { ConsultationCategory } from '@/lib/types';
 import { formatInr } from '@/lib/format';
 import { categoryIcon } from '@/lib/category-icons';
+import { useLanguage, getLocalizedCategoryName, getLocalizedCategoryDesc, getLocalizedCategoryTags } from '@/lib/i18n';
 
 function categoryImage(slug: string): string {
   const clean = slug.toLowerCase();
@@ -30,7 +31,7 @@ function categoryImage(slug: string): string {
   if (clean.includes('education') || clean.includes('study')) {
     return '/images/categories/education.jpg';
   }
-  if (clean.includes('property') || clean.includes('land')) {
+  if (clean.includes('property') || clean.includes('land') || clean.includes('vastu')) {
     return '/images/categories/property.jpg';
   }
   if (clean.includes('settlement') || clean.includes('foreign') || clean.includes('travel')) {
@@ -39,7 +40,7 @@ function categoryImage(slug: string): string {
   if (clean.includes('matching') || clean.includes('kundli-matching')) {
     return '/images/categories/matching.jpg';
   }
-  if (clean.includes('child') || clean.includes('birth')) {
+  if (clean.includes('child') || clean.includes('birth') || clean.includes('santan')) {
     return '/images/categories/child.jpg';
   }
   if (clean.includes('finance') || clean.includes('wealth') || clean.includes('money')) {
@@ -48,81 +49,135 @@ function categoryImage(slug: string): string {
   if (clean.includes('family') || clean.includes('problems') || clean.includes('home')) {
     return '/images/categories/family.jpg';
   }
-  if (clean.includes('full-life') || clean.includes('reading') || clean.includes('life')) {
+  if (clean.includes('gemstone') || clean.includes('ratna')) {
+    return '/images/vedic-3d-sphere.jpg';
+  }
+  if (clean.includes('muhurat') || clean.includes('timing')) {
+    return '/images/aarti.jpg';
+  }
+  if (clean.includes('full') || clean.includes('analysis') || clean.includes('reading') || clean.includes('life')) {
     return '/images/kundli-scroll.jpg';
   }
-  return '/images/categories/default.jpg';
+  return '/images/vedic-3d-nakshatra-bg.jpg';
 }
 
 export function CategoryCard({ category }: { category: ConsultationCategory }) {
+  const { locale, t } = useLanguage();
   const currentPriceNum = Number(category.price);
   const origPriceNum = category.originalPrice;
   const savings = origPriceNum && origPriceNum > currentPriceNum ? origPriceNum - currentPriceNum : 0;
   const discountPercent = origPriceNum && origPriceNum > currentPriceNum ? Math.round((savings / origPriceNum) * 100) : 0;
+  
+  const localizedName = getLocalizedCategoryName(category, locale);
+  const localizedDesc = getLocalizedCategoryDesc(category, locale);
+  const tags = getLocalizedCategoryTags(category.slug, locale);
 
   return (
-    <div className="group flex flex-col overflow-hidden rounded-2xl sm:rounded-3xl border border-orange-100/90 bg-white shadow-xs transition-all duration-200 hover:-translate-y-1 hover:border-orange-300 hover:shadow-lg">
-      {/* Top Image Banner */}
-      <div className="relative h-28 sm:h-44 w-full overflow-hidden bg-orange-50 shrink-0">
+    <div className="group flex flex-col overflow-hidden rounded-2xl sm:rounded-3xl border-2 border-orange-200/80 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-400 hover:shadow-xl relative">
+      {/* Top Banner with Image & Astrotalk-style Badge Overlays */}
+      <div className="relative h-36 sm:h-44 w-full overflow-hidden bg-orange-100 shrink-0">
         <img
           src={categoryImage(category.slug)}
-          alt={category.name}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          alt={localizedName}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
         />
-        {discountPercent > 0 && (
-          <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 rounded-full bg-red-600 px-2 py-0.5 sm:px-2.5 sm:py-0.5 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider text-white shadow-xs">
-            {discountPercent}% Off
-          </div>
-        )}
-      </div>
+        {/* Soft dark-gradient overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-      {/* Floating Category Icon (overlapping image/content boundary) */}
-      <div className="relative flex justify-center">
-        <div className="absolute -top-6 sm:-top-8 flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full border border-orange-200 bg-orange-50 text-xl sm:text-2xl text-orange-600 shadow-md">
-          {categoryIcon(category.slug)}
+        {/* Top Badges */}
+        <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between z-10">
+          <div className="flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-1 text-[10.5px] font-black text-amber-300 border border-amber-400/40 shadow-xs">
+            <StarFilled className="text-amber-400 text-xs" />
+            <span>4.9 (1.5k+)</span>
+          </div>
+
+          {discountPercent > 0 ? (
+            <div className="flex items-center gap-1 rounded-full bg-gradient-to-r from-red-600 to-orange-600 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-white shadow-md">
+              <ThunderboltFilled className="text-[10px]" />
+              <span>{discountPercent}% {t.consultations.card.off}</span>
+            </div>
+          ) : (
+            <div className="rounded-full bg-emerald-600/90 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-white shadow-xs">
+              {t.consultations.card.verified}
+            </div>
+          )}
+        </div>
+
+        {/* Category Icon Emblem Badge (Bottom Corner of Image) */}
+        <div className="absolute bottom-2.5 left-3 flex items-center gap-2 z-10">
+          <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-2xl bg-white/95 backdrop-blur-md text-xl text-orange-600 shadow-md border-2 border-orange-200">
+            {categoryIcon(category.slug)}
+          </div>
+          <div className="text-white">
+            <span className="text-[10px] uppercase font-black tracking-wider text-amber-300 block leading-none">
+              {t.consultations.card.vedic_guidance}
+            </span>
+            <span className="text-xs font-bold text-white drop-shadow-xs truncate block max-w-[170px]">
+              {t.consultations.card.live_session}
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* Content */}
-      <div className="flex flex-1 flex-col px-3.5 pb-3 pt-6 sm:px-5 sm:pb-4 sm:pt-9 text-center">
-        <h3 className="font-serif text-base sm:text-xl font-bold text-neutral-900 transition group-hover:text-orange-700 m-0 leading-tight">
-          {category.name}
-        </h3>
-        <div className="mx-auto mt-1 sm:mt-1.5 h-0.5 w-5 sm:w-6 rounded-full bg-orange-400" />
+      {/* Card Content */}
+      <div className="flex flex-1 flex-col p-4 sm:p-5 justify-between">
+        <div>
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="font-serif text-lg sm:text-xl font-bold text-neutral-900 transition group-hover:text-orange-600 m-0 leading-tight">
+              {localizedName}
+            </h3>
+          </div>
 
-        {category.description && (
-          <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm leading-snug sm:leading-relaxed text-neutral-500 line-clamp-2">
-            {category.description}
-          </p>
-        )}
+          {localizedDesc && (
+            <p className="mt-1.5 text-xs sm:text-[13px] leading-relaxed text-neutral-600 line-clamp-2">
+              {localizedDesc}
+            </p>
+          )}
 
-        <div className="mt-2.5 sm:mt-3.5 flex items-center justify-between gap-1.5 sm:gap-2 border-t border-orange-100/80 pt-2.5 sm:pt-3">
-          <span className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-neutral-500 shrink-0">
-            <ClockCircleOutlined className="text-orange-500 text-[10px] sm:text-xs" />
-            <span>{category.durationMinutes} min</span>
-          </span>
+          {/* Astrotalk-style Feature Highlights / Topic Tags */}
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {tags.map((tag, idx) => (
+              <span
+                key={idx}
+                className="inline-flex items-center gap-1 rounded-lg bg-orange-50 px-2 py-0.5 text-[10.5px] font-semibold text-orange-900 border border-orange-200/70"
+              >
+                <CheckCircleFilled className="text-emerald-600 text-[9px]" />
+                <span>{tag}</span>
+              </span>
+            ))}
+          </div>
+        </div>
 
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            <div className="flex items-baseline gap-1 sm:gap-1.5">
-              <span className="text-base sm:text-lg font-black text-neutral-900">{formatInr(category.price)}</span>
+        {/* Pricing & Booking Action Row */}
+        <div className="mt-4 pt-3.5 border-t border-orange-100 flex items-center justify-between gap-2">
+          <div>
+            <div className="flex items-center gap-1 text-[11px] font-medium text-neutral-500 mb-0.5">
+              <ClockCircleOutlined className="text-orange-500" />
+              <span>{category.durationMinutes} {t.consultations.card.duration_suffix}</span>
+            </div>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-lg sm:text-xl font-black text-neutral-950">
+                {formatInr(category.price)}
+              </span>
               {origPriceNum && origPriceNum > currentPriceNum && (
-                <span className="text-[10px] sm:text-xs font-semibold text-neutral-400 line-through">
+                <span className="text-xs font-semibold text-neutral-400 line-through">
                   {formatInr(origPriceNum)}
                 </span>
               )}
             </div>
-
-            <Link
-              href={`/?category=${category.slug}#booking`}
-              className="inline-flex items-center justify-center gap-1 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-3 py-1.5 sm:px-3.5 sm:py-1.5 text-xs font-bold text-white shadow-xs transition duration-150 hover:from-orange-600 hover:to-orange-700 shrink-0 whitespace-nowrap"
-              style={{ color: '#ffffff' }}
-            >
-              <span className="text-white" style={{ color: '#ffffff' }}>Book Now &rarr;</span>
-            </Link>
           </div>
+
+          <Link
+            href={`/?category=${category.slug}#booking`}
+            className="inline-flex items-center justify-center gap-1.5 rounded-2xl bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 px-4 py-2.5 text-xs sm:text-sm font-black text-white shadow-md transition-all duration-200 hover:from-orange-600 hover:to-red-700 hover:shadow-lg hover:scale-[1.03] active:scale-95 shrink-0"
+            style={{ color: '#ffffff' }}
+          >
+            <span className="text-white font-bold" style={{ color: '#ffffff' }}>{t.consultations.card.book_now} &rarr;</span>
+          </Link>
         </div>
       </div>
     </div>
   );
 }
+

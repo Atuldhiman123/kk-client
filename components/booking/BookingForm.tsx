@@ -6,11 +6,10 @@ import { App, Button, Form } from 'antd';
 import type { ComboOffer, ConsultationCategory, CreateBookingPayload, PaymentConfig } from '../../lib/types';
 import { ApiError, createBooking } from '@/lib/api';
 import { PersonalDetailsStep } from './steps/PersonalDetailsStep';
-import { BirthDetailsStep } from './steps/BirthDetailsStep';
 import { ConsultationStep } from './steps/ConsultationStep';
-import { SlotStep } from './steps/SlotStep';
 import { PaymentStep } from './steps/PaymentStep';
 import { ConfirmationStep } from './steps/ConfirmationStep';
+import { useLanguage } from '@/lib/i18n';
 import type { Dayjs } from 'dayjs';
 
 interface Props {
@@ -26,7 +25,7 @@ interface BookingFormValues {
   email?: string;
   profileName: string;
   dob: Dayjs;
-  birthTime?: Dayjs;
+  birthTime: Dayjs;
   birthPlace: string;
   gender?: string;
   selection: string;
@@ -38,15 +37,11 @@ interface BookingFormValues {
 }
 
 const STEP_FIELDS: (keyof BookingFormValues)[][] = [
-  ['name', 'phone', 'email'],
-  ['profileName', 'dob', 'birthTime', 'birthPlace', 'gender'],
-  ['selection'],
-  ['bookingDate', 'slot'],
-  ['transactionId', 'paymentScreenshot'],
+  ['name', 'phone', 'email', 'profileName', 'dob', 'birthTime', 'birthPlace'],
+  ['selection', 'bookingDate', 'slot'],
+  ['paymentMethod', 'transactionId', 'paymentScreenshot'],
   [],
 ];
-
-const STEP_TITLES = ['Personal', 'Birth Details', 'Consultation', 'Slot', 'Payment', 'Confirm'];
 
 export function BookingForm({ categories, combos, paymentConfig, isModal }: Props) {
   const [form] = Form.useForm<BookingFormValues>();
@@ -56,6 +51,9 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
   const router = useRouter();
   const searchParams = useSearchParams();
   const { message } = App.useApp();
+  const { t } = useLanguage();
+
+  const stepTitles = t.booking.steps || ['Details', 'Session & Slot', 'Payment', 'Confirm'];
 
   useEffect(() => {
     const categorySlug = searchParams.get('category');
@@ -69,6 +67,20 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
       if (match) form.setFieldValue('selection', `combo:${match.id}`);
     }
   }, [categories, combos, searchParams, form]);
+
+  useEffect(() => {
+    const handleCategoryEvent = (e: any) => {
+      const slug = e.detail?.categorySlug;
+      if (slug) {
+        const match = categories.find((c) => c.slug === slug);
+        if (match) {
+          form.setFieldValue('selection', `category:${match.id}`);
+        }
+      }
+    };
+    window.addEventListener('select-booking-category', handleCategoryEvent);
+    return () => window.removeEventListener('select-booking-category', handleCategoryEvent);
+  }, [categories, form]);
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
@@ -88,8 +100,8 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
     try {
       const paymentMethod = form.getFieldValue('paymentMethod') ?? 'UPI';
       let fields = STEP_FIELDS[current];
-      if (current === 4 && paymentMethod === 'Razorpay') {
-        fields = [];
+      if (current === 2 && paymentMethod === 'Razorpay') {
+        fields = ['paymentMethod'];
       }
       await form.validateFields(fields);
       setCurrent((c) => c + 1);
@@ -109,13 +121,20 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
     }
 
     const values = form.getFieldsValue(true) as BookingFormValues;
-    const [type, id] = values.selection.split(':');
+    const [type, id] = (values.selection || '').split(':');
+
+    const rawPhone = (values.phone || '').trim();
+    const formattedPhone = rawPhone.startsWith('+')
+      ? rawPhone
+      : rawPhone.length === 10
+      ? `+91${rawPhone}`
+      : rawPhone;
 
     const payload: CreateBookingPayload = {
-      name: values.name,
-      phone: values.phone,
-      email: values.email || undefined,
-      profileName: values.profileName,
+      name: values.name.trim(),
+      phone: formattedPhone,
+      email: values.email?.trim() || undefined,
+      profileName: (values.profileName || values.name).trim(),
       dob: values.dob.format('YYYY-MM-DD'),
       birthTime: values.birthTime ? values.birthTime.format('HH:mm') : undefined,
       birthPlace: values.birthPlace,
@@ -138,7 +157,7 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
 
         const scriptLoaded = await loadRazorpayScript();
         if (!scriptLoaded) {
-          setError('Failed to load Razorpay SDK. Please check your internet connection.');
+          setError(t.booking.razorpay_sdk_error);
           setSubmitting(false);
           return;
         }
@@ -160,10 +179,10 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
                 razorpayPaymentId: response.razorpay_payment_id,
                 razorpaySignature: response.razorpay_signature,
               });
-              message.success('Payment verified & booking confirmed successfully!');
+              message.success(t.booking.payment_verified_msg);
               router.push(`/booking/success/${booking.id}`);
             } catch (err: any) {
-              setError(err instanceof ApiError ? err.message : 'Payment verification failed. Please contact support.');
+              setError(err instanceof ApiError ? err.message : t.booking.payment_failed);
             } finally {
               setSubmitting(false);
             }
@@ -178,56 +197,60 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
           },
           modal: {
             ondismiss: () => {
-              setError('Payment process was cancelled. You can try confirming again.');
+              setError(t.booking.payment_cancelled);
               setSubmitting(false);
-            }
-          }
+            },
+          },
         };
 
         const rzpay = new (window as any).Razorpay(options);
         rzpay.open();
       } else {
-        message.success('Booking submitted successfully!');
+        message.success(t.booking.booking_success_msg);
         router.push(`/booking/success/${booking.id}`);
       }
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Something went wrong. Please try again.');
+      setError(err instanceof ApiError ? err.message : t.booking.generic_error);
       setSubmitting(false);
     }
   };
 
   const wrapperClass = isModal
-    ? 'mx-auto max-w-2xl p-2.5 sm:p-5 bg-[#FFFDF9]'
-    : 'mx-auto max-w-2xl rounded-2xl sm:rounded-3xl border border-orange-200 bg-[#FFFDF9] p-3.5 sm:p-7 md:p-9 shadow-lg';
+    ? 'mx-auto max-w-2xl p-2 sm:p-4 bg-[#FFFDF9]'
+    : 'mx-auto max-w-2xl rounded-2xl sm:rounded-3xl border border-orange-200 bg-[#FFFDF9] p-3.5 sm:p-7 md:p-8 shadow-lg';
 
   return (
     <div className={wrapperClass}>
-      {/* Custom Stepper */}
-      <div className="mb-3.5 sm:mb-6 select-none">
+      {/* 4-Step Stepper Header */}
+      <div className="mb-4 sm:mb-6 select-none">
         {/* Desktop Stepper */}
-        <div className="hidden md:flex items-center justify-between">
-          {STEP_TITLES.map((title, idx) => {
+        <div className="hidden sm:flex items-center justify-between">
+          {stepTitles.map((title, idx) => {
             const isCompleted = current > idx;
             const isActive = current === idx;
-            const isLast = idx === STEP_TITLES.length - 1;
+            const isLast = idx === stepTitles.length - 1;
 
             return (
               <div key={title} className={`flex items-center ${isLast ? 'flex-none' : 'flex-1'}`}>
-                <div className="flex items-center gap-1.5 shrink-0">
+                <div className="flex items-center gap-2 shrink-0">
                   <div
-                    className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 ${
+                    className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 ${
                       isCompleted
                         ? 'bg-orange-600 text-white border-2 border-orange-600 shadow-xs'
                         : isActive
-                        ? 'bg-orange-100 text-orange-950 border-2 border-orange-600 scale-102 shadow-sm ring-4 ring-orange-500/15'
+                        ? 'bg-orange-100 text-orange-950 border-2 border-orange-600 scale-105 shadow-sm ring-4 ring-orange-500/15'
                         : 'bg-neutral-50 text-neutral-400 border-2 border-neutral-200'
                     }`}
                   >
                     {isCompleted ? '✓' : idx + 1}
                   </div>
                   <span
-                    className={`text-[11px] font-bold transition-colors whitespace-nowrap ${
-                      isActive ? 'text-orange-950 font-black' : isCompleted ? 'text-neutral-700 font-bold' : 'text-neutral-400 font-semibold'
+                    className={`text-xs font-bold transition-colors whitespace-nowrap ${
+                      isActive
+                        ? 'text-orange-950 font-black'
+                        : isCompleted
+                        ? 'text-neutral-700 font-bold'
+                        : 'text-neutral-400 font-semibold'
                     }`}
                   >
                     {title}
@@ -235,7 +258,7 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
                 </div>
                 {!isLast && (
                   <div
-                    className={`h-[2px] flex-1 mx-2.5 rounded-full transition-all duration-300 ${
+                    className={`h-[2px] flex-1 mx-3 rounded-full transition-all duration-300 ${
                       isCompleted ? 'bg-orange-500' : 'bg-neutral-200'
                     }`}
                   />
@@ -246,17 +269,19 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
         </div>
 
         {/* Mobile Stepper */}
-        <div className="flex md:hidden flex-col gap-1.5">
+        <div className="flex sm:hidden flex-col gap-1.5">
           <div className="flex items-center justify-between text-xs font-bold text-neutral-800">
-            <span className="text-orange-800 font-bold text-[11px]">Step {current + 1} of {STEP_TITLES.length}</span>
+            <span className="text-orange-800 font-bold text-[11px]">
+              {t.booking.step_label} {current + 1} {t.booking.step_of} {stepTitles.length}
+            </span>
             <span className="text-neutral-900 font-black text-xs flex items-center gap-1">
-              <span>{STEP_TITLES[current]}</span>
+              <span>{stepTitles[current]}</span>
             </span>
           </div>
           <div className="h-1.5 w-full bg-neutral-100 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-orange-500 to-red-600 rounded-full transition-all duration-300"
-              style={{ width: `${((current + 1) / STEP_TITLES.length) * 100}%` }}
+              style={{ width: `${((current + 1) / stepTitles.length) * 100}%` }}
             />
           </div>
         </div>
@@ -267,45 +292,40 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
         layout="vertical"
         requiredMark="optional"
         preserve
-        className="[&_.ant-form-item]:!mb-2.5 sm:[&_.ant-form-item]:!mb-4 [&_.ant-form-item-label]:!pb-0.5 [&_.ant-form-item-label_label]:!text-xs sm:[&_.ant-form-item-label_label]:!text-sm [&_.ant-form-item-label_label]:!font-semibold"
+        className="[&_.ant-form-item]:!mb-2.5 sm:[&_.ant-form-item]:!mb-3.5 [&_.ant-form-item-label]:!pb-0.5 [&_.ant-form-item-label_label]:!text-xs sm:[&_.ant-form-item-label_label]:!text-sm [&_.ant-form-item-label_label]:!font-semibold"
       >
         <div className={current === 0 ? '' : 'hidden'}>
           <PersonalDetailsStep />
         </div>
         <div className={current === 1 ? '' : 'hidden'}>
-          <BirthDetailsStep />
-        </div>
-        <div className={current === 2 ? '' : 'hidden'}>
           <ConsultationStep form={form} categories={categories} combos={combos} />
         </div>
-        <div className={current === 3 ? '' : 'hidden'}>
-          <SlotStep form={form} />
-        </div>
-        <div className={current === 4 ? '' : 'hidden'}>
+        <div className={current === 2 ? '' : 'hidden'}>
           <PaymentStep form={form} paymentConfig={paymentConfig} />
         </div>
-        <div className={current === 5 ? '' : 'hidden'}>
+        <div className={current === 3 ? '' : 'hidden'}>
           <ConfirmationStep form={form} categories={categories} combos={combos} error={error} />
         </div>
       </Form>
 
-      <div className="mt-4 sm:mt-7 flex items-center justify-between gap-2.5 border-t border-neutral-100 pt-3.5 sm:pt-5">
+      {/* Navigation Buttons */}
+      <div className="mt-4 sm:mt-6 flex items-center justify-between gap-2.5 border-t border-orange-100 pt-3.5 sm:pt-4">
         <Button
           size="middle"
           onClick={goBack}
           disabled={current === 0}
           className="!rounded-full !px-4 sm:!px-6 !text-xs sm:!text-sm !h-8.5 sm:!h-10 shrink-0 font-bold border border-orange-200"
         >
-          Back
+          {t.booking.btn_back}
         </Button>
-        {current < STEP_TITLES.length - 1 ? (
+        {current < stepTitles.length - 1 ? (
           <Button
             type="primary"
             size="middle"
             onClick={goNext}
             className="!rounded-full !bg-orange-600 !px-5 sm:!px-8 !font-bold hover:!bg-orange-700 !text-xs sm:!text-sm !h-8.5 sm:!h-10 flex-1 sm:flex-none justify-center shadow-xs"
           >
-            Next Step &rarr;
+            {t.booking.btn_next}
           </Button>
         ) : (
           <Button
@@ -315,7 +335,7 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
             onClick={handleSubmit}
             className="!rounded-full !bg-gradient-to-r !from-orange-500 !to-red-600 !px-5 sm:!px-8 !font-bold hover:!from-orange-600 hover:!to-red-700 !text-xs sm:!text-sm !h-8.5 sm:!h-10 flex-1 sm:flex-none justify-center shadow-sm"
           >
-            Confirm &amp; Submit ✨
+            {t.booking.btn_submit}
           </Button>
         )}
       </div>

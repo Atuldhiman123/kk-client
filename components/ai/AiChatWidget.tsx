@@ -10,12 +10,12 @@ import {
   DeleteOutlined,
   SafetyCertificateOutlined,
   CalendarOutlined,
-  UserOutlined,
 } from '@ant-design/icons';
 import { sendAiChat } from '@/lib/api';
 import type { BirthDetailsPayload } from '@/lib/types';
 import { AiMarkdown } from './AiMarkdown';
 import { BirthDetailsModal } from './BirthDetailsModal';
+import { useLanguage } from '@/lib/i18n';
 
 interface ChatMessage {
   id: string;
@@ -25,12 +25,20 @@ interface ChatMessage {
   timestamp: string;
 }
 
-const DEFAULT_SUGGESTIONS = [
+const DEFAULT_SUGGESTIONS_EN = [
   '🔮 What does 7th house signify in marriage?',
   '💼 Best career combinations for 10th house',
   '🪐 How does Rahu Mahadasha affect life?',
   '💍 When is the right time for marriage in Vedic astrology?',
   '💎 How to choose the right gemstone?',
+];
+
+const DEFAULT_SUGGESTIONS_HI = [
+  '🔮 7वां भाव विवाह व जीवनसाथी के लिए क्या दर्शाता है?',
+  '💼 10वें भाव के अनुसार करियर व नौकरी में तरक्की कैसे होगी?',
+  '🪐 राहु की महादशा में कौन से उपाय शुभ फल देते हैं?',
+  '💍 मेरी कुंडली के अनुसार विवाह का सही समय कब है?',
+  '💎 मेरी लग्न कुंडली के अनुसार मेरा लकी रत्न कौन सा है?',
 ];
 
 export function AiChatWidget() {
@@ -39,6 +47,7 @@ export function AiChatWidget() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [conversationId, setConversationId] = useState<string>('');
+  const { locale, t } = useLanguage();
   
   // Birth details state
   const [birthDetails, setBirthDetails] = useState<BirthDetailsPayload | null>(null);
@@ -48,12 +57,14 @@ export function AiChatWidget() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  const suggestions = locale === 'hi' ? DEFAULT_SUGGESTIONS_HI : DEFAULT_SUGGESTIONS_EN;
+
   // Load initial welcome message & stored conversation
   useEffect(() => {
     const welcomeMsg: ChatMessage = {
       id: 'welcome-msg',
       sender: 'ai',
-      text: 'Namaste! 🙏 I am your **Kundli Kendra AI Astrologer**.\n\nYou can ask me general Vedic astrology questions (Planets, Houses, Dashas, Gemstones) or add your **Birth Details** above for personalized Kundli readings!\n\nHow may the celestial stars guide you today?',
+      text: t.ai_chat.welcome_text,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 
@@ -68,11 +79,11 @@ export function AiChatWidget() {
         setBirthDetails(parsed.details);
         setPlaceName(parsed.place || 'New Delhi');
         setUseBirthChart(true);
-      } catch (e) {}
+      } catch {}
     }
 
     setMessages([welcomeMsg]);
-  }, []);
+  }, [t.ai_chat.welcome_text]);
 
   // Auto scroll to bottom
   useEffect(() => {
@@ -92,7 +103,7 @@ export function AiChatWidget() {
     const welcomeMsg: ChatMessage = {
       id: `welcome-${Date.now()}`,
       sender: 'ai',
-      text: 'Chat history cleared. ✨ How can I assist with your horoscope or Vedic astrology questions?',
+      text: locale === 'hi' ? 'चैट इतिहास साफ कर दिया गया है। ✨ आप किस विषय पर मार्गदर्शन चाहते हैं?' : 'Chat history cleared. ✨ How may I guide you today?',
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
     setMessages([welcomeMsg]);
@@ -140,7 +151,7 @@ export function AiChatWidget() {
     } catch (err: any) {
       const errorMessage =
         err?.message ||
-        '⚠️ Service connection issue. Please check your internet connection or try again in a moment.';
+        (locale === 'hi' ? '⚠️ नेटवर्क समस्या। कृपया इंटरनेट जांचें या थोड़ी देर बाद पुनः प्रयास करें।' : '⚠️ Service connection issue. Please check your internet connection or try again in a moment.');
       const errorMsg: ChatMessage = {
         id: `error-${Date.now()}`,
         sender: 'ai',
@@ -167,7 +178,7 @@ export function AiChatWidget() {
         {!isOpen && (
           <button
             onClick={() => setIsOpen(true)}
-            className="group relative flex items-center gap-2.5 rounded-full bg-gradient-to-r from-orange-600 via-amber-600 to-red-600 px-4 py-3 text-white shadow-xl hover:shadow-orange-500/30 transition-all duration-300 hover:scale-105 active:scale-95 border-2 border-amber-300/60"
+            className="group relative flex items-center gap-2.5 rounded-full bg-gradient-to-r from-orange-600 via-amber-600 to-red-600 px-4 py-3 text-white shadow-xl hover:shadow-orange-500/30 transition-all duration-300 hover:scale-105 active:scale-95 border-2 border-amber-300/60 cursor-pointer"
             aria-label="Open AI Astrologer Chat"
           >
             <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-white/20 backdrop-blur-xs text-lg">
@@ -178,8 +189,8 @@ export function AiChatWidget() {
               </span>
             </div>
             <div className="flex flex-col text-left">
-              <span className="text-xs font-black uppercase tracking-wider text-amber-200">Kundli AI 2.0</span>
-              <span className="text-sm font-bold leading-tight">Ask AI Astrologer</span>
+              <span className="text-[10.5px] font-black uppercase tracking-wider text-amber-200">{t.ai_chat.floating_tag}</span>
+              <span className="text-xs sm:text-sm font-bold leading-tight">{t.ai_chat.floating_title}</span>
             </div>
           </button>
         )}
@@ -197,15 +208,15 @@ export function AiChatWidget() {
               <div>
                 <div className="flex items-center gap-1.5">
                   <h3 className="font-serif text-sm font-bold tracking-tight text-white leading-tight">
-                    AI Vedic Astrologer
+                    {t.ai_chat.header_title}
                   </h3>
                   <span className="rounded bg-amber-400/30 px-1.5 py-0.2 text-[10px] font-black uppercase tracking-wider text-amber-200 border border-amber-300/40">
-                    RAG 2.0
+                    {t.ai_chat.header_badge}
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5 text-[11px] text-orange-100 font-medium">
                   <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Online • Instant Vedic Insights</span>
+                  <span>{t.ai_chat.online_status}</span>
                 </div>
               </div>
             </div>
@@ -214,14 +225,14 @@ export function AiChatWidget() {
               <button
                 onClick={handleClearChat}
                 title="Clear Chat History"
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-orange-100 hover:bg-white/20 hover:text-white transition"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-orange-100 hover:bg-white/20 hover:text-white transition cursor-pointer"
               >
                 <DeleteOutlined className="text-xs" />
               </button>
               <button
                 onClick={() => setIsOpen(false)}
                 title="Close Chat"
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-orange-100 hover:bg-white/20 hover:text-white transition"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-orange-100 hover:bg-white/20 hover:text-white transition cursor-pointer"
               >
                 <CloseOutlined className="text-sm" />
               </button>
@@ -234,19 +245,19 @@ export function AiChatWidget() {
               <CalendarOutlined className="text-orange-600" />
               {useBirthChart && birthDetails ? (
                 <span className="font-semibold text-orange-900 truncate max-w-[200px]">
-                  Chart: {birthDetails.dateOfBirth}, {placeName}
+                  {locale === 'hi' ? 'कुंडली:' : 'Kundli:'} {birthDetails.dateOfBirth}, {placeName}
                 </span>
               ) : (
-                <span className="text-neutral-500 italic">General Astrology Mode</span>
+                <span className="text-neutral-500 italic">{t.ai_chat.general_mode}</span>
               )}
             </div>
 
             <button
               onClick={() => setIsBirthModalOpen(true)}
-              className="flex items-center gap-1 rounded-full border border-orange-300/80 bg-white px-2.5 py-1 text-[11px] font-bold text-orange-700 shadow-2xs hover:bg-orange-100/50 hover:border-orange-400 transition"
+              className="flex items-center gap-1 rounded-full border border-orange-300/80 bg-white px-2.5 py-1 text-[11px] font-bold text-orange-700 shadow-2xs hover:bg-orange-100/50 hover:border-orange-400 transition cursor-pointer"
             >
               <SettingOutlined className="text-[10px]" />
-              <span>{useBirthChart && birthDetails ? 'Edit Chart' : '+ Add Chart'}</span>
+              <span>{useBirthChart && birthDetails ? t.ai_chat.edit_chart : t.ai_chat.add_chart}</span>
             </button>
           </div>
 
@@ -270,7 +281,7 @@ export function AiChatWidget() {
                       {msg.usedBirthChart && (
                         <div className="mt-2.5 flex items-center gap-1 rounded-md bg-amber-50 px-2 py-1 text-[11px] font-bold text-amber-800 border border-amber-200">
                           <SafetyCertificateOutlined className="text-amber-600" />
-                          <span>Calculated via Swiss Ephemeris Birth Chart</span>
+                          <span>{locale === 'hi' ? 'आपकी जन्म कुंडली के आधार पर विश्लेषित' : 'Calculated using your Vedic Birth Chart'}</span>
                         </div>
                       )}
                     </div>
@@ -284,8 +295,8 @@ export function AiChatWidget() {
 
             {/* Loading / Typing Animation */}
             {isLoading && (
-              <div className="flex items-center gap-2 rounded-2xl bg-white border border-orange-100/80 px-4 py-3 shadow-xs max-w-[140px]">
-                <span className="text-xs font-semibold text-orange-700">Analyzing stars</span>
+              <div className="flex items-center gap-2 rounded-2xl bg-white border border-orange-100/80 px-4 py-3 shadow-xs max-w-[190px]">
+                <span className="text-xs font-semibold text-orange-700">{t.ai_chat.analyzing}</span>
                 <div className="flex items-center gap-1">
                   <span className="h-1.5 w-1.5 rounded-full bg-orange-500 animate-bounce" />
                   <span className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-bounce [animation-delay:0.2s]" />
@@ -302,14 +313,14 @@ export function AiChatWidget() {
             <div className="px-3 pb-2 pt-1 border-t border-orange-50 bg-orange-50/30">
               <div className="text-[10px] font-bold uppercase tracking-wider text-orange-950/70 mb-1.5 flex items-center gap-1">
                 <ThunderboltOutlined className="text-orange-600" />
-                <span>Quick Prompts</span>
+                <span>{t.ai_chat.topics_title}</span>
               </div>
               <div className="flex flex-wrap gap-1.5">
-                {DEFAULT_SUGGESTIONS.map((sug, i) => (
+                {suggestions.map((sug, i) => (
                   <button
                     key={i}
                     onClick={() => handleSend(sug)}
-                    className="rounded-full border border-orange-200 bg-white px-2.5 py-1 text-[11px] font-medium text-orange-950 shadow-2xs hover:border-orange-400 hover:bg-orange-50 hover:text-orange-700 transition duration-150 text-left"
+                    className="rounded-full border border-orange-200 bg-white px-2.5 py-1 text-[11px] font-medium text-orange-950 shadow-2xs hover:border-orange-400 hover:bg-orange-50 hover:text-orange-700 transition duration-150 text-left cursor-pointer"
                   >
                     {sug}
                   </button>
@@ -320,13 +331,13 @@ export function AiChatWidget() {
 
           {/* Human Consultation CTA Banner */}
           <div className="border-t border-orange-100 bg-[#FFF7ED] px-3.5 py-1.5 flex items-center justify-between text-[11px]">
-            <span className="text-orange-900 font-medium">Need deeper 1-on-1 human reading?</span>
+            <span className="text-orange-900 font-medium">{t.ai_chat.human_cta}</span>
             <Link
               href="/#booking"
               onClick={() => setIsOpen(false)}
               className="font-bold text-orange-700 hover:text-orange-900 underline"
             >
-              Book Astrologer Atul &rarr;
+              {t.ai_chat.human_cta_link}
             </Link>
           </div>
 
@@ -337,14 +348,14 @@ export function AiChatWidget() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask about planets, houses, marriage, career..."
+                placeholder={t.ai_chat.input_placeholder}
                 rows={1}
                 className="w-full resize-none rounded-xl border border-orange-200 bg-orange-50/30 py-2 pl-3 pr-10 text-xs text-neutral-800 focus:border-orange-500 focus:bg-white focus:outline-none placeholder:text-neutral-400"
               />
               <button
                 onClick={() => handleSend()}
                 disabled={isLoading || !input.trim()}
-                className="absolute right-1.5 flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-xs transition hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="absolute right-1.5 flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-xs transition hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
                 aria-label="Send question"
               >
                 <SendOutlined className="text-xs" />

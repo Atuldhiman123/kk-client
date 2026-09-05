@@ -3,12 +3,14 @@
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Input, Pagination } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import { useLanguage } from '@/lib/i18n';
 
 export function GemstoneSearch() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentSearch = searchParams.get('search') ?? '';
+  const { t } = useLanguage();
 
   const updateSearch = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -21,7 +23,7 @@ export function GemstoneSearch() {
   return (
     <Input
       size="large"
-      placeholder="Search gemstones..."
+      placeholder={t.gemstones_page.search_placeholder}
       prefix={<SearchOutlined className="text-neutral-400" />}
       defaultValue={currentSearch}
       onPressEnter={(e) => updateSearch(e.currentTarget.value)}

@@ -128,6 +128,7 @@ export type PaymentConfigPayload = {
   qrImage?: string;
   instructions?: string;
   isActive?: boolean;
+  gemstoneConsultationPrice?: number;
 };
 
 export const getAdminPaymentConfig = () => adminRequest<PaymentConfig | null>('/admin/payment-config');

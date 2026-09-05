@@ -30,6 +30,7 @@ export default function AdminPaymentConfigPage() {
             phone: config.phone ?? undefined,
             instructions: config.instructions ?? undefined,
             isActive: config.isActive,
+            gemstoneConsultationPrice: config.gemstoneConsultationPrice ?? 49,
           });
           setQrImage(config.qrImage ?? undefined);
         }
@@ -122,6 +123,15 @@ export default function AdminPaymentConfigPage() {
             >
               {qrImage ? null : '+ Upload'}
             </Upload>
+          </Form.Item>
+
+          <Form.Item
+            label="Instant Gemstone & Kundli Consultation Fee (₹)"
+            name="gemstoneConsultationPrice"
+            tooltip="Price charged to unlock live chat consultation (default: ₹49)"
+            initialValue={49}
+          >
+            <Input type="number" prefix="₹" placeholder="49" className="h-10" />
           </Form.Item>
 
           <Form.Item label="Payment Setup Active" name="isActive" valuePropName="checked">

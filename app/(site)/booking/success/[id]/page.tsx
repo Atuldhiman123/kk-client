@@ -1,18 +1,9 @@
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import dayjs from 'dayjs';
 import { ApiError, getBooking, getHome } from '@/lib/api';
-import { formatInr } from '@/lib/format';
-import { telLink, waLink } from '@/lib/contact';
+import { BookingSuccessClient } from '@/components/booking/BookingSuccessClient';
 
 export const metadata = {
   title: 'Booking Confirmed | Kundli Kendra',
-};
-
-const PAYMENT_STATUS_STYLES: Record<string, string> = {
-  Pending: 'bg-amber-100 text-amber-800',
-  Paid: 'bg-green-100 text-green-800',
-  Failed: 'bg-red-100 text-red-800',
 };
 
 export default async function BookingSuccessPage(props: { params: Promise<{ id: string }> }) {
@@ -30,88 +21,5 @@ export default async function BookingSuccessPage(props: { params: Promise<{ id: 
     notFound();
   }
 
-  const consultationName = booking.category?.name ?? (booking.comboOffer ? `${booking.comboOffer.name} (Combo)` : '-');
-  const contact = home.contact;
-  const paymentStatus = booking.payments[0]?.status ?? booking.paymentStatus;
-
-  return (
-    <div className="mx-auto max-w-2xl px-3.5 py-10 sm:py-16 sm:px-6 lg:px-8">
-      <div className="rounded-2xl sm:rounded-3xl border border-neutral-200 bg-white p-5 sm:p-8 text-center shadow-md">
-        <div className="mx-auto flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-green-100 text-2xl sm:text-3xl">
-          ✅
-        </div>
-        <h1 className="mt-4 text-xl sm:text-2xl font-bold text-neutral-900 font-serif">Booking Submitted Successfully!</h1>
-        <p className="mt-2 text-xs sm:text-sm text-neutral-600 leading-relaxed">
-          Thank you, <span className="font-semibold text-neutral-800">{booking.user.name}</span>. Our team will contact you shortly via Call or WhatsApp to
-          confirm your consultation.
-        </p>
-
-        <div className="mt-6 sm:mt-8 overflow-hidden rounded-xl sm:rounded-2xl border border-neutral-200 text-left bg-neutral-50/50">
-          {[
-            ['Booking ID', booking.id],
-            ['Consultation', consultationName],
-            ['Date', dayjs(booking.bookingDate).format('DD MMM YYYY')],
-            ['Time', booking.slotTime],
-            ['Amount', formatInr(booking.amount)],
-          ].map(([label, value]) => (
-            <div key={label} className="flex justify-between items-center border-b border-neutral-200/60 px-3.5 sm:px-4 py-2.5 sm:py-3 last:border-0">
-              <span className="text-xs sm:text-sm text-neutral-500 font-medium">{label}</span>
-              <span className="text-xs sm:text-sm font-semibold text-neutral-900 text-right truncate max-w-[60%]">{value}</span>
-            </div>
-          ))}
-          <div className="flex items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3">
-            <span className="text-xs sm:text-sm text-neutral-500 font-medium">Payment Status</span>
-            <span
-              className={`rounded-full px-2.5 sm:px-3 py-0.5 text-xs font-semibold ${
-                PAYMENT_STATUS_STYLES[paymentStatus] ?? 'bg-neutral-100 text-neutral-700'
-              }`}
-            >
-              {paymentStatus}
-            </span>
-          </div>
-        </div>
-
-        {booking.user?.email && (
-          <div className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-orange-50/80 border border-orange-200/70 px-4 py-2.5 text-xs sm:text-sm text-orange-950">
-            <span>📧</span>
-            <span>
-              Confirmation details sent to <strong className="font-semibold">{booking.user.email}</strong>
-            </span>
-          </div>
-        )}
-
-        {contact && (
-          <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row justify-center gap-2.5 sm:gap-3">
-            <a
-              href={waLink(
-                contact.whatsapp,
-                `नमस्ते Kundli Kendra, मैंने परामर्श बुक किया है!\n\n📌 Booking ID: ${booking.id}\n👤 नाम: ${booking.user.name}\n📅 दिनांक: ${dayjs(booking.bookingDate).format('DD MMM YYYY')}\n⏰ समय: ${booking.slotTime}\n✨ परामर्श: ${consultationName}\n💰 शुल्क: ${formatInr(booking.amount)}`
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-xs sm:text-sm font-semibold text-white shadow-xs transition-transform hover:scale-102 active:scale-98"
-              style={{ backgroundColor: '#25D366' }}
-            >
-              <span aria-hidden>💬</span> WhatsApp पर संपर्क करें
-            </a>
-            <a
-              href={telLink(contact.phone)}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-neutral-300 bg-white px-6 py-3 text-xs sm:text-sm font-semibold text-neutral-800 shadow-2xs hover:border-orange-400 transition-colors"
-            >
-              <span aria-hidden>📞</span> Call Now
-            </a>
-          </div>
-        )}
-
-        <div className="mt-7 pt-4 border-t border-neutral-100 flex justify-center">
-          <Link
-            href="/"
-            className="text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 hover:underline flex items-center gap-1.5 transition-colors"
-          >
-            <span>←</span> Back to Kundli Kendra Home
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
+  return <BookingSuccessClient booking={booking} contact={home.contact} />;
 }

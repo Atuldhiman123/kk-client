@@ -99,6 +99,7 @@ export interface PaymentConfig {
   qrImage: string | null;
   instructions: string | null;
   isActive: boolean;
+  gemstoneConsultationPrice?: number;
 }
 
 export interface HomeData {

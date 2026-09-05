@@ -38,10 +38,24 @@ const PLANET_SHORT_NAMES: Record<string, { short: string; hi: string }> = {
   pluto: { short: 'Pl', hi: 'प्लूटो' },
 };
 
+interface PlanetPlacement {
+  name: string;
+  short: string;
+  isRetrograde?: boolean;
+}
+
 export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, className = '' }) => {
   // Compute house signs and planetary placements
   const { houseSigns, housePlanets, moonSign, moonNakshatra, lagnaSign, lagnaNakshatra, currentMahadasha } =
-    useMemo(() => {
+    useMemo<{
+      houseSigns: Record<number, number>;
+      housePlanets: Record<number, PlanetPlacement[]>;
+      moonSign: string | null;
+      moonNakshatra: string | null;
+      lagnaSign: string | null;
+      lagnaNakshatra: string | null;
+      currentMahadasha: string | null;
+    }>(() => {
       if (!chartData || !chartData.ascendant) {
         return {
           houseSigns: {},
@@ -83,7 +97,7 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, c
             mNakshatra = p.nakshatra || null;
           }
 
-          // Filter only traditional Vedic + outer if needed
+          // Filter traditional Vedic planets
           if (PLANET_SHORT_NAMES[pNameLower] && p.house >= 1 && p.house <= 12) {
             hPlanets[p.house].push({
               name: p.name,
@@ -95,7 +109,6 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, c
       }
 
       const dasha =
-        chartData.dashas?.currentMahadasha?.lord ||
         chartData.dashas?.currentMahadasha?.planet ||
         (chartData.dashas?.mahadashas && chartData.dashas.mahadashas[0]?.planet) ||
         null;
@@ -113,18 +126,21 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, c
 
   if (!chartData || !chartData.ascendant) {
     return (
-      <div className={`rounded-2xl border border-orange-200/80 bg-white p-4 text-center shadow-sm ${className}`}>
-        <div className="py-6 text-xs text-neutral-500">
-          <span className="text-2xl block mb-2">☸️</span>
-          <p className="font-bold text-neutral-700">Lagna Kundli Chart</p>
-          <p className="mt-1">Add your birth details to generate your authentic North Indian Janam Kundli.</p>
+      <div
+        className={`rounded-2xl border border-amber-500/30 bg-gradient-to-br from-[#070B14] via-[#0F172A] to-[#070B14] p-4 text-center shadow-xl text-white ${className}`}
+      >
+        <div className="py-4 text-xs">
+          <span className="text-3xl block mb-1.5 filter drop-shadow">☸️</span>
+          <p className="font-bold text-sm text-amber-300 font-serif tracking-wide">LAGNA KUNDLI (लग्न चक्र)</p>
+          <p className="mt-1 text-slate-300 text-xs max-w-xs mx-auto">
+            Add birth date &amp; time above to view your Vedic Lagna Chart &amp; planetary positions.
+          </p>
         </div>
       </div>
     );
   }
 
-  // Coordinates and layout definition for North Indian Vedic Chart (300x300 canvas)
-  // House sign number label positions
+  // Coordinates for North Indian Vedic Chart (300x300 canvas)
   const signPositions: Record<number, { x: number; y: number }> = {
     1: { x: 150, y: 115 },
     2: { x: 95, y: 45 },
@@ -140,7 +156,6 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, c
     12: { x: 205, y: 45 },
   };
 
-  // House planet center positions
   const planetPositions: Record<number, { x: number; y: number }> = {
     1: { x: 150, y: 65 },
     2: { x: 65, y: 25 },
@@ -157,167 +172,194 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, c
   };
 
   return (
-    <div className={`rounded-2xl border border-orange-200/90 bg-white p-4 shadow-sm space-y-3.5 ${className}`}>
+    <div
+      className={`rounded-2xl border border-amber-400/40 bg-gradient-to-br from-[#060911] via-[#0E1726] to-[#060911] p-3 sm:p-3.5 shadow-2xl space-y-2.5 text-white ${className}`}
+    >
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-orange-100 pb-2">
+      <div className="flex items-center justify-between border-b border-amber-500/25 pb-1.5">
         <div className="flex items-center gap-1.5">
-          <span className="text-base">☸️</span>
-          <h3 className="font-serif text-xs font-bold text-orange-950 uppercase tracking-wider">
-            Lagna Kundli (लग्न चक्र)
+          <span className="text-sm">☸️</span>
+          <h3 className="font-serif text-xs font-bold text-amber-300 uppercase tracking-wider">
+            LAGNA KUNDLI (लग्न चक्र)
           </h3>
         </div>
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-200">
+        <span className="inline-flex items-center gap-1 px-2 py-0.2 rounded-full text-[11px] font-black bg-amber-400/20 text-amber-300 border border-amber-400/60 shadow-xs">
           Lagna: {lagnaSign}
         </span>
       </div>
 
-      {/* SVG North Indian Lagna Chart */}
-      <div className="relative mx-auto w-full max-w-[280px] aspect-square flex items-center justify-center">
-        <svg
-          viewBox="0 0 300 300"
-          className="w-full h-full drop-shadow-xs select-none"
-          style={{ background: '#FFFDF9' }}
-        >
-          {/* Background Outer Border */}
-          <rect
-            x="2"
-            y="2"
-            width="296"
-            height="296"
-            fill="#FFFBF2"
-            stroke="#D97706"
-            strokeWidth="2.5"
-            rx="4"
-          />
-
-          {/* Kundli Diamond Layout Lines */}
-          {/* Outer Square border */}
-          <rect x="2" y="2" width="296" height="296" fill="none" stroke="#D97706" strokeWidth="2" />
-          {/* Diagonal 1: (0,0) to (300,300) */}
-          <line x1="2" y1="2" x2="298" y2="298" stroke="#D97706" strokeWidth="1.5" />
-          {/* Diagonal 2: (0,300) to (300,0) */}
-          <line x1="2" y1="298" x2="298" y2="2" stroke="#D97706" strokeWidth="1.5" />
-          {/* Inner Diamond: (150,0) -> (300,150) -> (150,300) -> (0,150) */}
-          <polygon
-            points="150,2 298,150 150,298 2,150"
-            fill="none"
-            stroke="#D97706"
-            strokeWidth="1.8"
-          />
-
-          {/* Render House Signs and Planets for all 12 Houses */}
-          {Array.from({ length: 12 }, (_, i) => i + 1).map((h) => {
-            const signNum = houseSigns[h] || h;
-            const signPos = signPositions[h];
-            const pPos = planetPositions[h];
-            const planets = housePlanets[h] || [];
-
-            return (
-              <g key={`house-${h}`}>
-                {/* Zodiac Sign Number (Rashi Num) */}
-                <text
-                  x={signPos.x}
-                  y={signPos.y}
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  className="font-bold fill-amber-700/80"
-                  style={{ fontSize: '10px', fontFamily: 'serif' }}
-                >
-                  {signNum}
-                </text>
-
-                {/* Planets placed in this house */}
-                {planets.length > 0 && (
-                  <g>
-                    {planets.map((p, idx) => {
-                      // Stagger multiple planets cleanly
-                      const offsetY = (idx - (planets.length - 1) / 2) * 11;
-                      const isAsc = p.short === 'Asc';
-                      const isMoon = p.short === 'Mo';
-                      const isSun = p.short === 'Su';
-
-                      let textColor = '#78350F'; // deep amber/brown
-                      if (isAsc) textColor = '#DC2626'; // Red for Ascendant
-                      if (isMoon) textColor = '#0284C7'; // Blue for Moon
-                      if (isSun) textColor = '#EA580C'; // Orange for Sun
-
-                      return (
-                        <text
-                          key={`${p.short}-${idx}`}
-                          x={pPos.x}
-                          y={pPos.y + offsetY}
-                          textAnchor="middle"
-                          dominantBaseline="middle"
-                          fill={textColor}
-                          style={{
-                            fontSize: '9.5px',
-                            fontWeight: isAsc || isMoon ? '800' : '700',
-                            fontFamily: 'sans-serif',
-                          }}
-                        >
-                          {p.short}
-                          {p.isRetrograde ? '(R)' : ''}
-                        </text>
-                      );
-                    })}
-                  </g>
-                )}
-              </g>
-            );
-          })}
-        </svg>
-      </div>
-
-      {/* Key Kundli Highlights Grid */}
-      <div className="grid grid-cols-2 gap-2 text-xs border-t border-orange-100 pt-2.5">
-        <div className="rounded-xl bg-orange-50/70 p-2 border border-orange-100/80">
-          <div className="text-[10px] font-semibold text-neutral-500 uppercase tracking-wider">
-            Lagna (लग्न)
-          </div>
-          <div className="font-bold text-orange-950 mt-0.5 flex items-center justify-between">
-            <span>{lagnaSign || '—'}</span>
-            <span className="text-[10px] text-orange-700">
-              {lagnaSign ? SIGN_MAP[lagnaSign.toLowerCase()]?.hi : ''}
-            </span>
-          </div>
-          {lagnaNakshatra && (
-            <div className="text-[10px] text-neutral-500 mt-0.5">
-              Nakshatra: <span className="text-neutral-700 font-medium">{lagnaNakshatra}</span>
+      {/* Horizontal Layout: Left Side (Details) | Right Side (SVG Chart) */}
+      <div className="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-center">
+        {/* Left Column (sm:col-span-5): Lagna, Rashi & Active Mahadasha */}
+        <div className="sm:col-span-5 space-y-2">
+          {/* Lagna Highlight Card */}
+          <div className="rounded-xl bg-slate-900/95 p-2 border border-amber-400/40 shadow-xs">
+            <div className="text-[9px] font-bold text-amber-300 uppercase tracking-wider">
+              Lagna (लग्न)
             </div>
-          )}
-        </div>
-
-        <div className="rounded-xl bg-sky-50/70 p-2 border border-sky-100/80">
-          <div className="text-[10px] font-semibold text-neutral-500 uppercase tracking-wider">
-            Rashi (राशि / Moon)
-          </div>
-          <div className="font-bold text-sky-950 mt-0.5 flex items-center justify-between">
-            <span>{moonSign || '—'}</span>
-            <span className="text-[10px] text-sky-700">
-              {moonSign ? SIGN_MAP[moonSign.toLowerCase()]?.hi : ''}
-            </span>
-          </div>
-          {moonNakshatra && (
-            <div className="text-[10px] text-neutral-500 mt-0.5">
-              Janma Nak: <span className="text-neutral-700 font-medium">{moonNakshatra}</span>
+            <div className="font-extrabold text-amber-200 text-xs mt-0.5 flex items-center justify-between">
+              <span>{lagnaSign || '—'}</span>
+              <span className="text-[11px] text-amber-300 font-serif font-bold">
+                {lagnaSign ? SIGN_MAP[lagnaSign.toLowerCase()]?.hi : ''}
+              </span>
             </div>
-          )}
-        </div>
-
-        {currentMahadasha && (
-          <div className="col-span-2 rounded-xl bg-amber-50/80 p-2 border border-amber-200/60 flex items-center justify-between text-xs">
-            <div className="flex items-center gap-1.5">
-              <span className="text-sm">⏳</span>
-              <div>
-                <span className="text-[10px] text-neutral-500 uppercase font-semibold block">Active Mahadasha</span>
-                <span className="font-bold text-amber-950">{currentMahadasha} Mahadasha</span>
+            {lagnaNakshatra && (
+              <div className="text-[9.5px] text-slate-300 mt-0.5 truncate">
+                Nak: <span className="text-amber-100 font-bold">{lagnaNakshatra}</span>
               </div>
-            </div>
-            <span className="text-[10px] font-bold text-amber-800 bg-amber-200/60 px-2 py-0.5 rounded-full">
-              Running
-            </span>
+            )}
           </div>
-        )}
+
+          {/* Rashi Highlight Card */}
+          <div className="rounded-xl bg-slate-900/95 p-2 border border-sky-400/40 shadow-xs">
+            <div className="text-[9px] font-bold text-sky-300 uppercase tracking-wider">
+              Rashi (राशि / Moon)
+            </div>
+            <div className="font-extrabold text-sky-200 text-xs mt-0.5 flex items-center justify-between">
+              <span>{moonSign || '—'}</span>
+              <span className="text-[11px] text-sky-300 font-serif font-bold">
+                {moonSign ? SIGN_MAP[moonSign.toLowerCase()]?.hi : ''}
+              </span>
+            </div>
+            {moonNakshatra && (
+              <div className="text-[9.5px] text-slate-300 mt-0.5 truncate">
+                Janma Nak: <span className="text-sky-100 font-bold">{moonNakshatra}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Active Mahadasha Card */}
+          {currentMahadasha && (
+            <div className="rounded-xl bg-gradient-to-r from-amber-950/80 via-slate-900 to-amber-950/80 p-2 border border-amber-400/50 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <span className="text-xs shrink-0">⏳</span>
+                <div className="min-w-0">
+                  <span className="text-[8.5px] text-amber-300 uppercase font-bold block">Mahadasha</span>
+                  <span className="font-extrabold text-amber-100 text-[10.5px] truncate block">{currentMahadasha}</span>
+                </div>
+              </div>
+              <span className="text-[8.5px] font-black text-amber-900 bg-amber-300 border border-amber-200 px-1.5 py-0.2 rounded-full shadow-xs shrink-0 ml-1">
+                Running
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Right Column (sm:col-span-7): The SVG North Indian Lagna Chart */}
+        <div className="sm:col-span-7 flex justify-center items-center">
+          <div className="relative w-full max-w-[210px] aspect-square flex items-center justify-center p-1 rounded-2xl bg-[#050811] border-2 border-amber-500/40 shadow-inner">
+            <svg
+              viewBox="0 0 300 300"
+              className="w-full h-full select-none"
+            >
+              {/* Background Outer Border */}
+              <rect
+                x="3"
+                y="3"
+                width="294"
+                height="294"
+                fill="#080D1A"
+                stroke="#F59E0B"
+                strokeWidth="3"
+                rx="8"
+              />
+
+              {/* Inner Accent Border */}
+              <rect
+                x="8"
+                y="8"
+                width="284"
+                height="284"
+                fill="none"
+                stroke="#78350F"
+                strokeWidth="1"
+                rx="6"
+              />
+
+              {/* Kundli Diamond Layout Lines in Radiant Yellow / Gold */}
+              <line x1="3" y1="3" x2="297" y2="297" stroke="#FBBF24" strokeWidth="2" />
+              <line x1="3" y1="297" x2="297" y2="3" stroke="#FBBF24" strokeWidth="2" />
+              <polygon
+                points="150,3 297,150 150,297 3,150"
+                fill="none"
+                stroke="#F59E0B"
+                strokeWidth="2.5"
+              />
+
+              {/* Render House Signs and Planets for all 12 Houses */}
+              {Array.from({ length: 12 }, (_, i) => i + 1).map((h) => {
+                const signNum = houseSigns[h] || h;
+                const signPos = signPositions[h];
+                const pPos = planetPositions[h];
+                const planets = housePlanets[h] || [];
+
+                return (
+                  <g key={`house-${h}`}>
+                    {/* Zodiac Sign Number (Rashi Num) in Bright Luminous Golden Yellow */}
+                    <text
+                      x={signPos.x}
+                      y={signPos.y}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fill="#FEF08A"
+                      style={{
+                        fontSize: '12px',
+                        fontFamily: 'serif',
+                        fontWeight: '900',
+                        filter: 'drop-shadow(0px 1px 2px rgba(0,0,0,0.9))',
+                      }}
+                    >
+                      {signNum}
+                    </text>
+
+                    {/* Planets placed in this house */}
+                    {planets.length > 0 && (
+                      <g>
+                        {planets.map((p, idx) => {
+                          const offsetY = (idx - (planets.length - 1) / 2) * 13;
+                          const isAsc = p.short === 'Asc';
+                          const isMoon = p.short === 'Mo';
+                          const isSun = p.short === 'Su';
+                          const isMars = p.short === 'Ma';
+                          const isJup = p.short === 'Ju';
+                          const isSat = p.short === 'Sa';
+
+                          let textColor = '#FBBF24'; // Golden Amber
+                          if (isAsc) textColor = '#FF6B6B'; // Vibrant Coral Red for Ascendant
+                          if (isMoon) textColor = '#38BDF8'; // Luminous Sky Blue for Moon
+                          if (isSun) textColor = '#FDBA74'; // Warm Saffron for Sun
+                          if (isMars) textColor = '#FB7185'; // Rose for Mars
+                          if (isJup) textColor = '#4ADE80'; // Bright Emerald for Jupiter
+                          if (isSat) textColor = '#A78BFA'; // Violet for Saturn
+
+                          return (
+                            <text
+                              key={`${p.short}-${idx}`}
+                              x={pPos.x}
+                              y={pPos.y + offsetY}
+                              textAnchor="middle"
+                              dominantBaseline="middle"
+                              fill={textColor}
+                              style={{
+                                fontSize: isAsc ? '10.5px' : '10px',
+                                fontWeight: isAsc || isMoon ? '900' : '800',
+                                fontFamily: 'sans-serif',
+                                filter: 'drop-shadow(0px 1px 2px rgba(0,0,0,0.95))',
+                              }}
+                            >
+                              {p.short}
+                              {p.isRetrograde ? '(R)' : ''}
+                            </text>
+                          );
+                        })}
+                      </g>
+                    )}
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+        </div>
       </div>
     </div>
   );

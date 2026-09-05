@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import { Modal, Form, Input, DatePicker, TimePicker, Select, Button, message } from 'antd';
 import dayjs from 'dayjs';
 import type { BirthDetailsPayload } from '@/lib/types';
-import { EnvironmentOutlined, CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { useLanguage } from '@/lib/i18n';
 
 interface BirthDetailsModalProps {
   open: boolean;
@@ -40,6 +41,7 @@ export function BirthDetailsModal({
   const [form] = Form.useForm();
   const [selectedCity, setSelectedCity] = useState(initialPlaceName);
   const [isCustomPlace, setIsCustomPlace] = useState(false);
+  const { locale, t } = useLanguage();
 
   const handleCityChange = (val: string) => {
     if (val === 'CUSTOM') {
@@ -84,10 +86,10 @@ export function BirthDetailsModal({
       };
 
       onSave(payload, selectedCity);
-      message.success('Birth details saved for personalized astrology readings!');
+      message.success(locale === 'hi' ? 'जन्म विवरण सफलतापूर्वक सुरक्षित हो गया!' : 'Birth details saved for personalized astrology readings!');
       onClose();
-    } catch (err: any) {
-      message.error('Please enter valid birth details');
+    } catch {
+      message.error(locale === 'hi' ? 'कृपया सही जन्म विवरण भरें' : 'Please enter valid birth details');
     }
   };
 
@@ -100,8 +102,12 @@ export function BirthDetailsModal({
         <div className="flex items-center gap-2 pb-2 border-b border-orange-100">
           <span className="text-xl">🪐</span>
           <div>
-            <h3 className="font-serif text-base font-bold text-orange-950">Add Birth Details</h3>
-            <p className="text-xs text-neutral-500 font-normal">Enable personalized Kundli analysis via Swiss Ephemeris</p>
+            <h3 className="font-serif text-base font-bold text-orange-950">
+              {locale === 'hi' ? 'जन्म विवरण दर्ज करें' : 'Add Birth Details'}
+            </h3>
+            <p className="text-xs text-neutral-500 font-normal">
+              {locale === 'hi' ? 'व्यक्तिगत कुंडली विश्लेषण और ग्रह दशा गणना हेतु' : 'Enable personalized Kundli consultation & planetary analysis'}
+            </p>
           </div>
         </div>
       }
@@ -124,34 +130,34 @@ export function BirthDetailsModal({
       >
         <div className="grid grid-cols-2 gap-3">
           <Form.Item
-            label={<span className="text-xs font-semibold text-neutral-700">Date of Birth</span>}
+            label={<span className="text-xs font-semibold text-neutral-700">{t.booking.dob}</span>}
             name="dob"
-            rules={[{ required: true, message: 'Please select Date of Birth' }]}
+            rules={[{ required: true, message: t.booking.dob_required }]}
           >
             <DatePicker
               className="w-full"
               format="DD MMM YYYY"
-              placeholder="Select date"
+              placeholder={t.booking.dob_placeholder}
               prefix={<CalendarOutlined className="text-orange-500" />}
             />
           </Form.Item>
 
           <Form.Item
-            label={<span className="text-xs font-semibold text-neutral-700">Time of Birth</span>}
+            label={<span className="text-xs font-semibold text-neutral-700">{t.booking.birth_time}</span>}
             name="time"
-            rules={[{ required: true, message: 'Please select Time' }]}
+            rules={[{ required: true, message: t.booking.birth_time_required }]}
           >
             <TimePicker
               className="w-full"
               format="HH:mm"
-              placeholder="HH:mm"
+              placeholder={t.booking.birth_time_placeholder}
               prefix={<ClockCircleOutlined className="text-orange-500" />}
             />
           </Form.Item>
         </div>
 
         <Form.Item
-          label={<span className="text-xs font-semibold text-neutral-700">Place of Birth</span>}
+          label={<span className="text-xs font-semibold text-neutral-700">{t.booking.birth_place}</span>}
           name="city"
           rules={[{ required: true }]}
         >
@@ -159,7 +165,7 @@ export function BirthDetailsModal({
             onChange={handleCityChange}
             options={[
               ...POPULAR_CITIES.map((c) => ({ label: c.label, value: c.value })),
-              { label: '📍 Enter Custom Coordinates / Other City', value: 'CUSTOM' },
+              { label: locale === 'hi' ? '📍 अन्य शहर / निर्देशांक दर्ज करें' : '📍 Enter Custom Coordinates / Other City', value: 'CUSTOM' },
             ]}
           />
         </Form.Item>
@@ -183,14 +189,14 @@ export function BirthDetailsModal({
 
         <div className="pt-2 flex items-center justify-end gap-2">
           <Button onClick={onClose} className="rounded-xl">
-            Cancel
+            {locale === 'hi' ? 'रद्द करें' : 'Cancel'}
           </Button>
           <Button
             type="primary"
             htmlType="submit"
             className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 border-0 font-bold"
           >
-            Save & Apply Chart
+            {locale === 'hi' ? 'सुरक्षित करें एवं लागू करें' : 'Save & Apply Chart'}
           </Button>
         </div>
       </Form>

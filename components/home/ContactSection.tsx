@@ -3,8 +3,10 @@
 import { InstagramOutlined, MailOutlined, PhoneOutlined, WhatsAppOutlined } from '@ant-design/icons';
 import type { ContactInfo } from '@/lib/types';
 import { waLink, telLink } from '@/lib/contact';
+import { useLanguage } from '@/lib/i18n';
 
 export function ContactSection({ contact }: { contact: ContactInfo }) {
+  const { t } = useLanguage();
   const instagramUrl = contact.instagram || 'https://www.instagram.com/astrologer__atul/';
 
   return (
@@ -12,17 +14,17 @@ export function ContactSection({ contact }: { contact: ContactInfo }) {
       <div className="mx-auto max-w-7xl px-3.5 sm:px-6 lg:px-8">
         <div className="text-center">
           <span className="rounded-full bg-orange-600/10 px-2.5 sm:px-3.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-bold text-orange-950 uppercase tracking-wider border border-orange-300">
-            📞 Direct Reach
+            📞 {t.contact.badge}
           </span>
           <h2 className="mt-1.5 sm:mt-3 text-xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-neutral-900 font-serif">
-            Get In Touch
+            {t.contact.title}
           </h2>
           <p className="mt-1 sm:mt-2 max-w-lg mx-auto text-xs sm:text-sm md:text-base text-neutral-600 font-medium">
-            Have a question before booking? Feel free to reach out directly via phone, WhatsApp, Instagram, or email.
+            {t.contact.subtitle}
           </p>
         </div>
 
-        {/* 2-Column Compact Grid on Mobile / 2-Column on Desktop */}
+        {/* 2-Column Grid */}
         <div className="mx-auto mt-5 sm:mt-10 grid max-w-4xl grid-cols-2 gap-2.5 sm:gap-5">
           <a
             href={telLink(contact.phone)}
@@ -32,7 +34,7 @@ export function ContactSection({ contact }: { contact: ContactInfo }) {
               <PhoneOutlined className="text-base sm:text-xl text-orange-600" />
             </div>
             <div className="min-w-0 flex-1 w-full">
-              <div className="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-neutral-400">Phone</div>
+              <div className="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-neutral-400">{t.contact.phone}</div>
               <div className="mt-0.5 text-xs sm:text-sm md:text-base font-bold text-neutral-900 group-hover:text-orange-600 transition truncate">
                 {contact.phone}
               </div>
@@ -49,7 +51,7 @@ export function ContactSection({ contact }: { contact: ContactInfo }) {
               <WhatsAppOutlined className="text-base sm:text-xl text-emerald-600" />
             </div>
             <div className="min-w-0 flex-1 w-full">
-              <div className="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-neutral-400">WhatsApp</div>
+              <div className="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-neutral-400">{t.contact.whatsapp}</div>
               <div className="mt-0.5 text-xs sm:text-sm md:text-base font-bold text-neutral-900 group-hover:text-emerald-600 transition truncate">
                 {contact.whatsapp}
               </div>
@@ -66,7 +68,7 @@ export function ContactSection({ contact }: { contact: ContactInfo }) {
               <InstagramOutlined className="text-base sm:text-xl text-pink-600" />
             </div>
             <div className="min-w-0 flex-1 w-full">
-              <div className="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-neutral-400">Instagram</div>
+              <div className="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-neutral-400">{t.contact.instagram}</div>
               <div className="mt-0.5 text-xs sm:text-sm md:text-base font-bold text-neutral-900 group-hover:text-pink-600 transition truncate">
                 @astrologer__atul
               </div>
@@ -81,7 +83,7 @@ export function ContactSection({ contact }: { contact: ContactInfo }) {
               <MailOutlined className="text-base sm:text-xl text-orange-600" />
             </div>
             <div className="min-w-0 flex-1 w-full">
-              <div className="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-neutral-400">Email</div>
+              <div className="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-neutral-400">{t.contact.email}</div>
               <div className="mt-0.5 text-xs sm:text-sm md:text-base font-bold text-neutral-900 group-hover:text-orange-600 transition truncate">
                 {contact.email}
               </div>

@@ -1,35 +1,16 @@
+'use client';
+
 import React from 'react';
+import { useLanguage } from '@/lib/i18n';
 
 export function VedicGallery() {
-  const practices = [
-    {
-      title: 'Vedic Yajna & Havan',
-      subtitle: 'Planetary Shanti Pujas',
-      description: 'Remedial Pujas and havans conducted by authentic Vedic priests to pacify negative planetary influences and bring positive vibrations.',
-      image: '/images/puja.jpg',
-      badge: '🔥 Puja & Remedies',
-    },
-    {
-      title: 'Dhyana & Meditation',
-      subtitle: 'Spiritual Peace',
-      description: 'Achieve emotional balance, mental clarity, and spiritual alignment through personalized meditation guidance and Vedic mantras.',
-      image: '/images/meditation.jpg',
-      badge: '🧘 Meditation',
-    },
-    {
-      title: 'Holy Prayers & Aarti',
-      subtitle: 'Planetary Prayers',
-      description: 'Devotional prayers and special archanas performed at holy shrines to strengthen beneficial planets in your horoscope.',
-      image: '/images/aarti.jpg',
-      badge: '🕉️ Devotion',
-    },
-    {
-      title: 'Global Vedic Consultation',
-      subtitle: 'Serving Seekers Globally',
-      description: 'Offering accurate online consultation, custom gemstones, and remedy guidance to clients across India, USA, UK, UAE, and worldwide.',
-      image: '/images/globe.jpg',
-      badge: '🌐 Global Reach',
-    },
+  const { t } = useLanguage();
+
+  const practiceImages = [
+    '/images/puja.jpg',
+    '/images/meditation.jpg',
+    '/images/aarti.jpg',
+    '/images/globe.jpg',
   ];
 
   return (
@@ -37,25 +18,25 @@ export function VedicGallery() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 sm:mb-12">
           <span className="rounded-full bg-orange-600/10 px-3.5 sm:px-4 py-1 sm:py-1.5 text-xs font-bold text-orange-950 uppercase tracking-wider border border-orange-300">
-            ✨ Vedic Traditions
+            ✨ {t.gallery.badge}
           </span>
           <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-neutral-900 font-serif">
-            Divine Practices &amp; Guidance
+            {t.gallery.title}
           </h2>
           <p className="mt-2.5 sm:mt-3 max-w-2xl mx-auto text-sm sm:text-base text-neutral-700 font-medium">
-            Rooted in pure Vedic traditions, our consultations and remedies help you align with cosmic energies for a prosperous life.
+            {t.gallery.subtitle}
           </p>
         </div>
 
         <div className="grid grid-cols-1 gap-5 sm:gap-7 sm:grid-cols-2 lg:grid-cols-4">
-          {practices.map((practice) => (
+          {t.gallery.practices.map((practice, index) => (
             <div
               key={practice.title}
               className="group flex flex-col justify-between rounded-3xl border border-orange-200/80 bg-[#FFFDF9] overflow-hidden shadow-xs transition duration-200 hover:-translate-y-1 hover:border-orange-400 hover:shadow-md"
             >
               <div className="relative h-40 sm:h-48 w-full overflow-hidden bg-orange-50">
                 <img
-                  src={practice.image}
+                  src={practiceImages[index] || '/images/puja.jpg'}
                   alt={practice.title}
                   className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-103"
                   loading="lazy"

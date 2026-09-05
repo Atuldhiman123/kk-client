@@ -1,7 +1,12 @@
+'use client';
+
 import type { ComboOffer } from '@/lib/types';
 import { ComboCard } from './ComboCard';
+import { useLanguage } from '@/lib/i18n';
 
 export function ComboOffers({ combos }: { combos: ComboOffer[] }) {
+  const { t } = useLanguage();
+
   if (!combos || combos.length === 0) return null;
 
   return (
@@ -9,13 +14,13 @@ export function ComboOffers({ combos }: { combos: ComboOffer[] }) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <span className="rounded-full bg-orange-600/10 px-3.5 sm:px-4 py-1 sm:py-1.5 text-xs font-bold text-orange-950 uppercase tracking-wider border border-orange-300">
-            🏷️ Best Value Bundles
+            🏷️ {t.combos.badge}
           </span>
           <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-neutral-900 font-serif">
-            Popular Combo Packages
+            {t.combos.title}
           </h2>
           <p className="mt-2.5 sm:mt-3 max-w-2xl mx-auto text-sm sm:text-base text-neutral-700 font-medium">
-            Combine multiple consultation topics into a single comprehensive session and save up to 30%.
+            {t.combos.subtitle}
           </p>
         </div>
 

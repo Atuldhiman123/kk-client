@@ -12,31 +12,42 @@ import {
   ClockCircleOutlined,
   PhoneOutlined,
   WhatsAppOutlined,
+  CheckCircleFilled,
 } from '@ant-design/icons';
 import type { ContactInfo } from '@/lib/types';
 import { waLink, telLink } from '@/lib/contact';
-
-const statCards = [
-  { icon: <UserOutlined />, value: '12,000+', label: 'Happy Clients' },
-  { icon: <StarFilled />, value: '4.9/5.0', label: 'Client Rating' },
-  { icon: <SafetyCertificateOutlined />, value: '100%', label: 'Privacy Guaranteed' },
-];
-
-const trustFeatures = [
-  { icon: <UserOutlined />, title: 'Personalized Readings', desc: 'Tailored predictions based on your unique Kundli.' },
-  { icon: <GlobalOutlined />, title: 'Accurate Remedies', desc: 'Practical and effective guidance for real-life problems.' },
-  { icon: <LockOutlined />, title: 'Confidential & Secure', desc: 'Your privacy and trust are our priority.' },
-  { icon: <CalendarOutlined />, title: 'Flexible Appointments', desc: 'Book at your convenience with easy scheduling.' },
-];
-
-const cosmicPills = [
-  { icon: '✨', label: '27 Nakshatras', sub: 'Ashwini to Revati' },
-  { icon: '♈', label: '12 Rashis', sub: 'Zodiac Constellations' },
-  { icon: '🪐', label: '9 Grahas', sub: 'Planetary Gochar' },
-  { icon: '🔮', label: '3D Bha-Chakra', sub: 'Vedic Ephemeris' },
-];
+import { useLanguage } from '@/lib/i18n';
 
 export function Hero({ contact }: { contact: ContactInfo }) {
+  const { t } = useLanguage();
+
+  const statCards = [
+    { icon: <UserOutlined />, value: '12,000+', label: t.hero.stats_happy },
+    { icon: <StarFilled />, value: '4.9/5.0', label: t.hero.stats_rating },
+    { icon: <SafetyCertificateOutlined />, value: '100%', label: t.hero.stats_privacy },
+  ];
+
+  const trustFeatures = [
+    { icon: <UserOutlined />, title: t.hero.trust.personalized_title, desc: t.hero.trust.personalized_desc },
+    { icon: <GlobalOutlined />, title: t.hero.trust.remedies_title, desc: t.hero.trust.remedies_desc },
+    { icon: <LockOutlined />, title: t.hero.trust.confidential_title, desc: t.hero.trust.confidential_desc },
+    { icon: <CalendarOutlined />, title: t.hero.trust.appointments_title, desc: t.hero.trust.appointments_desc },
+  ];
+
+  const trustBadgesList = [
+    t.hero.trust_badges.authentic,
+    t.hero.trust_badges.experience,
+    t.hero.trust_badges.practical,
+    t.hero.trust_badges.direct,
+  ];
+
+  const cosmicPills = [
+    { icon: '✨', label: t.hero.pills.nakshatra_label, sub: t.hero.pills.nakshatra_sub },
+    { icon: '♈', label: t.hero.pills.rashi_label, sub: t.hero.pills.rashi_sub },
+    { icon: '🪐', label: t.hero.pills.graha_label, sub: t.hero.pills.graha_sub },
+    { icon: '🔮', label: t.hero.pills.chakra_label, sub: t.hero.pills.chakra_sub },
+  ];
+
   const StatColumn = ({ mobile }: { mobile?: boolean }) => (
     <div
       className={
@@ -56,7 +67,7 @@ export function Hero({ contact }: { contact: ContactInfo }) {
   );
 
   return (
-    <section className="relative overflow-hidden border-b border-orange-100 pt-5 pb-10 sm:py-16 md:py-20">
+    <section className="relative overflow-hidden border-b border-orange-100 pt-4 pb-10 sm:py-14 md:py-16">
       {/* Background with layered 3D cosmic nakshatra depth */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -82,18 +93,18 @@ export function Hero({ contact }: { contact: ContactInfo }) {
             <div className="hidden md:block">
               <div className="inline-flex items-center gap-1.5 rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-[11px] font-bold text-orange-900 sm:text-xs">
                 <span className="text-orange-500">✨</span>
-                <span>100% Authentic Vedic Guidance</span>
+                <span>{t.hero.badge}</span>
               </div>
 
-              <h1 className="mt-3 sm:mt-4 font-serif text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[0.85] tracking-tight text-neutral-900">
-                Astrologer{' '}
-                <span className="text-orange-500">Atul</span>
+              <h1 className="mt-3 sm:mt-4 font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold leading-[1.05] tracking-tight text-neutral-900">
+                {t.hero.title_prefix}{' '}
+                <span className="text-orange-600 underline decoration-amber-400 decoration-wavy decoration-2 underline-offset-4">{t.hero.title_name}</span>
               </h1>
 
-              <p className="mt-0 flex flex-wrap items-center gap-2 text-sm sm:text-base font-bold text-neutral-800">
-                <span>Master Vedic Astrologer</span>
+              <p className="mt-1 flex flex-wrap items-center gap-2 text-sm sm:text-base font-bold text-neutral-800">
+                <span>{t.hero.astrologer_role}</span>
                 <span className="text-orange-400">&bull;</span>
-                <span className="text-orange-600">10+ Years Experience</span>
+                <span className="text-orange-600">{t.hero.experience}</span>
               </p>
             </div>
 
@@ -123,21 +134,21 @@ export function Hero({ contact }: { contact: ContactInfo }) {
                   <div className="flex items-center gap-1.5 mb-1">
                     <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                     <span className="text-[10px] font-bold tracking-wide text-emerald-300 drop-shadow-md">
-                      Live &bull; Instant Slot Booking in 2 mins
+                      {t.hero.live_booking}
                     </span>
                   </div>
 
                   <div className="flex items-end justify-between gap-2">
                     <div>
-                      <div className="text-[11px] font-semibold text-amber-200 drop-shadow-sm leading-tight">Master Vedic Astrologer</div>
+                      <div className="text-[11px] font-semibold text-amber-200 drop-shadow-sm leading-tight">{t.hero.astrologer_role}</div>
                       <h1 className="font-serif text-2xl xs:text-3xl font-extrabold leading-none drop-shadow-md m-0">
-                        <span style={{ color: '#ffffff' }}>Astrologer </span>
-                        <span style={{ color: '#FACC15' }} className="text-yellow-400 font-extrabold">Atul</span>
+                        <span style={{ color: '#ffffff' }}>{t.hero.title_prefix} </span>
+                        <span style={{ color: '#FACC15' }} className="text-yellow-400 font-extrabold">{t.hero.title_name}</span>
                       </h1>
                     </div>
 
                     <div className="rounded-full bg-gradient-to-r from-orange-500 via-orange-600 to-amber-500 px-3 py-1 text-[10px] font-extrabold text-white shadow-xs shrink-0 drop-shadow-xs">
-                      10+ Yrs Exp
+                      {t.hero.experience}
                     </div>
                   </div>
                 </div>
@@ -158,36 +169,58 @@ export function Hero({ contact }: { contact: ContactInfo }) {
               ))}
             </div>
 
-            <p className="mt-1 sm:mt-4 max-w-lg text-xs xs:text-sm sm:text-base leading-relaxed text-neutral-600">
-              Get personalized, highly accurate Kundli analysis and practical planetary remedies for career, marriage, love, wealth, and health.
-            </p>
+            {/* Main Headline & Subtitle */}
+            <div className="mt-2 sm:mt-3">
+              <h3 className="text-sm sm:text-base md:text-lg font-black text-orange-950/90 leading-snug">
+                {t.hero.headline}
+              </h3>
+              <p className="mt-1 sm:mt-2 max-w-lg text-xs xs:text-sm sm:text-base leading-relaxed text-neutral-700">
+                {t.hero.subtitle}
+              </p>
+            </div>
 
-            <div className="mt-3.5 sm:mt-6 grid grid-cols-2 gap-2 sm:flex sm:flex-row items-center justify-center md:justify-start sm:gap-3 w-full sm:w-auto">
+            {/* Trust Bullet Tags */}
+            <div className="mt-3 flex flex-wrap items-center justify-center md:justify-start gap-1.5 sm:gap-2">
+              {trustBadgesList.map((badge, idx) => (
+                <span
+                  key={idx}
+                  className="inline-flex items-center gap-1 rounded-full bg-amber-50/90 border border-amber-200 px-2.5 py-0.5 text-[10px] sm:text-xs font-bold text-amber-900 shadow-2xs"
+                >
+                  <CheckCircleFilled className="text-emerald-600 text-[10px] sm:text-xs" />
+                  {badge}
+                </span>
+              ))}
+            </div>
+
+            {/* Dual CTA Buttons */}
+            <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 w-full sm:w-auto">
               <Link
-                href="#booking"
-                className="inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-full bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 px-3.5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-lg shadow-orange-600/25 transition hover:from-orange-600 hover:to-red-700 whitespace-nowrap"
+                href="/ai-astrologer"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 px-5 py-3 text-xs sm:text-sm font-extrabold text-white shadow-lg shadow-orange-500/25 transition-all hover:scale-[1.02] hover:from-amber-600 hover:to-red-600 whitespace-nowrap"
                 style={{ color: '#ffffff' }}
               >
-                <CalendarOutlined />
-                <span style={{ color: '#ffffff' }}>Book Consultation</span>
+                <span>💎</span>
+                <span style={{ color: '#ffffff' }}>{t.hero.gemstone_hook.cta}</span>
               </Link>
 
               <Link
-                href="#consultations"
-                className="inline-flex items-center justify-center gap-1 rounded-full border border-orange-300 bg-gradient-to-b from-white to-white px-3 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm font-bold text-orange-700 transition hover:from-orange-50 hover:to-orange-50 whitespace-nowrap"
+                href="#booking"
+                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-orange-400 bg-white px-5 py-3 text-xs sm:text-sm font-bold text-orange-800 shadow-sm transition hover:bg-orange-50 hover:border-orange-500 whitespace-nowrap"
               >
-                Explore Services <span>&rarr;</span>
+                <CalendarOutlined />
+                <span>{t.hero.book_btn}</span>
               </Link>
             </div>
 
-            <div className="mt-3 sm:mt-5 flex flex-wrap items-center justify-center md:justify-start gap-2 text-xs sm:text-sm">
-              <span className="font-semibold text-neutral-500">Connect:</span>
+            {/* Quick Direct Connect */}
+            <div className="mt-3 sm:mt-4 flex flex-wrap items-center justify-center md:justify-start gap-2 text-xs sm:text-sm">
+              <span className="font-semibold text-neutral-500">{t.hero.connect}</span>
               {contact.phone && (
                 <a
                   href={telLink(contact.phone)}
-                  className="inline-flex items-center gap-1 rounded-full border border-neutral-200 bg-gradient-to-b from-white to-white px-3 py-1 sm:px-3.5 sm:py-1.5 font-semibold text-neutral-800 transition hover:border-orange-300 hover:text-orange-700 text-xs"
+                  className="inline-flex items-center gap-1 rounded-full border border-neutral-200 bg-white px-3 py-1 sm:px-3.5 sm:py-1.5 font-semibold text-neutral-800 transition hover:border-orange-300 hover:text-orange-700 text-xs shadow-2xs"
                 >
-                  <PhoneOutlined /> Call
+                  <PhoneOutlined /> {t.nav.call}
                 </a>
               )}
               {contact.whatsapp && (
@@ -195,9 +228,9 @@ export function Hero({ contact }: { contact: ContactInfo }) {
                   href={waLink(contact.whatsapp, 'Hi, I would like to book a Kundli consultation.')}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 rounded-full border border-neutral-200 bg-gradient-to-b from-white to-white px-3 py-1 sm:px-3.5 sm:py-1.5 font-semibold text-neutral-800 transition hover:border-emerald-300 hover:text-emerald-700 text-xs"
+                  className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-white px-3 py-1 sm:px-3.5 sm:py-1.5 font-semibold text-emerald-800 transition hover:border-emerald-400 hover:text-emerald-700 text-xs shadow-2xs"
                 >
-                  <WhatsAppOutlined /> WhatsApp
+                  <WhatsAppOutlined className="text-emerald-600" /> {t.nav.whatsapp}
                 </a>
               )}
             </div>
@@ -231,10 +264,10 @@ export function Hero({ contact }: { contact: ContactInfo }) {
                   </div>
                   <div>
                     <div className="flex items-center gap-1.5 text-xs font-bold text-white sm:text-sm">
-                      Instant Slot Booking
+                      {t.hero.instant_slot}
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                     </div>
-                    <div className="text-[10px] text-amber-100/70 sm:text-[11px]">Select date &amp; time in 2 mins</div>
+                    <div className="text-[10px] text-amber-100/70 sm:text-[11px]">{t.hero.instant_slot_sub}</div>
                   </div>
                 </div>
               </div>
@@ -242,8 +275,8 @@ export function Hero({ contact }: { contact: ContactInfo }) {
           </div>
         </div>
 
-        {/* Trust Feature Strip - Single Row Cards on Mobile */}
-        <div className="mt-8 sm:mt-16 rounded-2xl sm:rounded-3xl border border-orange-100 bg-gradient-to-b from-orange-50/90 via-[#FFFDF9] to-amber-50/50 p-3.5 sm:p-6 shadow-xs">
+        {/* Trust Feature Strip - Single Row Cards */}
+        <div className="mt-8 sm:mt-12 rounded-2xl sm:rounded-3xl border border-orange-100 bg-gradient-to-b from-orange-50/90 via-[#FFFDF9] to-amber-50/50 p-3.5 sm:p-6 shadow-xs">
           <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
             {trustFeatures.map((feature) => (
               <div
@@ -269,3 +302,4 @@ export function Hero({ contact }: { contact: ContactInfo }) {
     </section>
   );
 }
+

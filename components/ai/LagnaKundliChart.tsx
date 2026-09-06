@@ -46,7 +46,7 @@ interface PlanetPlacement {
 
 export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, className = '' }) => {
   // Compute house signs and planetary placements
-  const { houseSigns, housePlanets, moonSign, moonNakshatra, lagnaSign, lagnaNakshatra, currentMahadasha } =
+  const { houseSigns, housePlanets, moonSign, moonNakshatra, lagnaSign, lagnaNakshatra, currentMahadasha, currentAntardasha } =
     useMemo<{
       houseSigns: Record<number, number>;
       housePlanets: Record<number, PlanetPlacement[]>;
@@ -55,6 +55,7 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, c
       lagnaSign: string | null;
       lagnaNakshatra: string | null;
       currentMahadasha: string | null;
+      currentAntardasha: string | null;
     }>(() => {
       if (!chartData || !chartData.ascendant) {
         return {
@@ -65,6 +66,7 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, c
           lagnaSign: null,
           lagnaNakshatra: null,
           currentMahadasha: null,
+          currentAntardasha: null,
         };
       }
 
@@ -108,10 +110,46 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, c
         });
       }
 
-      const dasha =
-        chartData.dashas?.currentMahadasha?.planet ||
-        (chartData.dashas?.mahadashas && chartData.dashas.mahadashas[0]?.planet) ||
-        null;
+      // Extract active Mahadasha
+      let dasha: string | null = null;
+      let antardasha: string | null = null;
+
+      const rawCurrMaha = chartData.dashas?.currentMahadasha as any;
+      if (rawCurrMaha) {
+        dasha = rawCurrMaha.lord || rawCurrMaha.planet || rawCurrMaha.name || rawCurrMaha.mahadasha || null;
+      }
+
+      // If still not found or to verify by current date
+      if (!dasha && chartData.dashas?.mahadashas && Array.isArray(chartData.dashas.mahadashas)) {
+        const now = new Date();
+        const activeMaha = chartData.dashas.mahadashas.find((m: any) => {
+          const start = new Date(m.start || m.startDate);
+          const end = new Date(m.end || m.endDate);
+          return !isNaN(start.getTime()) && !isNaN(end.getTime()) && now >= start && now <= end;
+        });
+        if (activeMaha) {
+          dasha = activeMaha.lord || activeMaha.planet || activeMaha.name || null;
+        } else if (chartData.dashas.mahadashas[0]) {
+          const first = chartData.dashas.mahadashas[0] as any;
+          dasha = first.lord || first.planet || first.name || null;
+        }
+      }
+
+      // Extract active Antardasha if available
+      const rawCurrAntar = (chartData.dashas as any)?.currentAntardasha;
+      if (rawCurrAntar) {
+        antardasha = rawCurrAntar.lord || rawCurrAntar.planet || rawCurrAntar.name || null;
+      } else if (chartData.dashas?.antardashas && Array.isArray(chartData.dashas.antardashas)) {
+        const now = new Date();
+        const activeAntar = chartData.dashas.antardashas.find((a: any) => {
+          const start = new Date(a.start || a.startDate);
+          const end = new Date(a.end || a.endDate);
+          return !isNaN(start.getTime()) && !isNaN(end.getTime()) && now >= start && now <= end;
+        });
+        if (activeAntar) {
+          antardasha = activeAntar.lord || activeAntar.planet || activeAntar.name || null;
+        }
+      }
 
       return {
         houseSigns: hSigns,
@@ -121,6 +159,7 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, c
         lagnaSign: chartData.ascendant.sign,
         lagnaNakshatra: chartData.ascendant.nakshatra,
         currentMahadasha: dasha,
+        currentAntardasha: antardasha,
       };
     }, [chartData]);
 
@@ -234,8 +273,13 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, c
               <div className="flex items-center gap-1.5 min-w-0">
                 <span className="text-xs shrink-0">⏳</span>
                 <div className="min-w-0">
-                  <span className="text-[8.5px] text-amber-300 uppercase font-bold block">Mahadasha</span>
-                  <span className="font-extrabold text-amber-100 text-[10.5px] truncate block">{currentMahadasha}</span>
+                  <span className="text-[8.5px] text-amber-300 uppercase font-bold tracking-wider block">Current Mahadasha</span>
+                  <div className="flex items-center gap-1">
+                    <span className="font-extrabold text-amber-100 text-[11px] truncate block">{currentMahadasha}</span>
+                    {currentAntardasha && (
+                      <span className="text-[9px] text-amber-300 font-semibold truncate block">/ {currentAntardasha}</span>
+                    )}
+                  </div>
                 </div>
               </div>
               <span className="text-[8.5px] font-black text-amber-900 bg-amber-300 border border-amber-200 px-1.5 py-0.2 rounded-full shadow-xs shrink-0 ml-1">

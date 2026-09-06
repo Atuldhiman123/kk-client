@@ -1,33 +1,40 @@
 'use client';
 
-import { DatePicker, Form, Input, TimePicker } from 'antd';
+import React from 'react';
+import { DatePicker, Form, Input, TimePicker, Select } from 'antd';
 import dayjs from 'dayjs';
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { useLanguage } from '@/lib/i18n';
+import { ALL_INDIA_CITIES_FLAT } from '@/lib/data/indiaLocations';
 
 export function PersonalDetailsStep() {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
 
   return (
-    <div className="space-y-3 sm:space-y-4">
+    <div className="space-y-2.5 sm:space-y-3">
+      {/* Slim Top WhatsApp Info Banner */}
+      <div className="flex items-center gap-2 text-[11px] sm:text-xs text-emerald-900 bg-emerald-50/90 border border-emerald-200/80 rounded-xl px-3 py-1.5 font-medium">
+        <span className="text-emerald-600 font-bold text-xs shrink-0">📲</span>
+        <span>
+          {locale === 'hi'
+            ? 'अपॉइंटमेंट लिंक व कॉल अपडेट के लिए कृपया सक्रिय व्हाट्सएप नंबर दर्ज करें।'
+            : 'Please enter an active WhatsApp number to receive appointment link & call updates.'}
+        </span>
+      </div>
+
       {/* 1. Contact Details */}
-      <div className="rounded-2xl border border-orange-200/80 bg-orange-50/20 p-3 sm:p-4">
-        <div className="flex items-center justify-between border-b border-orange-100 pb-2 mb-3">
-          <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-orange-950">
-            <UserOutlined className="text-orange-600" />
-            <span>{t.booking.contact_header}</span>
-          </div>
-          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full flex items-center gap-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            {t.booking.whatsapp_active}
-          </span>
+      <div className="rounded-2xl border border-orange-200/80 bg-orange-50/20 p-2.5 sm:p-3 space-y-2">
+        <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-orange-950 border-b border-orange-100 pb-1.5">
+          <UserOutlined className="text-orange-600" />
+          <span>{t.booking.contact_header}</span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1">
           <Form.Item
             label={t.booking.full_name}
             name="name"
             rules={[{ required: true, message: t.booking.full_name_required }]}
+            className="!mb-1.5"
           >
             <Input placeholder={t.booking.full_name_placeholder} size="middle" className="!rounded-xl" />
           </Form.Item>
@@ -50,12 +57,7 @@ export function PersonalDetailsStep() {
                 message: t.booking.phone_valid,
               },
             ]}
-            extra={
-              <div className="mt-1 flex items-start gap-1 text-[10.5px] text-emerald-800 leading-tight font-medium bg-emerald-50/90 border border-emerald-200/70 rounded-lg p-1.5">
-                <span className="text-emerald-600 font-bold shrink-0">{t.booking.phone_note_prefix}</span>
-                <span>{t.booking.phone_note}</span>
-              </div>
-            }
+            className="!mb-1.5"
           >
             <Input
               prefix={<span className="text-neutral-400 font-bold text-xs pr-1.5 border-r border-neutral-200 mr-1.5">+91</span>}
@@ -71,26 +73,27 @@ export function PersonalDetailsStep() {
           label={t.booking.email}
           name="email"
           rules={[{ type: 'email', message: t.booking.email_valid }]}
-          className="!mb-0 mt-1"
+          className="!mb-0"
         >
           <Input placeholder="you@example.com" size="middle" className="!rounded-xl" />
         </Form.Item>
       </div>
 
       {/* 2. Birth Details for Kundli Analysis */}
-      <div className="rounded-2xl border border-orange-200/80 bg-orange-50/20 p-3 sm:p-4">
-        <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-orange-950 mb-2.5">
+      <div className="rounded-2xl border border-orange-200/80 bg-orange-50/20 p-2.5 sm:p-3 space-y-2">
+        <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-orange-950 border-b border-orange-100 pb-1.5">
           <span className="text-sm">🪐</span>
           <span>{t.booking.birth_header}</span>
         </div>
 
         {/* Row 1: Profile Name & Date of Birth */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1">
           <Form.Item
             label={t.booking.profile_name}
             name="profileName"
             tooltip={t.booking.profile_name_tooltip}
             rules={[{ required: true, message: t.booking.profile_name_required }]}
+            className="!mb-1.5"
           >
             <Input placeholder={t.booking.profile_name_placeholder} size="middle" className="!rounded-xl" />
           </Form.Item>
@@ -99,6 +102,7 @@ export function PersonalDetailsStep() {
             label={t.booking.dob}
             name="dob"
             rules={[{ required: true, message: t.booking.dob_required }]}
+            className="!mb-1.5"
           >
             <DatePicker
               className="w-full !rounded-xl"
@@ -111,7 +115,7 @@ export function PersonalDetailsStep() {
         </div>
 
         {/* Row 2: Time of Birth & Place of Birth */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1">
           <Form.Item
             label={t.booking.birth_time}
             name="birthTime"
@@ -128,12 +132,34 @@ export function PersonalDetailsStep() {
           </Form.Item>
 
           <Form.Item
-            label={t.booking.birth_place}
+            label={
+              <span className="flex items-center gap-1">
+                <EnvironmentOutlined className="text-orange-600" />
+                <span>{t.booking.birth_place}</span>
+              </span>
+            }
             name="birthPlace"
             rules={[{ required: true, message: t.booking.birth_place_required }]}
             className="!mb-0"
           >
-            <Input placeholder={t.booking.birth_place_placeholder} size="middle" className="!rounded-xl" />
+            <Select
+              showSearch
+              allowClear
+              placeholder={
+                locale === 'hi'
+                  ? 'जिला या शहर खोजें...'
+                  : 'Search by district...'
+              }
+              className="w-full !rounded-xl"
+              size="middle"
+              filterOption={(input, option) =>
+                ((option?.label as string) || '').toLowerCase().includes(input.toLowerCase())
+              }
+              options={ALL_INDIA_CITIES_FLAT.map((c) => ({
+                label: `${c.cityName}, ${c.state}`,
+                value: `${c.cityName}, ${c.state}`,
+              }))}
+            />
           </Form.Item>
         </div>
       </div>

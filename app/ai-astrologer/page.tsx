@@ -435,7 +435,7 @@ export default function AiAstrologerPage() {
                     <div className="font-extrabold text-slate-100 mt-0.5 text-xs sm:text-sm">{placeName}</div>
                   </div>
 
-                  <div className="flex items-center justify-between text-xs pt-1.5 border-t border-amber-500/20">
+                  {/* <div className="flex items-center justify-between text-xs pt-1.5 border-t border-amber-500/20">
                     <span className="text-amber-100 font-bold text-xs flex items-center gap-1">
                       {locale === 'hi' ? 'कुंडली विश्लेषण मोड:' : 'Personalized Kundli Mode:'}
                     </span>
@@ -450,7 +450,7 @@ export default function AiAstrologerPage() {
                     >
                       {useBirthChart ? (locale === 'hi' ? '🟢 सक्रिय' : '🟢 Active') : (locale === 'hi' ? '⚪ निष्क्रिय' : '⚪ Disabled')}
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               ) : (
                 <div className="text-center py-4 text-xs text-slate-300">

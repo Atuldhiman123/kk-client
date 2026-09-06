@@ -292,7 +292,7 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
         layout="vertical"
         requiredMark="optional"
         preserve
-        className="[&_.ant-form-item]:!mb-2.5 sm:[&_.ant-form-item]:!mb-3.5 [&_.ant-form-item-label]:!pb-0.5 [&_.ant-form-item-label_label]:!text-xs sm:[&_.ant-form-item-label_label]:!text-sm [&_.ant-form-item-label_label]:!font-semibold"
+        className="[&_.ant-form-item]:!mb-1.5 sm:[&_.ant-form-item]:!mb-2 [&_.ant-form-item-label]:!pb-0.5 [&_.ant-form-item-label_label]:!text-xs sm:[&_.ant-form-item-label_label]:!text-sm [&_.ant-form-item-label_label]:!font-semibold"
       >
         <div className={current === 0 ? '' : 'hidden'}>
           <PersonalDetailsStep />

@@ -255,21 +255,46 @@ export interface AstrologyChartResponse {
     signLord: string;
     subLord?: string;
   }>;
-  dashas: {
-    mahadashas: Array<{
-      planet: string;
-      startDate: string;
-      endDate: string;
+  dashas?: {
+    mahadashas?: Array<{
+      planet?: string;
+      lord?: string;
+      startDate?: string;
+      start?: string;
+      endDate?: string;
+      end?: string;
       antardashas?: Array<{
-        planet: string;
-        startDate: string;
-        endDate: string;
+        planet?: string;
+        lord?: string;
+        startDate?: string;
+        start?: string;
+        endDate?: string;
+        end?: string;
       }>;
     }>;
+    antardashas?: Array<{
+      planet?: string;
+      lord?: string;
+      startDate?: string;
+      start?: string;
+      endDate?: string;
+      end?: string;
+    }>;
     currentMahadasha?: {
-      planet: string;
-      startDate: string;
-      endDate: string;
+      planet?: string;
+      lord?: string;
+      startDate?: string;
+      start?: string;
+      endDate?: string;
+      end?: string;
+    };
+    currentAntardasha?: {
+      planet?: string;
+      lord?: string;
+      startDate?: string;
+      start?: string;
+      endDate?: string;
+      end?: string;
     };
   };
 }

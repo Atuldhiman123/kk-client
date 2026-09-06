@@ -259,6 +259,8 @@ export interface AstrologyChartResponse {
     mahadashas?: Array<{
       planet?: string;
       lord?: string;
+      name?: string;
+      mahadasha?: string;
       startDate?: string;
       start?: string;
       endDate?: string;
@@ -266,6 +268,8 @@ export interface AstrologyChartResponse {
       antardashas?: Array<{
         planet?: string;
         lord?: string;
+        name?: string;
+        antardasha?: string;
         startDate?: string;
         start?: string;
         endDate?: string;
@@ -275,6 +279,8 @@ export interface AstrologyChartResponse {
     antardashas?: Array<{
       planet?: string;
       lord?: string;
+      name?: string;
+      antardasha?: string;
       startDate?: string;
       start?: string;
       endDate?: string;
@@ -283,6 +289,8 @@ export interface AstrologyChartResponse {
     currentMahadasha?: {
       planet?: string;
       lord?: string;
+      name?: string;
+      mahadasha?: string;
       startDate?: string;
       start?: string;
       endDate?: string;
@@ -291,6 +299,8 @@ export interface AstrologyChartResponse {
     currentAntardasha?: {
       planet?: string;
       lord?: string;
+      name?: string;
+      antardasha?: string;
       startDate?: string;
       start?: string;
       endDate?: string;

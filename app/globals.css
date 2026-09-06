@@ -43,7 +43,12 @@ body {
   margin: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-serif), Georgia, serif;
 }
 
@@ -66,6 +71,7 @@ button.text-white,
     max-width: calc(100vw - 16px) !important;
     margin: 8px auto !important;
   }
+
   .ant-modal .ant-modal-content {
     padding: 12px !important;
     border-radius: 20px !important;
@@ -77,25 +83,32 @@ button.text-white,
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
 @keyframes float-slow {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     transform: translateY(-8px) rotate(1deg);
   }
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.4;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.8;
     transform: scale(1.05);
@@ -127,13 +140,16 @@ button.text-white,
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: #faf8f5;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #d4af37;
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #b8860b;
 }

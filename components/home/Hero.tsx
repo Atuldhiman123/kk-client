@@ -68,21 +68,19 @@ export function Hero({ contact }: { contact: ContactInfo }) {
 
   return (
     <section className="relative overflow-hidden border-b border-orange-100 pt-4 pb-10 sm:py-14 md:py-16">
-      {/* Background with layered 3D cosmic nakshatra depth */}
+      {/* Background with zodiac element sky & radiant depth */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/hero-section-bg.png"
-          alt=""
+          src="/images/hero-zodiac-bg.jpg"
+          alt="Zodiac Element Vedic Background"
           fill
           priority
           unoptimized
           className="object-cover object-center"
         />
-        {/* Subtle 3D celestial sphere texture layer */}
-        <div
-          className="absolute inset-0 opacity-15 mix-blend-multiply bg-center bg-cover pointer-events-none"
-          style={{ backgroundImage: 'url(/images/vedic-3d-nakshatra-bg.jpg)' }}
-        />
+        {/* Soft atmospheric gradient overlay for readability & premium glow */}
+        <div className="absolute inset-0 bg-gradient-to-r from-amber-50/85 via-orange-50/70 to-amber-950/60 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-amber-950/40 pointer-events-none" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

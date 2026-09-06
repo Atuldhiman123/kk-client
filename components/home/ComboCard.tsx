@@ -63,6 +63,17 @@ export function ComboCard({ combo }: { combo: ComboOffer }) {
 
         <Link
           href={`/?combo=${combo.slug}#booking`}
+          onClick={(e) => {
+            if (window.location.pathname === '/') {
+              e.preventDefault();
+              window.dispatchEvent(new CustomEvent('select-booking-combo', { detail: { comboSlug: combo.slug } }));
+              const el = document.getElementById('booking');
+              if (el) {
+                const y = el.getBoundingClientRect().top + window.scrollY - 20;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+              }
+            }
+          }}
           className="mt-4 flex w-full items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-red-600 py-2.5 sm:py-3 text-center text-xs sm:text-sm font-bold text-white shadow-xs transition hover:from-orange-600 hover:to-red-700"
           style={{ color: '#ffffff' }}
         >

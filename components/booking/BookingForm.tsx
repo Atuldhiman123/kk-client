@@ -78,9 +78,22 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
         }
       }
     };
+    const handleComboEvent = (e: any) => {
+      const slug = e.detail?.comboSlug;
+      if (slug) {
+        const match = combos.find((c) => c.slug === slug);
+        if (match) {
+          form.setFieldValue('selection', `combo:${match.id}`);
+        }
+      }
+    };
     window.addEventListener('select-booking-category', handleCategoryEvent);
-    return () => window.removeEventListener('select-booking-category', handleCategoryEvent);
-  }, [categories, form]);
+    window.addEventListener('select-booking-combo', handleComboEvent);
+    return () => {
+      window.removeEventListener('select-booking-category', handleCategoryEvent);
+      window.removeEventListener('select-booking-combo', handleComboEvent);
+    };
+  }, [categories, combos, form]);
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
@@ -98,7 +111,7 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
 
   const goNext = async () => {
     try {
-      const paymentMethod = form.getFieldValue('paymentMethod') ?? 'UPI';
+      const paymentMethod = form.getFieldValue('paymentMethod') ?? 'Razorpay';
       let fields = STEP_FIELDS[current];
       if (current === 2 && paymentMethod === 'Razorpay') {
         fields = ['paymentMethod'];

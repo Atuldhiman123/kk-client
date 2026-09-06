@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { Segmented } from 'antd';
 import { useLanguage } from '@/lib/i18n';
 
 interface LanguageSwitcherProps {
@@ -13,60 +14,47 @@ export function LanguageSwitcher({ className = '', variant = 'header' }: Languag
 
   if (variant === 'mobile') {
     return (
-      <div className={`flex items-center justify-between rounded-xl bg-orange-100/70 p-1 border border-orange-200/80 ${className}`}>
-        <button
-          onClick={() => setLocale('en')}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-            locale === 'en'
-              ? 'bg-white text-orange-950 shadow-xs border border-orange-200 font-extrabold'
-              : 'text-neutral-600 hover:text-orange-900'
-          }`}
-        >
-          <span>English</span>
-        </button>
-        <button
-          onClick={() => setLocale('hi')}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-            locale === 'hi'
-              ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-xs font-extrabold'
-              : 'text-neutral-600 hover:text-orange-900'
-          }`}
-        >
-          <span>हिन्दी</span>
-        </button>
+      <div className={`w-full ${className}`}>
+        <Segmented
+          block
+          size="middle"
+          value={locale}
+          onChange={(val) => setLocale(val as 'en' | 'hi')}
+          options={[
+            {
+              label: <span className="font-bold text-xs py-1">English</span>,
+              value: 'en',
+            },
+            {
+              label: <span className="font-bold text-xs py-1">हिन्दी</span>,
+              value: 'hi',
+            },
+          ]}
+          className="w-full bg-orange-100/70 border border-orange-200/80 p-0.5"
+        />
       </div>
     );
   }
 
-  // Desktop Header Switcher - Sleek Segmented Pill with High-Contrast Active State
+  // Desktop Header Switcher - Ant Design Segmented Control
   return (
-    <div
-      className={`inline-flex items-center rounded-full border border-orange-300 bg-white/95 p-0.5 shadow-2xs shrink-0 select-none ${className}`}
-      role="group"
-      aria-label="Language Selector"
-    >
-      <button
-        onClick={() => setLocale('en')}
-        className={`px-2.5 py-1 rounded-full text-[11px] sm:text-xs font-black transition-all duration-200 cursor-pointer ${
-          locale === 'en'
-            ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-xs scale-102'
-            : 'text-neutral-600 hover:text-orange-900 hover:bg-orange-50/60'
-        }`}
-        style={locale === 'en' ? { color: '#ffffff' } : {}}
-      >
-        EN
-      </button>
-      <button
-        onClick={() => setLocale('hi')}
-        className={`px-2.5 py-1 rounded-full text-[11px] sm:text-xs font-black transition-all duration-200 cursor-pointer ${
-          locale === 'hi'
-            ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-xs scale-102'
-            : 'text-neutral-600 hover:text-orange-900 hover:bg-orange-50/60'
-        }`}
-        style={locale === 'hi' ? { color: '#ffffff' } : {}}
-      >
-        हिन्दी
-      </button>
+    <div className={`shrink-0 ${className}`}>
+      <Segmented
+        size="small"
+        value={locale}
+        onChange={(val) => setLocale(val as 'en' | 'hi')}
+        options={[
+          {
+            label: <span className="font-extrabold text-[11px] px-1">EN</span>,
+            value: 'en',
+          },
+          {
+            label: <span className="font-extrabold text-[11px] px-1">हिन्दी</span>,
+            value: 'hi',
+          },
+        ]}
+        className="border border-orange-300/80 bg-orange-50/60 shadow-2xs text-neutral-800"
+      />
     </div>
   );
 }

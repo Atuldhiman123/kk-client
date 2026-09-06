@@ -203,13 +203,22 @@ export function Hero({ contact }: { contact: ContactInfo }) {
                 <span style={{ color: '#ffffff' }}>{t.hero.gemstone_hook.cta}</span>
               </Link>
 
-              <Link
-                href="#booking"
-                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-orange-400 bg-white px-5 py-3 text-xs sm:text-sm font-bold text-orange-800 shadow-sm transition hover:bg-orange-50 hover:border-orange-500 whitespace-nowrap"
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById('booking');
+                  if (el) {
+                    const y = el.getBoundingClientRect().top + window.scrollY - 20;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                  } else {
+                    window.location.hash = 'booking';
+                  }
+                }}
+                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-orange-400 bg-white px-5 py-3 text-xs sm:text-sm font-bold text-orange-800 shadow-sm transition hover:bg-orange-50 hover:border-orange-500 whitespace-nowrap cursor-pointer"
               >
                 <CalendarOutlined />
                 <span>{t.hero.book_btn}</span>
-              </Link>
+              </button>
             </div>
 
             {/* Quick Direct Connect */}

@@ -90,7 +90,17 @@ export function Header({ contact }: { contact: ContactInfo }) {
           {/* Book Now Button */}
           <Link
             href="/#booking"
-            className="rounded-full bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 px-3.5 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold text-white shadow-xs hover:from-orange-600 hover:to-red-700 transition duration-150 whitespace-nowrap shrink-0"
+            onClick={(e) => {
+              if (window.location.pathname === '/') {
+                const el = document.getElementById('booking');
+                if (el) {
+                  e.preventDefault();
+                  const y = el.getBoundingClientRect().top + window.scrollY - 20;
+                  window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+              }
+            }}
+            className="rounded-full bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 px-3.5 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold text-white shadow-xs hover:from-orange-600 hover:to-red-700 transition duration-150 whitespace-nowrap shrink-0 cursor-pointer"
             style={{ color: '#ffffff' }}
           >
             <span className="text-white whitespace-nowrap font-bold" style={{ color: '#ffffff' }}>

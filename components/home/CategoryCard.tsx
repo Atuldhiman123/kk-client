@@ -139,6 +139,17 @@ export function CategoryCard({ category }: { category: ConsultationCategory }) {
 
           <Link
             href={`/?category=${category.slug}#booking`}
+            onClick={(e) => {
+              if (window.location.pathname === '/') {
+                e.preventDefault();
+                window.dispatchEvent(new CustomEvent('select-booking-category', { detail: { categorySlug: category.slug } }));
+                const el = document.getElementById('booking');
+                if (el) {
+                  const y = el.getBoundingClientRect().top + window.scrollY - 20;
+                  window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+              }
+            }}
             className="inline-flex items-center justify-center gap-1.5 rounded-2xl bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 px-4 py-2.5 text-xs sm:text-sm font-black text-white shadow-md transition-all duration-200 hover:from-orange-600 hover:to-red-700 hover:shadow-lg hover:scale-[1.03] active:scale-95 shrink-0"
             style={{ color: '#ffffff' }}
           >

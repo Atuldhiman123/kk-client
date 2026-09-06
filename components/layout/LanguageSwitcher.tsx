@@ -30,30 +30,30 @@ export function LanguageSwitcher({ className = '', variant = 'header' }: Languag
               value: 'hi',
             },
           ]}
-          className="w-full bg-orange-100/70 border border-orange-200/80 p-0.5"
+          className="w-full !bg-orange-100/80 !border !border-orange-200/90 !p-0.5 !rounded-xl"
         />
       </div>
     );
   }
 
-  // Desktop Header Switcher - Ant Design Segmented Control
+  // Desktop Header Switcher - Sleek compact Segmented Control
   return (
-    <div className={`shrink-0 ${className}`}>
+    <div className={`shrink-0 flex items-center ${className}`}>
       <Segmented
         size="small"
         value={locale}
         onChange={(val) => setLocale(val as 'en' | 'hi')}
         options={[
           {
-            label: <span className="font-extrabold text-[11px] px-1">EN</span>,
+            label: <span className="font-extrabold text-[10px] sm:text-[11px] px-0.5 sm:px-1">EN</span>,
             value: 'en',
           },
           {
-            label: <span className="font-extrabold text-[11px] px-1">हिन्दी</span>,
+            label: <span className="font-extrabold text-[10px] sm:text-[11px] px-0.5 sm:px-1">हिन्दी</span>,
             value: 'hi',
           },
         ]}
-        className="border border-orange-300/80 bg-orange-50/60 shadow-2xs text-neutral-800"
+        className="!border !border-orange-200/90 !bg-orange-50/70 shadow-2xs !rounded-lg text-neutral-800"
       />
     </div>
   );

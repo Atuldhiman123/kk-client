@@ -60,13 +60,13 @@ export const hi = {
     },
     pills: {
       nakshatra_label: '27 नक्षत्र',
-      nakshatra_sub: 'अश्विनी से रेवती',
+      nakshatra_sub: 'अश्विनी-रेवती',
       rashi_label: '12 राशियां',
-      rashi_sub: 'राशि चक्र',
+      rashi_sub: 'मेष से मीन',
       graha_label: '9 नवग्रह',
-      graha_sub: 'ग्रह गोचर व दशा',
-      chakra_label: '3D भ-चक्र',
-      chakra_sub: 'वैदिक खगोल गणना',
+      graha_sub: 'दशा व गोचर',
+      chakra_label: 'भ-चक्र',
+      chakra_sub: 'लग्न चक्र',
     },
     trust: {
       personalized_title: 'गहन व्यक्तिगत कुंडली विश्लेषण',

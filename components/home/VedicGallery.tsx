@@ -6,11 +6,23 @@ import { useLanguage } from '@/lib/i18n';
 export function VedicGallery() {
   const { t } = useLanguage();
 
-  const practiceImages = [
-    '/images/puja.jpg',
-    '/images/meditation.jpg',
-    '/images/aarti.jpg',
-    '/images/globe.jpg',
+  const practiceConfig = [
+    {
+      image: '/images/puja.jpg',
+      position: 'object-[center_12%]', // shows priest's face, turban and sacred havan fire
+    },
+    {
+      image: '/images/meditation.jpg',
+      position: 'object-center',
+    },
+    {
+      image: '/images/aarti.jpg',
+      position: 'object-[center_18%]', // shows divine aarti flame and priest
+    },
+    {
+      image: '/images/globe.jpg',
+      position: 'object-[center_20%]', // shows full globe and stand
+    },
   ];
 
   return (
@@ -29,37 +41,42 @@ export function VedicGallery() {
         </div>
 
         <div className="grid grid-cols-1 gap-5 sm:gap-7 sm:grid-cols-2 lg:grid-cols-4">
-          {t.gallery.practices.map((practice, index) => (
-            <div
-              key={practice.title}
-              className="group flex flex-col justify-between rounded-3xl border border-orange-200/80 bg-[#FFFDF9] overflow-hidden shadow-xs transition duration-200 hover:-translate-y-1 hover:border-orange-400 hover:shadow-md"
-            >
-              <div className="relative h-40 sm:h-48 w-full overflow-hidden bg-orange-50">
-                <img
-                  src={practiceImages[index] || '/images/puja.jpg'}
-                  alt={practice.title}
-                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-103"
-                  loading="lazy"
-                />
-                <span className="absolute top-3 left-3 rounded-full bg-orange-600 px-2.5 sm:px-3 py-0.5 sm:py-1 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider text-white shadow-sm">
-                  {practice.badge}
-                </span>
-              </div>
-              <div className="flex-1 p-4 sm:p-5 flex flex-col justify-between">
-                <div>
-                  <div className="text-[10px] font-extrabold uppercase tracking-wider text-orange-650">
-                    {practice.subtitle}
+          {t.gallery.practices.map((practice, index) => {
+            const config = practiceConfig[index] || { image: '/images/puja.jpg', position: 'object-center' };
+            return (
+              <div
+                key={practice.title}
+                className="group flex flex-col justify-between rounded-3xl border border-orange-200/80 bg-[#FFFDF9] overflow-hidden shadow-xs transition duration-200 hover:-translate-y-1 hover:border-orange-400 hover:shadow-md"
+              >
+                <div className="relative h-52 sm:h-56 w-full overflow-hidden bg-orange-50">
+                  <img
+                    src={config.image}
+                    alt={practice.title}
+                    className={`h-full w-full object-cover ${config.position} transition-transform duration-500 group-hover:scale-105`}
+                    loading="lazy"
+                  />
+                  {/* Subtle gradient overlay for contrast */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/25 pointer-events-none" />
+                  <span className="absolute top-3 left-3 rounded-full bg-orange-600/95 backdrop-blur-xs px-2.5 sm:px-3 py-0.5 sm:py-1 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider text-white shadow-sm border border-white/20">
+                    {practice.badge}
+                  </span>
+                </div>
+                <div className="flex-1 p-4 sm:p-5 flex flex-col justify-between">
+                  <div>
+                    <div className="text-[10px] font-extrabold uppercase tracking-wider text-orange-650">
+                      {practice.subtitle}
+                    </div>
+                    <h3 className="mt-1 text-base font-bold text-neutral-900 group-hover:text-orange-700 transition font-serif">
+                      {practice.title}
+                    </h3>
+                    <p className="mt-1.5 sm:mt-2 text-xs leading-relaxed text-neutral-600 font-medium">
+                      {practice.description}
+                    </p>
                   </div>
-                  <h3 className="mt-1 text-base font-bold text-neutral-900 group-hover:text-orange-700 transition font-serif">
-                    {practice.title}
-                  </h3>
-                  <p className="mt-1.5 sm:mt-2 text-xs leading-relaxed text-neutral-600 font-medium">
-                    {practice.description}
-                  </p>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

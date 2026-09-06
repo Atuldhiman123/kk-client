@@ -15,15 +15,15 @@ export function Header({ contact }: { contact: ContactInfo }) {
 
   return (
     <header className="sticky top-0 z-50 border-b border-orange-200/80 bg-[#FFFDF9]/95 shadow-xs backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-3 py-2 sm:px-5 sm:py-2.5 lg:px-8 gap-2">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-2.5 py-1.5 sm:px-5 sm:py-2.5 lg:px-8 gap-1.5 sm:gap-2">
         {/* Left: Brand Identity */}
         <Link href="/" className="flex items-center gap-2 font-bold tracking-tight text-neutral-900 group shrink-0">
           <img
             src="/images/logo.png"
             alt="Kundli Kendra Logo"
-            className="h-8 w-8 sm:h-9 sm:w-9 rounded-full object-cover border-1.5 border-amber-400/80 shadow-xs transition-transform duration-200 group-hover:scale-105"
+            className="h-8 w-8 sm:h-9 sm:w-9 rounded-full object-cover border-1.5 border-amber-400/80 shadow-xs transition-transform duration-200 group-hover:scale-105 shrink-0"
           />
-          <span className="font-serif tracking-tight text-[15px] sm:text-lg whitespace-nowrap leading-none">
+          <span className="hidden sm:inline font-serif tracking-tight text-base sm:text-lg whitespace-nowrap leading-none">
             {t.nav.brand_name} <span className="text-orange-600 font-black">{t.nav.brand_highlight}</span>
           </span>
         </Link>
@@ -51,7 +51,7 @@ export function Header({ contact }: { contact: ContactInfo }) {
         </nav>
 
         {/* Right Header Actions */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
           {/* Language Switcher Pill */}
           <LanguageSwitcher variant="header" />
 
@@ -100,7 +100,7 @@ export function Header({ contact }: { contact: ContactInfo }) {
                 }
               }
             }}
-            className="rounded-full bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 px-3.5 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold text-white shadow-xs hover:from-orange-600 hover:to-red-700 transition duration-150 whitespace-nowrap shrink-0 cursor-pointer"
+            className="rounded-full bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 px-2.5 py-1.5 xs:px-3.5 sm:px-4 sm:py-2 text-[10.5px] xs:text-[11px] sm:text-xs font-bold text-white shadow-xs hover:from-orange-600 hover:to-red-700 transition duration-150 whitespace-nowrap shrink-0 cursor-pointer"
             style={{ color: '#ffffff' }}
           >
             <span className="text-white whitespace-nowrap font-bold" style={{ color: '#ffffff' }}>
@@ -111,10 +111,10 @@ export function Header({ contact }: { contact: ContactInfo }) {
           {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg p-1 text-orange-950 hover:bg-orange-100/60 lg:hidden ml-0.5 cursor-pointer"
+            className="flex h-7.5 w-7.5 xs:h-8 xs:w-8 items-center justify-center rounded-lg p-1 text-orange-950 hover:bg-orange-100/60 lg:hidden cursor-pointer shrink-0"
             aria-label="Toggle Navigation Menu"
           >
-            {mobileMenuOpen ? <CloseOutlined className="text-base" /> : <MenuOutlined className="text-base" />}
+            {mobileMenuOpen ? <CloseOutlined className="text-sm sm:text-base" /> : <MenuOutlined className="text-sm sm:text-base" />}
           </button>
         </div>
       </div>

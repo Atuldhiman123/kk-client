@@ -125,7 +125,7 @@ export function ConsultationStep({ form, categories, combos }: Props) {
     {
       value: 'popular',
       label: (
-        <span className="flex items-center gap-1 text-[11px] font-bold px-1 py-0.5">
+        <span className="flex items-center gap-1 text-[10px] xs:text-[11px] font-bold px-0.5 xs:px-1 py-0.5">
           <FireOutlined className="text-orange-600" />
           <span>{t.booking.tab_popular}</span>
         </span>
@@ -134,7 +134,7 @@ export function ConsultationStep({ form, categories, combos }: Props) {
     {
       value: 'category',
       label: (
-        <span className="flex items-center gap-1 text-[11px] font-bold px-1 py-0.5">
+        <span className="flex items-center gap-1 text-[10px] xs:text-[11px] font-bold px-0.5 xs:px-1 py-0.5">
           <StarOutlined className="text-amber-500" />
           <span>{t.booking.tab_category}</span>
         </span>
@@ -143,7 +143,7 @@ export function ConsultationStep({ form, categories, combos }: Props) {
     {
       value: 'combo',
       label: (
-        <span className="flex items-center gap-1 text-[11px] font-bold px-1 py-0.5">
+        <span className="flex items-center gap-1 text-[10px] xs:text-[11px] font-bold px-0.5 xs:px-1 py-0.5">
           <GiftOutlined className="text-red-500" />
           <span>{t.booking.tab_combo}</span>
         </span>
@@ -156,7 +156,7 @@ export function ConsultationStep({ form, categories, combos }: Props) {
       {/* 1. Consultation Selection Box */}
       <div className="rounded-2xl border border-orange-200/80 bg-orange-50/20 p-2.5 sm:p-3 space-y-2">
         {/* Header & Compact AntD Segmented Tabs */}
-        <div className="flex items-center justify-between gap-2 border-b border-orange-100 pb-2">
+        <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-1.5 xs:gap-2 border-b border-orange-100 pb-2">
           <div className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-orange-950 flex items-center gap-1.5 shrink-0">
             <span className="text-sm">🔮</span>
             <span>{t.booking.select_session_header}</span>
@@ -168,7 +168,7 @@ export function ConsultationStep({ form, categories, combos }: Props) {
             onChange={(val) => setActiveTab(val as any)}
             options={segmentedOptions}
             size="small"
-            className="!bg-orange-100/70 !p-0.5 !rounded-xl !border !border-orange-200 shadow-2xs"
+            className="!bg-orange-100/70 !p-0.5 !rounded-xl !border !border-orange-200 shadow-2xs self-start xs:self-auto"
           />
         </div>
 

@@ -109,8 +109,8 @@ export function Hero({ contact }: { contact: ContactInfo }) {
             </div>
 
             {/* Mobile-Only Cinematic 3D Celestial & Astrologer Hero Showcase */}
-            <div className="relative my-2.5 w-full overflow-hidden rounded-3xl border-2 border-amber-400/90 shadow-2xl shadow-orange-950/20 md:hidden bg-[#06111d]">
-              <div className="relative h-80 xs:h-88 w-full">
+            <div className="relative my-2 w-full overflow-hidden rounded-3xl border-2 border-amber-400/90 shadow-2xl shadow-orange-950/20 md:hidden bg-[#06111d]">
+              <div className="relative h-76 xs:h-84 sm:h-92 w-full">
                 {/* 3D Celestial Sphere & Astrologer Portrait */}
                 <img
                   src="/images/hero-person-3d-nakshatra.jpg"
@@ -119,10 +119,10 @@ export function Hero({ contact }: { contact: ContactInfo }) {
                 />
 
                 {/* Faded softer bottom gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050e18]/80 via-[#050e18]/15 via-25% to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#050e18]/85 via-[#050e18]/20 via-30% to-transparent" />
 
                 {/* Top Floating Badge (Rating only) */}
-                <div className="absolute top-3 right-3 z-10">
+                <div className="absolute top-2.5 right-2.5 xs:top-3 xs:right-3 z-10">
                   <span className="inline-flex items-center gap-1 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-1 text-[10px] font-extrabold text-amber-300 border border-amber-400/40 shadow-md">
                     <StarFilled className="text-amber-400 text-[10px]" />
                     <span>4.9 (12k+)</span>
@@ -130,24 +130,24 @@ export function Hero({ contact }: { contact: ContactInfo }) {
                 </div>
 
                 {/* Overlaid Title & Credentials */}
-                <div className="absolute bottom-2.5 left-3.5 right-3.5 z-10 text-left">
+                <div className="absolute bottom-2.5 left-3 right-3 xs:bottom-3 xs:left-3.5 xs:right-3.5 z-10 text-left">
                   <div className="flex items-center gap-1.5 mb-1">
-                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-[10px] font-bold tracking-wide text-emerald-300 drop-shadow-md">
+                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                    <span className="text-[9.5px] xs:text-[10.5px] font-bold tracking-wide text-emerald-300 drop-shadow-md">
                       {t.hero.live_booking}
                     </span>
                   </div>
 
-                  <div className="flex items-end justify-between gap-2">
-                    <div>
-                      <div className="text-[11px] font-semibold text-amber-200 drop-shadow-sm leading-tight">{t.hero.astrologer_role}</div>
-                      <h1 className="font-serif text-2xl xs:text-3xl font-extrabold leading-none drop-shadow-md m-0">
+                  <div className="flex items-end justify-between gap-1.5 xs:gap-2">
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[10px] xs:text-[11.5px] font-semibold text-amber-200 drop-shadow-sm leading-tight line-clamp-1">{t.hero.astrologer_role}</div>
+                      <h1 className="font-serif text-xl xs:text-2xl sm:text-3xl font-extrabold leading-none drop-shadow-md m-0 mt-0.5 truncate">
                         <span style={{ color: '#ffffff' }}>{t.hero.title_prefix} </span>
                         <span style={{ color: '#FACC15' }} className="text-yellow-400 font-extrabold">{t.hero.title_name}</span>
                       </h1>
                     </div>
 
-                    <div className="rounded-full bg-gradient-to-r from-orange-500 via-orange-600 to-amber-500 px-3 py-1 text-[10px] font-extrabold text-white shadow-xs shrink-0 drop-shadow-xs">
+                    <div className="rounded-full bg-gradient-to-r from-orange-500 via-orange-600 to-amber-500 px-2.5 py-1 xs:px-3 xs:py-1 text-[9px] xs:text-[10px] font-extrabold text-white shadow-xs shrink-0 drop-shadow-xs whitespace-nowrap">
                       {t.hero.experience}
                     </div>
                   </div>
@@ -156,47 +156,47 @@ export function Hero({ contact }: { contact: ContactInfo }) {
             </div>
 
             {/* Mobile Cosmic Nakshatra & Rashi Mini Highlights Pill Row */}
-            <div className="grid grid-cols-4 gap-1.5 w-full my-2 md:hidden">
+            <div className="grid grid-cols-4 gap-1 xs:gap-1.5 w-full my-1.5 md:hidden">
               {cosmicPills.map((pill) => (
                 <div
                   key={pill.label}
-                  className="flex flex-col items-center justify-center p-1.5 rounded-xl border border-orange-200/80 bg-gradient-to-b from-white via-orange-50/50 to-amber-50/70 shadow-2xs text-center"
+                  className="flex flex-col items-center justify-center p-1 xs:p-1.5 rounded-xl border border-orange-200/80 bg-gradient-to-b from-white via-orange-50/50 to-amber-50/70 shadow-2xs text-center min-w-0"
                 >
                   <span className="text-xs">{pill.icon}</span>
-                  <span className="text-[10px] font-extrabold text-neutral-900 leading-tight mt-0.5">{pill.label}</span>
-                  <span className="text-[8px] text-neutral-500 font-medium leading-tight line-clamp-1">{pill.sub}</span>
+                  <span className="text-[9.5px] xs:text-[10px] font-extrabold text-neutral-900 leading-tight mt-0.5 truncate w-full">{pill.label}</span>
+                  <span className="text-[7.5px] xs:text-[8px] text-neutral-500 font-medium leading-tight truncate w-full">{pill.sub}</span>
                 </div>
               ))}
             </div>
 
             {/* Main Headline & Subtitle */}
-            <div className="mt-2 sm:mt-3">
-              <h3 className="text-sm sm:text-base md:text-lg font-black text-orange-950/90 leading-snug">
+            <div className="mt-2 sm:mt-3 px-1 xs:px-0">
+              <h3 className="text-sm xs:text-base md:text-lg font-black text-orange-950/90 leading-snug">
                 {t.hero.headline}
               </h3>
-              <p className="mt-1 sm:mt-2 max-w-lg text-xs xs:text-sm sm:text-base leading-relaxed text-neutral-700">
+              <p className="mt-1 sm:mt-2 max-w-lg text-xs xs:text-[13px] sm:text-base leading-relaxed text-neutral-700">
                 {t.hero.subtitle}
               </p>
             </div>
 
             {/* Trust Bullet Tags */}
-            <div className="mt-3 flex flex-wrap items-center justify-center md:justify-start gap-1.5 sm:gap-2">
+            <div className="mt-2.5 sm:mt-3 flex flex-wrap items-center justify-center md:justify-start gap-1 xs:gap-1.5 sm:gap-2">
               {trustBadgesList.map((badge, idx) => (
                 <span
                   key={idx}
-                  className="inline-flex items-center gap-1 rounded-full bg-amber-50/90 border border-amber-200 px-2.5 py-0.5 text-[10px] sm:text-xs font-bold text-amber-900 shadow-2xs"
+                  className="inline-flex items-center gap-1 rounded-full bg-amber-50/90 border border-amber-200 px-2 py-0.5 xs:px-2.5 text-[9.5px] xs:text-[10px] sm:text-xs font-bold text-amber-900 shadow-2xs whitespace-nowrap"
                 >
-                  <CheckCircleFilled className="text-emerald-600 text-[10px] sm:text-xs" />
+                  <CheckCircleFilled className="text-emerald-600 text-[9.5px] xs:text-[10px] sm:text-xs" />
                   {badge}
                 </span>
               ))}
             </div>
 
             {/* Dual CTA Buttons */}
-            <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 w-full sm:w-auto">
+            <div className="mt-3.5 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 w-full sm:w-auto px-1 xs:px-0">
               <Link
                 href="/ai-astrologer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 px-5 py-3 text-xs sm:text-sm font-extrabold text-white shadow-lg shadow-orange-500/25 transition-all hover:scale-[1.02] hover:from-amber-600 hover:to-red-600 whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 px-4 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm font-extrabold text-white shadow-lg shadow-orange-500/25 transition-all hover:scale-[1.02] hover:from-amber-600 hover:to-red-600 whitespace-nowrap"
                 style={{ color: '#ffffff' }}
               >
                 <span>💎</span>
@@ -214,7 +214,7 @@ export function Hero({ contact }: { contact: ContactInfo }) {
                     window.location.hash = 'booking';
                   }
                 }}
-                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-orange-400 bg-white px-5 py-3 text-xs sm:text-sm font-bold text-orange-800 shadow-sm transition hover:bg-orange-50 hover:border-orange-500 whitespace-nowrap cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-orange-400 bg-white px-4 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm font-bold text-orange-800 shadow-sm transition hover:bg-orange-50 hover:border-orange-500 whitespace-nowrap cursor-pointer"
               >
                 <CalendarOutlined />
                 <span>{t.hero.book_btn}</span>

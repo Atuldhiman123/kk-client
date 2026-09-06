@@ -95,11 +95,11 @@ export function ConsultationCategories({ categories }: { categories: Consultatio
         </div>
 
         {/* Astrotalk-style Trust & Assurance Bar */}
-        <div className="mt-12 sm:mt-16 rounded-3xl border-2 border-orange-200/90 bg-gradient-to-r from-orange-50/90 via-amber-50/50 to-orange-50/90 p-5 sm:p-7 shadow-sm">
-          <div className="grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4">
+        <div className="mt-10 sm:mt-16 rounded-2xl sm:rounded-3xl border-2 border-orange-200/90 bg-gradient-to-r from-orange-50/90 via-amber-50/50 to-orange-50/90 p-4 sm:p-7 shadow-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
             {trustPoints.map((point) => (
               <div key={point.title} className="flex items-start gap-3">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border-2 border-orange-200 bg-white text-xl text-orange-600 shadow-xs">
+                <div className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl border-2 border-orange-200 bg-white text-lg sm:text-xl text-orange-600 shadow-xs">
                   {point.icon}
                 </div>
                 <div>

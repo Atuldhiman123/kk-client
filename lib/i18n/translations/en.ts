@@ -13,7 +13,7 @@ export const en = {
     brand_name: 'Kundli',
     brand_highlight: 'Kendra',
     gemstone_nav: 'Gemstone Consultation (₹49)',
-    gemstone_nav_short: '💎 Ratna (₹49)',
+    gemstone_nav_short: 'Ratna (₹49)',
     consultations: 'Consultations',
     combos: 'Combo Offers',
     gemstones: 'Gemstones',

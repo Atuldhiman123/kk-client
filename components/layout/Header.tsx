@@ -30,13 +30,6 @@ export function Header({ contact }: { contact: ContactInfo }) {
 
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-2.5 xl:gap-4.5 text-[11px] xl:text-xs font-bold uppercase tracking-wider">
-          <Link
-            href="/ai-astrologer"
-            className="flex items-center gap-1 text-orange-700 transition duration-150 hover:text-orange-900 bg-gradient-to-r from-amber-100/90 to-orange-100/90 px-2.5 xl:px-3 py-1 rounded-full border border-orange-300 shadow-2xs font-extrabold whitespace-nowrap"
-          >
-            <span>💎</span>
-            <span className="whitespace-nowrap">{t.nav.gemstone_nav_short}</span>
-          </Link>
           <Link href="/#consultations" className="text-orange-950/90 transition duration-150 hover:text-orange-600 whitespace-nowrap">
             {t.nav.consultations}
           </Link>

@@ -7,58 +7,27 @@ import { formatInr } from '@/lib/format';
 import { categoryIcon } from '@/lib/category-icons';
 import { useLanguage, getLocalizedCategoryName, getLocalizedCategoryDesc, getLocalizedCategoryTags } from '@/lib/i18n';
 
-function categoryImage(slug: string): string {
-  const clean = slug.toLowerCase();
+const CATEGORY_IMAGES: Record<string, string> = {
+  education: '/home-categories/education.png',
+  'family-problems': '/home-categories/family-problems.png',
+  finance: '/home-categories/finance.png',
+  'foreign-settlement': '/home-categories/foreign-settlement.png',
+  'gemstone-guidance': '/home-categories/gemstone-guidance.png',
+  health: '/home-categories/health.png',
+  'full-kundli-analysis': '/home-categories/kundli-analysis.png',
+  'kundli-matching': '/home-categories/kundli-matching.png',
+  love: '/home-categories/love.png',
+  marriage: '/home-categories/marriage.png',
+  'muhurat-guidance': '/home-categories/muhurat.png',
+  property: '/home-categories/property.png',
+  career: '/home-categories/career.png',
+  // No new asset provided for these yet — keep the existing images
+  business: '/home-categories/business.png',
+  'child-birth': '/home-categories/child-birth.png',
+};
 
-  if (clean.includes('career') && clean.includes('business')) {
-    return '/images/categories/career.jpg';
-  }
-  if (clean.includes('career')) {
-    return '/images/categories/career.jpg';
-  }
-  if (clean.includes('business')) {
-    return '/images/categories/business.jpg';
-  }
-  if (clean.includes('marriage') || clean.includes('compatibility')) {
-    return '/images/categories/marriage.jpg';
-  }
-  if (clean.includes('love') || clean.includes('relationship')) {
-    return '/images/categories/love.jpg';
-  }
-  if (clean.includes('health') || clean.includes('wellbeing')) {
-    return '/images/categories/health.jpg';
-  }
-  if (clean.includes('education') || clean.includes('study')) {
-    return '/images/categories/education.jpg';
-  }
-  if (clean.includes('property') || clean.includes('land') || clean.includes('vastu')) {
-    return '/images/categories/property.jpg';
-  }
-  if (clean.includes('settlement') || clean.includes('foreign') || clean.includes('travel')) {
-    return '/images/categories/travel.jpg';
-  }
-  if (clean.includes('matching') || clean.includes('kundli-matching')) {
-    return '/images/categories/matching.jpg';
-  }
-  if (clean.includes('child') || clean.includes('birth') || clean.includes('santan')) {
-    return '/images/categories/child.jpg';
-  }
-  if (clean.includes('finance') || clean.includes('wealth') || clean.includes('money')) {
-    return '/images/categories/wealth.jpg';
-  }
-  if (clean.includes('family') || clean.includes('problems') || clean.includes('home')) {
-    return '/images/categories/family.jpg';
-  }
-  if (clean.includes('gemstone') || clean.includes('ratna')) {
-    return '/images/vedic-3d-sphere.jpg';
-  }
-  if (clean.includes('muhurat') || clean.includes('timing')) {
-    return '/images/aarti.jpg';
-  }
-  if (clean.includes('full') || clean.includes('analysis') || clean.includes('reading') || clean.includes('life')) {
-    return '/images/kundli-scroll.jpg';
-  }
-  return '/images/vedic-3d-nakshatra-bg.jpg';
+function categoryImage(slug: string): string {
+  return CATEGORY_IMAGES[slug] ?? '/images/categories/default.jpg';
 }
 
 export function CategoryCard({ category }: { category: ConsultationCategory }) {

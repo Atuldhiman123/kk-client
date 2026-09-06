@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Outfit, Playfair_Display, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import { AiChatWidget } from "@/components/ai/AiChatWidget";
+import { RatnaFloatingButton } from "@/components/layout/RatnaFloatingButton";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -40,7 +40,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <Providers>
           {children}
-          <AiChatWidget />
+          <RatnaFloatingButton />
         </Providers>
       </body>
     </html>

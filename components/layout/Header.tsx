@@ -14,8 +14,8 @@ export function Header({ contact }: { contact: ContactInfo }) {
   const instagramUrl = contact.instagram || 'https://www.instagram.com/astrologer__atul/';
 
   return (
-    <header className="sticky top-0 z-50 border-b border-orange-200/80 bg-[#FFFDF9]/95 shadow-xs backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-2.5 py-1.5 sm:px-5 sm:py-2.5 lg:px-8 gap-1.5 sm:gap-2">
+    <header className="sticky top-0 z-50 w-full border-b border-orange-200/80 bg-[#FFFDF9]/95 shadow-xs backdrop-blur-md">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-2 py-1.5 sm:px-5 sm:py-2.5 lg:px-8 gap-1 sm:gap-2">
         {/* Left: Brand Identity */}
         <Link href="/" className="flex items-center gap-2 font-bold tracking-tight text-neutral-900 group shrink-0">
           <img

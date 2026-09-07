@@ -30,8 +30,17 @@
 }
 
 html {
+  box-sizing: border-box;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
@@ -39,6 +48,7 @@ body {
   color: #2d1e18;
   font-family: var(--font-outfit), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
+  width: 100%;
   -webkit-tap-highlight-color: transparent;
   margin: 0;
 }

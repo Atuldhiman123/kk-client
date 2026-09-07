@@ -12,7 +12,7 @@ export function Footer({ contact }: { contact: ContactInfo }) {
   const instagramUrl = contact.instagram || 'https://www.instagram.com/astrologer__atul/';
 
   return (
-    <footer className="border-t border-orange-300 bg-gradient-to-b from-[#FFF3E0] to-[#FFE0B2] text-orange-950">
+    <footer className="border-t border-orange-300 bg-gradient-to-b from-[#FFF3E0] to-[#FFE0B2] text-orange-950 w-full max-w-full overflow-hidden">
       <div className="mx-auto grid max-w-7xl gap-8 sm:gap-10 px-4 py-10 sm:py-14 sm:px-6 md:grid-cols-4 lg:px-8">
         <div className="md:col-span-2">
           <Link href="/" className="flex items-center gap-2.5 text-xl font-bold tracking-tight text-orange-950 group">

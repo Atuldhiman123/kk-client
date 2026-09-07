@@ -20,6 +20,7 @@ import { AiMarkdown } from '@/components/ai/AiMarkdown';
 import { BirthDetailsModal } from '@/components/ai/BirthDetailsModal';
 import { LagnaKundliChart } from '@/components/ai/LagnaKundliChart';
 import { sendAiChat, generateAstrologyChart, getHome } from '@/lib/api';
+import { calculateVedicChart } from '@/lib/vedicChartEngine';
 import type { BirthDetailsPayload, AstrologyChartResponse, ContactInfo, PaymentConfig } from '@/lib/types';
 import { Button, App } from 'antd';
 import { waLink } from '@/lib/contact';
@@ -148,9 +149,20 @@ export default function AiAstrologerPage() {
     setIsLoadingChart(true);
     try {
       const data = await generateAstrologyChart(details);
-      setChartData(data);
+      if (data && data.ascendant) {
+        setChartData(data);
+      } else {
+        const fallback = calculateVedicChart(details);
+        setChartData(fallback);
+      }
     } catch (err: any) {
-      console.warn('Could not calculate chart details:', err.message);
+      console.warn('Could not fetch chart details, generating client-side Vedic chart:', err?.message || err);
+      try {
+        const fallback = calculateVedicChart(details);
+        setChartData(fallback);
+      } catch (calcErr) {
+        console.error('Vedic chart calculation error:', calcErr);
+      }
     } finally {
       setIsLoadingChart(false);
     }
@@ -183,10 +195,8 @@ export default function AiAstrologerPage() {
       const unlockedBirthKey = localStorage.getItem('kk_unlocked_birth_key');
       if (unlockedBirthKey && unlockedBirthKey === newKey) {
         setIsUnlocked(true);
-        message.success(locale === 'hi' ? 'जन्म विवरण अपडेट हो गया। परामर्श सक्रिय है।' : 'Birth details updated. Consultation is active.');
       } else {
         setIsUnlocked(false);
-        message.warning(locale === 'hi' ? 'जन्म विवरण बदल गया है। कृपया इस नई कुंडली के लिए परामर्श अनलॉक करें।' : 'Birth details changed. Please unlock consultation for this new horoscope.');
       }
     }
   };
@@ -348,46 +358,48 @@ export default function AiAstrologerPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFFDF9]">
+    <div className="min-h-screen flex flex-col bg-[#FFFDF9] w-full overflow-x-hidden">
       <Header contact={contact} />
 
-      <main className="flex-1 py-6 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+      <main className="flex-1 py-4 sm:py-6 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full pb-10 sm:pb-8 min-w-0 box-border overflow-x-hidden">
         {/* Page Title & Breadcrumb */}
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-orange-200/60 pb-4">
-          <div>
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-orange-600 mb-1">
+        <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-orange-200/60 pb-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-orange-600">
               <span>{t.ai_page.badge}</span>
             </div>
-            <h1 className="font-serif text-2xl sm:text-3xl font-black tracking-tight text-neutral-900">
+            <h1 className="font-serif text-xl sm:text-3xl font-black tracking-tight text-neutral-900 leading-tight">
               {t.ai_page.title}
             </h1>
-            <p className="text-xs sm:text-sm text-neutral-600 mt-1 max-w-2xl">
+            <p className="text-xs sm:text-sm text-neutral-600 max-w-2xl leading-relaxed">
               {t.ai_page.subtitle}
             </p>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0 pt-1 sm:pt-0">
             <Link
               href="/#booking"
-              className="rounded-full bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 px-4 py-2 text-xs font-bold text-white shadow-xs hover:from-orange-600 hover:to-red-700 transition"
+              className="w-full sm:w-auto text-center rounded-full bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 px-4 py-2.5 sm:py-2 text-xs font-bold text-white shadow-xs hover:from-orange-600 hover:to-red-700 transition cursor-pointer"
               style={{ color: '#ffffff' }}
             >
-              <span className="text-white" style={{ color: '#ffffff' }}>{locale === 'hi' ? '1-on-1 परामर्श बुक करें →' : 'Book 1-on-1 Consultation →'}</span>
+              <span className="text-white whitespace-nowrap font-bold" style={{ color: '#ffffff' }}>
+                {locale === 'hi' ? '1-on-1 परामर्श बुक करें →' : 'Book 1-on-1 Consultation →'}
+              </span>
             </Link>
           </div>
         </div>
 
         {/* Dual Column Layout: Left (Chart / Details) | Right (Interactive Chat) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div className="flex flex-col lg:grid lg:grid-cols-12 gap-5 sm:gap-6 items-start w-full min-w-0 max-w-full">
           {/* Left Column: Birth Chart Profile & Lagna Kundli */}
-          <div className="lg:col-span-5 space-y-3.5">
+          <div className="w-full min-w-0 max-w-full space-y-3.5 lg:col-span-5">
             {/* Authenticity Guarantee Banner */}
-            <div className="rounded-2xl border border-amber-400/50 bg-gradient-to-br from-[#0A0E1A] via-[#111827] to-[#0A0E1A] p-3.5 text-xs text-slate-200 space-y-1.5 shadow-lg">
+            <div className="rounded-2xl border border-amber-400/50 bg-gradient-to-br from-[#0A0E1A] via-[#111827] to-[#0A0E1A] p-3 sm:p-4 text-xs text-slate-200 space-y-1.5 shadow-lg w-full min-w-0 max-w-full">
               <div className="font-black text-amber-300 flex items-center gap-2 text-xs sm:text-sm">
-                <SafetyCertificateOutlined className="text-amber-400 text-base" />
+                <SafetyCertificateOutlined className="text-amber-400 text-base shrink-0" />
                 <span className="tracking-wide">{locale === 'hi' ? '100% प्रामाणिक पराशरी वैदिक सिद्धांत' : '100% Authentic Vedic Principles'}</span>
               </div>
-              <p className="leading-relaxed text-slate-300 text-[11px]">
+              <p className="leading-relaxed text-slate-300 text-[11px] sm:text-xs">
                 {locale === 'hi'
                   ? 'रत्न एवं उपाय केवल लग्न स्वामी, कारक ग्रहों और सक्रिय महादशा के आधार पर ही अनुशंसित किए जाते हैं। मारक या अकारक भावों के लिए रत्न नहीं दिए जाते।'
                   : 'Gemstone recommendations are calculated strictly according to Parashari principles, Lagna lord dignities, and active Mahadashas. No gemstones are suggested for Maraka houses.'}
@@ -395,19 +407,19 @@ export default function AiAstrologerPage() {
             </div>
 
             {/* Birth Details Dark Luxury Card */}
-            <div className="rounded-2xl border border-amber-400/40 bg-gradient-to-br from-[#060911] via-[#0E1726] to-[#060911] p-3.5 sm:p-4 shadow-xl text-white space-y-3">
-              <div className="flex items-center justify-between border-b border-amber-500/25 pb-2.5">
-                <div className="flex items-center gap-2">
-                  <span className="text-base">🪐</span>
-                  <h2 className="font-serif text-xs sm:text-sm font-bold text-amber-300 uppercase tracking-wider">
-                    {locale === 'hi' ? 'जन्म विवरण (Birth Details)' : 'Birth Chart Context'}
+            <div className="rounded-2xl border border-amber-400/40 bg-gradient-to-br from-[#060911] via-[#0E1726] to-[#060911] p-3 sm:p-4 shadow-xl text-white space-y-3 w-full min-w-0 max-w-full">
+              <div className="flex items-center justify-between border-b border-amber-500/25 pb-2.5 gap-1.5">
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <span className="text-sm shrink-0">🪐</span>
+                  <h2 className="font-serif text-[11.5px] xs:text-xs sm:text-sm font-bold text-amber-300 uppercase tracking-wider truncate">
+                    {locale === 'hi' ? 'जन्म विवरण' : 'Birth Details'}
                   </h2>
                 </div>
                 <button
                   onClick={() => setIsBirthModalOpen(true)}
-                  className="cursor-pointer rounded-lg border border-amber-400/70 bg-amber-400/20 px-2.5 py-1 text-xs font-black text-amber-200 hover:bg-amber-400/30 transition shadow-xs"
+                  className="cursor-pointer rounded-lg border border-amber-400/70 bg-amber-400/20 px-2 py-0.5 text-[10.5px] sm:text-xs font-black text-amber-200 hover:bg-amber-400/30 transition shadow-xs shrink-0 whitespace-nowrap"
                 >
-                  {birthDetails ? (locale === 'hi' ? '✏️ विवरण बदलें' : '✏️ Edit Details') : (locale === 'hi' ? '+ विवरण जोड़ें' : '+ Add Details')}
+                  {birthDetails ? (locale === 'hi' ? '✏️ बदलें' : '✏️ Edit') : (locale === 'hi' ? '+ जोड़ें' : '+ Add Details')}
                 </button>
               </div>
 
@@ -434,32 +446,15 @@ export default function AiAstrologerPage() {
                     </div>
                     <div className="font-extrabold text-slate-100 mt-0.5 text-xs sm:text-sm">{placeName}</div>
                   </div>
-
-                  {/* <div className="flex items-center justify-between text-xs pt-1.5 border-t border-amber-500/20">
-                    <span className="text-amber-100 font-bold text-xs flex items-center gap-1">
-                      {locale === 'hi' ? 'कुंडली विश्लेषण मोड:' : 'Personalized Kundli Mode:'}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setUseBirthChart(!useBirthChart)}
-                      className={`cursor-pointer px-2.5 py-0.5 rounded-full text-xs font-black transition border shadow-xs ${
-                        useBirthChart
-                          ? 'bg-emerald-500/25 text-emerald-300 border-emerald-400/70 hover:bg-emerald-500/35'
-                          : 'bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-700'
-                      }`}
-                    >
-                      {useBirthChart ? (locale === 'hi' ? '🟢 सक्रिय' : '🟢 Active') : (locale === 'hi' ? '⚪ निष्क्रिय' : '⚪ Disabled')}
-                    </button>
-                  </div> */}
                 </div>
               ) : (
-                <div className="text-center py-4 text-xs text-slate-300">
-                  <p className="text-amber-200 font-bold">{locale === 'hi' ? 'अभी कोई जन्म विवरण नहीं जुड़ा है।' : 'No birth details attached yet.'}</p>
-                  <p className="mt-1 text-slate-400 text-[11px]">{locale === 'hi' ? 'सटीक लग्न कुंडली गणना हेतु अपनी जन्म तिथि व समय जोड़ें।' : 'Add your birth date & time to calculate your exact Lagna Kundli.'}</p>
+                <div className="text-center py-4 px-2 text-xs text-slate-300">
+                  <p className="text-amber-200 font-bold text-xs sm:text-sm">{locale === 'hi' ? 'अभी कोई जन्म विवरण नहीं जुड़ा है।' : 'No birth details attached yet.'}</p>
+                  <p className="mt-1 text-slate-400 text-[11px] max-w-xs mx-auto leading-relaxed">{locale === 'hi' ? 'सटीक लग्न कुंडली गणना हेतु अपनी जन्म तिथि व समय जोड़ें।' : 'Add your birth date & time to calculate your exact Lagna Kundli.'}</p>
                   <Button
                     type="primary"
                     onClick={() => setIsBirthModalOpen(true)}
-                    className="mt-3 rounded-xl !bg-gradient-to-r !from-amber-400 !to-orange-500 font-black border-none !text-slate-950 shadow-md h-8.5 text-xs"
+                    className="mt-3 rounded-xl !bg-gradient-to-r !from-amber-400 !to-orange-500 font-black border-none !text-slate-950 shadow-md h-9 text-xs px-4 cursor-pointer"
                   >
                     {locale === 'hi' ? '+ जन्म विवरण भरें' : '+ Enter Birth Details'}
                   </Button>
@@ -472,49 +467,49 @@ export default function AiAstrologerPage() {
           </div>
 
           {/* Right Column: 1-on-1 Astrologer Consultation & Gemstone Gateway */}
-          <div className="lg:col-span-7 flex flex-col h-[740px] rounded-3xl border-2 border-orange-200/90 bg-white shadow-xl overflow-hidden relative">
+          <div className="w-full min-w-0 max-w-full flex flex-col h-[650px] sm:h-[720px] lg:h-[750px] rounded-2xl sm:rounded-3xl border-2 border-orange-200/90 bg-white shadow-xl overflow-hidden relative lg:col-span-7">
             {/* Astrologer Profile Header Bar */}
-            <div className="h-[72px] shrink-0 border-b border-orange-200/80 bg-gradient-to-r from-orange-50/90 via-amber-50/60 to-white px-4 sm:px-5 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-tr from-orange-500 via-amber-500 to-red-500 text-white font-bold text-xl shadow-sm border-2 border-white">
+            <div className="h-[68px] sm:h-[72px] shrink-0 border-b border-orange-200/80 bg-gradient-to-r from-orange-50/90 via-amber-50/60 to-white px-3 sm:px-5 flex items-center justify-between gap-2 min-w-0">
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                <div className="relative shrink-0">
+                  <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-gradient-to-tr from-orange-500 via-amber-500 to-red-500 text-white font-bold text-lg sm:text-xl shadow-sm border-2 border-white">
                     🪐
                   </div>
-                  <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-500 border-2 border-white shadow-xs" title="Online" />
+                  <span className="absolute bottom-0 right-0 h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-emerald-500 border-2 border-white shadow-xs" title="Online" />
                 </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-serif text-sm sm:text-base font-black text-orange-950">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <h3 className="font-serif text-sm sm:text-base font-black text-orange-950 truncate">
                       {locale === 'hi' ? 'ज्योतिषाचार्य अतुल' : 'Astrologer Atul'}
                     </h3>
-                    <span className="rounded bg-orange-600/10 px-2 py-0.5 text-[9.5px] font-black uppercase tracking-wider text-orange-800 border border-orange-300">
+                    <span className="hidden sm:inline-block rounded bg-orange-600/10 px-1.5 py-0.5 text-[9.5px] font-black uppercase tracking-wider text-orange-800 border border-orange-300 shrink-0">
                       {locale === 'hi' ? 'वरिष्ठ ज्योतिषी' : 'Senior Astrologer'}
                     </span>
                   </div>
-                  <div className="text-[11.5px] text-neutral-500 font-medium mt-0.5">
+                  <div className="text-[10px] sm:text-[11.5px] text-neutral-500 font-medium truncate mt-0.5 max-w-[140px] xs:max-w-[200px] sm:max-w-none">
                     {locale === 'hi' ? 'लाइव 1-on-1 रत्न एवं कुंडली परामर्श' : 'Live 1-on-1 Gemstone & Kundli Consultation'}
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                 {contact.whatsapp && (
                   <a
                     href={waLink(contact.whatsapp, locale === 'hi' ? 'नमस्ते ज्योतिषाचार्य अतुल जी, मुझे अपनी कुंडली हेतु रत्न परामर्श चाहिए।' : 'Namaste Astrologer Atul, I need gemstone consultation for my Kundli.')}
                     target="_blank"
                     rel="noopener noreferrer"
                     title="Chat on WhatsApp"
-                    className="flex h-9 items-center gap-1.5 px-2.5 rounded-xl border border-neutral-200 bg-white text-emerald-600 hover:bg-emerald-50/60 hover:border-emerald-300 transition shadow-2xs text-xs font-semibold"
+                    className="flex h-8 sm:h-9 items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 rounded-xl border border-neutral-200 bg-white text-emerald-600 hover:bg-emerald-50/60 hover:border-emerald-300 transition shadow-2xs text-xs font-semibold"
                   >
-                    <WhatsAppOutlined className="text-sm" />
-                    <span className="hidden sm:inline text-[11px] text-neutral-700">{t.nav.whatsapp}</span>
+                    <WhatsAppOutlined className="text-base sm:text-sm text-emerald-600" />
+                    <span className="hidden md:inline text-[11px] text-neutral-700">{t.nav.whatsapp}</span>
                   </a>
                 )}
                 {isUnlocked && (
                   <button
                     onClick={handleClearChat}
                     title={t.ai_page.clear_chat}
-                    className="flex items-center gap-1 rounded-xl border border-orange-200 bg-white px-3 py-1.5 text-xs font-bold text-neutral-600 hover:text-red-600 hover:border-red-200 transition shadow-2xs cursor-pointer"
+                    className="flex h-8 sm:h-9 items-center justify-center gap-1 rounded-xl border border-orange-200 bg-white px-2 sm:px-3 text-xs font-bold text-neutral-600 hover:text-red-600 hover:border-red-200 transition shadow-2xs cursor-pointer"
                   >
                     <DeleteOutlined />
                     <span className="hidden sm:inline">{locale === 'hi' ? 'साफ करें' : 'Clear'}</span>
@@ -524,14 +519,14 @@ export default function AiAstrologerPage() {
             </div>
 
             {/* Chat Stream Area */}
-            <div className={`flex-1 p-4 sm:p-5 space-y-4 bg-[#FFFDF9]/60 relative ${isUnlocked ? 'overflow-y-auto scrollbar-thin' : 'overflow-hidden'}`}>
+            <div className={`flex-1 p-3.5 sm:p-5 space-y-4 bg-[#FFFDF9]/60 relative ${isUnlocked ? 'overflow-y-auto scrollbar-thin' : 'overflow-hidden'}`}>
               {messages.map((msg) => (
                 <div
                   key={msg.id}
                   className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
                 >
                   <div
-                    className={`max-w-[92%] sm:max-w-[82%] rounded-2xl px-4 py-3 text-sm shadow-xs ${
+                    className={`max-w-[94%] sm:max-w-[82%] rounded-2xl px-3.5 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm shadow-xs ${
                       msg.sender === 'user'
                         ? 'bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-br-xs font-medium'
                         : 'bg-white border border-orange-100/90 text-neutral-800 rounded-bl-xs'
@@ -606,37 +601,37 @@ export default function AiAstrologerPage() {
                   placeholder={
                     isUnlocked
                       ? (locale === 'hi' ? 'अपना प्रश्न पूछें (उदा. "मेरे लिए कौन सा रत्न सबसे शुभ है?")...' : 'Ask your astrology or gemstone question...')
-                      : (locale === 'hi' ? `परामर्श अनलॉक (₹${consultationPrice}) करें और ज्योतिषाचार्य अतुल जी से प्रश्न पूछें...` : `Unlock consultation (₹${consultationPrice}) to ask Astrologer Atul your questions...`)
+                      : (locale === 'hi' ? `परामर्श अनलॉक (₹${consultationPrice}) करें और प्रश्न पूछें...` : `Unlock consultation (₹${consultationPrice}) to ask questions...`)
                   }
                   rows={2}
-                  className="w-full resize-none rounded-2xl border border-orange-200 bg-orange-50/30 p-2.5 pr-12 text-sm text-neutral-800 focus:border-orange-500 focus:bg-white focus:outline-none placeholder:text-neutral-400 disabled:bg-neutral-100/70 disabled:cursor-not-allowed"
+                  className="w-full resize-none rounded-2xl border border-orange-200 bg-orange-50/30 p-2.5 pr-12 text-xs sm:text-sm text-neutral-800 focus:border-orange-500 focus:bg-white focus:outline-none placeholder:text-neutral-400 disabled:bg-neutral-100/70 disabled:cursor-not-allowed"
                 />
                 <button
                   onClick={() => handleSend()}
                   disabled={isLoading || !input.trim() || !isUnlocked}
-                  className="cursor-pointer absolute right-2 bottom-2.5 flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-xs transition hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="cursor-pointer absolute right-2 bottom-2.5 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-xs transition hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  <SendOutlined className="text-sm" />
+                  <SendOutlined className="text-xs sm:text-sm" />
                 </button>
               </div>
             </div>
 
             {/* PAYWALL / CONSULTATION LOCK OVERLAY */}
             {!isUnlocked && (
-              <div className="absolute inset-x-0 top-[72px] bottom-0 z-30 bg-white/80 backdrop-blur-md flex items-center justify-center p-4 overflow-hidden">
-                <div className="w-full max-w-md my-auto rounded-3xl border-2 border-orange-400/80 bg-gradient-to-b from-white via-orange-50/40 to-amber-50/50 p-6 sm:p-7 shadow-2xl text-center space-y-4">
-                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-orange-500 via-amber-500 to-red-600 text-white shadow-lg text-2xl border-2 border-white">
+              <div className="absolute inset-x-0 top-[68px] sm:top-[72px] bottom-0 z-30 bg-white/85 backdrop-blur-md flex items-center justify-center p-2 xs:p-3 sm:p-5 overflow-y-auto w-full min-w-0">
+                <div className="w-full max-w-md my-auto rounded-2xl sm:rounded-3xl border-2 border-orange-400/80 bg-gradient-to-b from-white via-orange-50/40 to-amber-50/50 p-3.5 sm:p-7 shadow-2xl text-center space-y-3 sm:space-y-4 min-w-0">
+                  <div className="mx-auto flex h-11 w-11 sm:h-14 sm:w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-orange-500 via-amber-500 to-red-600 text-white shadow-md text-xl sm:text-2xl border-2 border-white">
                     💎
                   </div>
 
                   <div>
-                    <span className="inline-flex items-center gap-1 px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-orange-100 text-orange-900 border border-orange-200 mb-1.5">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[9.5px] sm:text-[10px] font-black uppercase tracking-wider bg-orange-100 text-orange-900 border border-orange-200 mb-1">
                       {locale === 'hi' ? 'प्रत्यक्ष ज्योतिषी परामर्श' : 'Direct Astrologer Consultation'}
                     </span>
-                    <h3 className="font-serif text-xl sm:text-2xl font-black text-neutral-900 tracking-tight">
+                    <h3 className="font-serif text-lg sm:text-2xl font-black text-neutral-900 tracking-tight leading-snug">
                       {locale === 'hi' ? 'रत्न एवं कुंडली परामर्श अनलॉक करें' : 'Unlock Gemstone Consultation'}
                     </h3>
-                    <p className="text-xs text-neutral-600 mt-1 max-w-xs mx-auto leading-relaxed">
+                    <p className="text-[11px] sm:text-xs text-neutral-600 mt-1 max-w-xs mx-auto leading-relaxed">
                       {locale === 'hi'
                         ? 'ज्योतिषाचार्य अतुल जी से अपनी कुंडली के अनुसार सटीक भाग्यशाली रत्न एवं वैदिक मार्गदर्शन प्राप्त करें।'
                         : 'Get authentic personalized gemstone advice & direct 1-on-1 horoscope consultation from Astrologer Atul.'}
@@ -644,51 +639,52 @@ export default function AiAstrologerPage() {
                   </div>
 
                   {/* Feature Benefits List */}
-                  <div className="text-left space-y-2.5 rounded-2xl bg-white border border-orange-200/80 p-4 text-xs text-neutral-700 shadow-2xs">
+                  <div className="text-left space-y-2 rounded-xl sm:rounded-2xl bg-white border border-orange-200/80 p-3 sm:p-4 text-xs text-neutral-700 shadow-2xs min-w-0">
                     <div className="flex items-start gap-2">
-                      <CheckCircleFilled className="text-emerald-600 text-sm mt-0.5 shrink-0" />
-                      <span>
-                        <strong>{locale === 'hi' ? 'शुभ रत्न मार्गदर्शन:' : 'Lucky Gemstone Advice:'}</strong>{' '}
+                      <CheckCircleFilled className="text-emerald-600 text-xs sm:text-sm mt-0.5 shrink-0" />
+                      <span className="text-[11px] sm:text-xs leading-relaxed">
+                        <strong className="text-neutral-900">{locale === 'hi' ? 'शुभ रत्न मार्गदर्शन:' : 'Lucky Gemstone Advice:'}</strong>{' '}
                         {locale === 'hi' ? 'जानें आपकी लग्न कुंडली व वर्तमान महादशा अनुसार कौन सा रत्न शुभ है।' : 'Know which ratna suits your Lagna & current Mahadasha.'}
                       </span>
                     </div>
                     <div className="flex items-start gap-2">
-                      <CheckCircleFilled className="text-emerald-600 text-sm mt-0.5 shrink-0" />
-                      <span>
-                        <strong>{locale === 'hi' ? 'सीधा 1-on-1 संवाद:' : 'Direct 1-on-1 Chat:'}</strong>{' '}
+                      <CheckCircleFilled className="text-emerald-600 text-xs sm:text-sm mt-0.5 shrink-0" />
+                      <span className="text-[11px] sm:text-xs leading-relaxed">
+                        <strong className="text-neutral-900">{locale === 'hi' ? 'सीधा 1-on-1 संवाद:' : 'Direct 1-on-1 Chat:'}</strong>{' '}
                         {locale === 'hi' ? 'रत्न, रत्ती, धारण विधि, धातु व उपायों से जुड़े सभी प्रश्न पूछें।' : 'Ask follow-up questions for Lucky Gemstones, Ratti, Vidhi & Remedies.'}
                       </span>
                     </div>
                   </div>
 
                   {/* Price & Action Button */}
-                  <div className="pt-1">
-                    <div className="flex items-baseline justify-center gap-2 mb-3">
+                  <div className="pt-0.5 min-w-0">
+                    <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 mb-2.5">
                       <span className="text-xs text-neutral-500 font-semibold">{locale === 'hi' ? 'विशेष दक्षिणा शुल्क:' : 'Special Dakshina Fee:'}</span>
-                      <span className="text-2xl sm:text-3xl font-black text-orange-600">
-                        ₹{consultationPrice}
-                      </span>
-                      <span className="text-xs text-neutral-400 line-through">₹299</span>
-                      <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-black">
-                        83% OFF
-                      </span>
+                      <div className="flex items-baseline gap-1.5">
+                        <span className="text-2xl sm:text-3xl font-black text-orange-600 leading-none">
+                          ₹{consultationPrice}
+                        </span>
+                        <span className="text-xs text-neutral-400 line-through">₹299</span>
+                        <span className="text-[9.5px] sm:text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded">
+                          83% OFF
+                        </span>
+                      </div>
                     </div>
 
-                    <Button
-                      type="primary"
-                      size="large"
-                      loading={isUnlocking}
+                    <button
+                      type="button"
+                      disabled={isUnlocking}
                       onClick={handleUnlockConsultation}
-                      className="w-full !rounded-2xl !bg-gradient-to-r !from-orange-500 !via-orange-600 !to-red-600 !font-black !text-white !h-12 !text-sm sm:!text-base shadow-lg hover:!from-orange-600 hover:!to-red-700 cursor-pointer border-none transition"
+                      className="w-full rounded-2xl bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 font-black text-white py-2.5 sm:py-3 px-2 text-xs sm:text-sm shadow-lg hover:from-orange-600 hover:to-red-700 cursor-pointer border-none transition flex items-center justify-center gap-1.5 leading-snug disabled:opacity-50"
                     >
-                      <LockOutlined className="mr-1" />
-                      {locale === 'hi' ? `लाइव परामर्श अनलॉक करें (₹${consultationPrice})` : `Unlock Live Consultation (₹${consultationPrice})`}
-                    </Button>
+                      <LockOutlined className="shrink-0 text-sm" />
+                      <span>{locale === 'hi' ? `लाइव परामर्श अनलॉक करें (₹${consultationPrice})` : `Unlock Live Consultation (₹${consultationPrice})`}</span>
+                    </button>
                   </div>
 
-                  <div className="flex items-center justify-center gap-3 text-[11px] text-neutral-500 pt-1 font-medium">
+                  <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-[10.5px] sm:text-[11px] text-neutral-500 pt-0.5 font-medium text-center">
                     <span>🔒 {locale === 'hi' ? '100% सुरक्षित भुगतान' : '100% Secure Payment'}</span>
-                    <span>•</span>
+                    <span className="hidden xs:inline text-neutral-300">•</span>
                     <span>⚡ {locale === 'hi' ? 'तुरंत चैट एक्टिवेशन' : 'Instant Chat Activation'}</span>
                   </div>
 
@@ -701,7 +697,7 @@ export default function AiAstrologerPage() {
                       localStorage.setItem('kk_consultation_unlocked', 'true');
                       message.success(locale === 'hi' ? 'परामर्श अनलॉक हो गया!' : 'Demo Consultation Unlocked!');
                     }}
-                    className="text-[11px] text-neutral-400 hover:text-orange-600 underline cursor-pointer transition"
+                    className="text-[10.5px] sm:text-[11px] text-neutral-400 hover:text-orange-600 underline cursor-pointer transition block mx-auto pt-0.5"
                   >
                     {locale === 'hi' ? '(परीक्षण मोड: तुरंत अनलॉक करें)' : '(Testing Mode: Instant Unlock)'}
                   </button>

@@ -1,10 +1,17 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/lib/i18n';
 
 export function RatnaFloatingButton() {
   const { t } = useLanguage();
+  const pathname = usePathname();
+
+  // Do not show the floating CTA when the user is already on the AI Astrologer consultation page or admin pages
+  if (pathname === '/ai-astrologer' || pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   return (
     <div className="fixed bottom-3.5 right-3.5 sm:bottom-5 sm:right-5 z-40">

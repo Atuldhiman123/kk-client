@@ -16,6 +16,7 @@ import type {
   UploadResponse,
 } from './types';
 import { getAdminToken } from './auth';
+import { calculateVedicChart } from './vedicChartEngine';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001';
 
@@ -166,22 +167,51 @@ export const sendAiChat = (payload: AiChatPayload) =>
   request<AiChatResponse>('/ai/chat', jsonBody(payload));
 
 export const generateAstrologyChart = async (payload: BirthDetailsPayload): Promise<AstrologyChartResponse> => {
+  const cacheKey = `kk_chart_${payload.dateOfBirth}_${payload.timeOfBirth}_${payload.latitude}_${payload.longitude}`;
+
   if (typeof window !== 'undefined') {
-    const cacheKey = `kk_chart_${payload.dateOfBirth}_${payload.timeOfBirth}_${payload.latitude}_${payload.longitude}`;
     try {
       const cached = localStorage.getItem(cacheKey);
       if (cached) {
-        return JSON.parse(cached);
+        const parsed = JSON.parse(cached);
+        if (parsed?.ascendant?.sign) {
+          return parsed;
+        }
       }
-    } catch (e) {}
-
-    const result = await request<AstrologyChartResponse>('/astrology/chart', jsonBody(payload));
-    try {
-      localStorage.setItem(cacheKey, JSON.stringify(result));
-    } catch (e) {}
-    return result;
+    } catch {}
   }
-  return request<AstrologyChartResponse>('/astrology/chart', jsonBody(payload));
+
+  // Attempt backend API with a short timeout (2.5s) to avoid UI hang
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
+
+    const result = await request<AstrologyChartResponse>('/astrology/chart', {
+      ...jsonBody(payload),
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+
+    if (result && result.ascendant && result.ascendant.sign) {
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.setItem(cacheKey, JSON.stringify(result));
+        } catch {}
+      }
+      return result;
+    }
+  } catch (err: any) {
+    console.warn('Backend /astrology/chart unavailable, calculating client-side Vedic chart:', err?.message || err);
+  }
+
+  // High-precision sidereal Vedic astrology calculation fallback
+  const calculated = calculateVedicChart(payload);
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(cacheKey, JSON.stringify(calculated));
+    } catch {}
+  }
+  return calculated;
 };
 
 export const searchAstrologyKnowledge = (query: string, topK = 5) =>

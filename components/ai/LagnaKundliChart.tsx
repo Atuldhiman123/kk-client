@@ -325,7 +325,7 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, i
   if (!chartData || !chartData.ascendant) {
     return (
       <div
-        className={`rounded-2xl border border-amber-500/30 bg-gradient-to-br from-[#070B14] via-[#0F172A] to-[#070B14] p-4 text-center shadow-xl text-white ${className}`}
+        className={`rounded-2xl border border-amber-500/30 bg-gradient-to-br from-[#070B14] via-[#0F172A] to-[#070B14] p-3 sm:p-4 text-center shadow-xl text-white w-full min-w-0 ${className}`}
       >
         <div className="py-4 text-xs">
           <span className="text-3xl block mb-1.5 filter drop-shadow">☸️</span>
@@ -373,17 +373,17 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, i
 
   return (
     <div
-      className={`rounded-2xl border border-amber-400/40 bg-gradient-to-br from-[#060911] via-[#0E1726] to-[#060911] p-3 sm:p-3.5 shadow-2xl space-y-2.5 text-white ${className}`}
+      className={`rounded-2xl border border-amber-400/40 bg-gradient-to-br from-[#060911] via-[#0E1726] to-[#060911] p-3 sm:p-3.5 shadow-2xl space-y-2.5 text-white w-full min-w-0 ${className}`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-amber-500/25 pb-1.5">
-        <div className="flex items-center gap-1.5">
-          <span className="text-sm">☸️</span>
-          <h3 className="font-serif text-xs font-bold text-amber-300 uppercase tracking-wider">
+      <div className="flex items-center justify-between border-b border-amber-500/25 pb-1.5 gap-2">
+        <div className="flex items-center gap-1.5 min-w-0">
+          <span className="text-sm shrink-0">☸️</span>
+          <h3 className="font-serif text-xs font-bold text-amber-300 uppercase tracking-wider truncate">
             LAGNA KUNDLI (लग्न चक्र)
           </h3>
         </div>
-        <span className="inline-flex items-center gap-1 px-2 py-0.2 rounded-full text-[11px] font-black bg-amber-400/20 text-amber-300 border border-amber-400/60 shadow-xs">
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10.5px] sm:text-[11px] font-black bg-amber-400/20 text-amber-300 border border-amber-400/60 shadow-xs shrink-0">
           Lagna: {lagnaSign}
         </span>
       </div>
@@ -451,8 +451,8 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, i
         </div>
 
         {/* Right Column (sm:col-span-7): The SVG North Indian Lagna Chart */}
-        <div className="sm:col-span-7 flex justify-center items-center">
-          <div className="relative w-full max-w-[210px] aspect-square flex items-center justify-center p-1 rounded-2xl bg-[#050811] border-2 border-amber-500/40 shadow-inner">
+        <div className="sm:col-span-7 flex justify-center items-center py-1 sm:py-0">
+          <div className="relative w-full max-w-[210px] aspect-square flex items-center justify-center p-1 rounded-2xl bg-[#050811] border-2 border-amber-500/40 shadow-inner mx-auto">
             <svg
               viewBox="0 0 300 300"
               className="w-full h-full select-none"

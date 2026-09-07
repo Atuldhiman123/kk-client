@@ -2,9 +2,11 @@
 
 import React, { useMemo } from 'react';
 import type { AstrologyChartResponse } from '@/lib/types';
+import { useLanguage } from '@/lib/i18n';
 
 interface LagnaKundliChartProps {
   chartData: AstrologyChartResponse | null;
+  isLoading?: boolean;
   className?: string;
 }
 
@@ -44,7 +46,9 @@ interface PlanetPlacement {
   isRetrograde?: boolean;
 }
 
-export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, className = '' }) => {
+export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, isLoading = false, className = '' }) => {
+  const { locale } = useLanguage();
+
   // Compute house signs and planetary placements
   const { houseSigns, housePlanets, moonSign, moonNakshatra, lagnaSign, lagnaNakshatra, currentMahadasha, currentAntardasha } =
     useMemo<{
@@ -163,6 +167,161 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, c
       };
     }, [chartData]);
 
+  // Render Skeleton Loader while chart is calculating / rendering
+  if (isLoading) {
+    return (
+      <div
+        className={`rounded-2xl border border-amber-400/40 bg-gradient-to-br from-[#060911] via-[#0E1726] to-[#060911] p-3 sm:p-3.5 shadow-2xl space-y-2.5 text-white relative overflow-hidden ${className}`}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-amber-500/25 pb-1.5">
+          <div className="flex items-center gap-1.5">
+            <span className="text-sm animate-spin-slow">☸️</span>
+            <h3 className="font-serif text-xs font-bold text-amber-300 uppercase tracking-wider">
+              LAGNA KUNDLI (लग्न चक्र)
+            </h3>
+          </div>
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-400/50 shadow-xs animate-pulse">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping inline-block" />
+            {locale === 'hi' ? 'गणना जारी है...' : 'Calculating Kundli...'}
+          </span>
+        </div>
+
+        {/* Layout: Left Skeleton Details | Right Skeleton SVG Chart */}
+        <div className="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-center">
+          {/* Left Column Skeleton Cards */}
+          <div className="sm:col-span-5 space-y-2">
+            {/* Lagna Skeleton Card */}
+            <div className="rounded-xl bg-slate-900/95 p-2 border border-amber-400/30 shadow-xs">
+              <div className="flex items-center justify-between">
+                <div className="h-2.5 w-16 bg-amber-400/30 rounded animate-pulse" />
+                <div className="h-2.5 w-8 bg-amber-400/20 rounded animate-pulse" />
+              </div>
+              <div className="mt-2 flex items-center justify-between">
+                <div className="h-4 w-20 bg-gradient-to-r from-amber-400/40 to-amber-200/20 rounded animate-pulse" />
+                <div className="h-4 w-10 bg-amber-300/30 rounded animate-pulse" />
+              </div>
+              <div className="mt-2 h-2.5 w-24 bg-slate-700/60 rounded animate-pulse" />
+            </div>
+
+            {/* Rashi Skeleton Card */}
+            <div className="rounded-xl bg-slate-900/95 p-2 border border-sky-400/30 shadow-xs">
+              <div className="flex items-center justify-between">
+                <div className="h-2.5 w-20 bg-sky-400/30 rounded animate-pulse" />
+                <div className="h-2.5 w-8 bg-sky-400/20 rounded animate-pulse" />
+              </div>
+              <div className="mt-2 flex items-center justify-between">
+                <div className="h-4 w-22 bg-gradient-to-r from-sky-400/40 to-sky-200/20 rounded animate-pulse" />
+                <div className="h-4 w-10 bg-sky-300/30 rounded animate-pulse" />
+              </div>
+              <div className="mt-2 h-2.5 w-28 bg-slate-700/60 rounded animate-pulse" />
+            </div>
+
+            {/* Mahadasha Skeleton Card */}
+            <div className="rounded-xl bg-gradient-to-r from-amber-950/80 via-slate-900 to-amber-950/80 p-2 border border-amber-400/40 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <span className="text-xs animate-pulse">⏳</span>
+                <div className="space-y-1">
+                  <div className="h-2 w-20 bg-amber-400/30 rounded animate-pulse" />
+                  <div className="h-3 w-16 bg-amber-200/40 rounded animate-pulse" />
+                </div>
+              </div>
+              <div className="h-4 w-14 bg-amber-400/30 rounded-full animate-pulse" />
+            </div>
+          </div>
+
+          {/* Right Column Skeleton Chart */}
+          <div className="sm:col-span-7 flex justify-center items-center">
+            <div className="relative w-full max-w-[210px] aspect-square flex items-center justify-center p-1 rounded-2xl bg-[#050811] border-2 border-amber-500/40 shadow-inner overflow-hidden">
+              <svg
+                viewBox="0 0 300 300"
+                className="w-full h-full select-none"
+              >
+                {/* Background Outer Border */}
+                <rect
+                  x="3"
+                  y="3"
+                  width="294"
+                  height="294"
+                  fill="#080D1A"
+                  stroke="#F59E0B"
+                  strokeWidth="3"
+                  rx="8"
+                />
+
+                {/* Inner Accent Border */}
+                <rect
+                  x="8"
+                  y="8"
+                  width="284"
+                  height="284"
+                  fill="none"
+                  stroke="#78350F"
+                  strokeWidth="1"
+                  rx="6"
+                />
+
+                {/* Diamond Lines with glowing dashed stroke */}
+                <line x1="3" y1="3" x2="297" y2="297" stroke="#FBBF24" strokeWidth="2" strokeDasharray="6 4" opacity="0.7" />
+                <line x1="3" y1="297" x2="297" y2="3" stroke="#FBBF24" strokeWidth="2" strokeDasharray="6 4" opacity="0.7" />
+                <polygon
+                  points="150,3 297,150 150,297 3,150"
+                  fill="none"
+                  stroke="#F59E0B"
+                  strokeWidth="2.5"
+                  strokeDasharray="8 4"
+                  opacity="0.8"
+                />
+
+                {/* Shimmering House Nodes */}
+                {[
+                  { x: 150, y: 115 }, { x: 95, y: 45 }, { x: 45, y: 95 }, { x: 115, y: 150 },
+                  { x: 45, y: 205 }, { x: 95, y: 255 }, { x: 150, y: 185 }, { x: 205, y: 255 },
+                  { x: 255, y: 205 }, { x: 185, y: 150 }, { x: 255, y: 95 }, { x: 205, y: 45 },
+                ].map((pt, i) => (
+                  <circle
+                    key={i}
+                    cx={pt.x}
+                    cy={pt.y}
+                    r="4"
+                    fill="#FEF08A"
+                    opacity="0.5"
+                    className="animate-pulse"
+                  />
+                ))}
+
+                {/* Central Vedic orbit circle */}
+                <circle cx="150" cy="150" r="32" fill="#F59E0B" fillOpacity="0.08" stroke="#FBBF24" strokeWidth="1" strokeDasharray="4 4" className="animate-spin-slow" />
+              </svg>
+
+              {/* Central Floating Loading Badge */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none p-2 text-center bg-slate-950/40 backdrop-blur-[1px] rounded-2xl">
+                <div className="w-9 h-9 rounded-full bg-amber-500/20 border border-amber-400/60 flex items-center justify-center text-amber-300 text-base shadow-lg animate-bounce">
+                  🪐
+                </div>
+                <span className="mt-1.5 text-[10.5px] font-extrabold text-amber-200 tracking-wide bg-slate-900/90 px-2.5 py-0.5 rounded-md border border-amber-500/40 shadow-sm">
+                  {locale === 'hi' ? 'लग्न चक्र बन रहा है...' : 'Drawing Chart...'}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Status Ticker */}
+        <div className="pt-1 border-t border-amber-500/20 flex items-center justify-between text-[10px] text-amber-300/85 px-0.5">
+          <span className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping shrink-0" />
+            <span className="truncate">
+              {locale === 'hi'
+                ? 'ग्रह स्थिति, भाव व विंशोत्तरी दशा की गणना हो रही है...'
+                : 'Calculating Ephemeris, Bhavas & Vimshottari Dasha...'}
+            </span>
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   if (!chartData || !chartData.ascendant) {
     return (
       <div
@@ -172,7 +331,9 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, c
           <span className="text-3xl block mb-1.5 filter drop-shadow">☸️</span>
           <p className="font-bold text-sm text-amber-300 font-serif tracking-wide">LAGNA KUNDLI (लग्न चक्र)</p>
           <p className="mt-1 text-slate-300 text-xs max-w-xs mx-auto">
-            Add birth date &amp; time above to view your Vedic Lagna Chart &amp; planetary positions.
+            {locale === 'hi'
+              ? 'सटीक वैदिक लग्न चक्र व ग्रह स्थिति देखने के लिए ऊपर जन्म विवरण भरें।'
+              : 'Add birth date & time above to view your Vedic Lagna Chart & planetary positions.'}
           </p>
         </div>
       </div>

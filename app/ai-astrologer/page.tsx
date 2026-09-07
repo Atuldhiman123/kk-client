@@ -468,7 +468,7 @@ export default function AiAstrologerPage() {
             </div>
 
             {/* Visual Lagna Kundli Chart */}
-            <LagnaKundliChart chartData={chartData} />
+            <LagnaKundliChart chartData={chartData} isLoading={isLoadingChart} />
           </div>
 
           {/* Right Column: 1-on-1 Astrologer Consultation & Gemstone Gateway */}

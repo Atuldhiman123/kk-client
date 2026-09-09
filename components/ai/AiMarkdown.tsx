@@ -7,9 +7,10 @@ interface AiMarkdownProps {
   darkMode?: boolean;
 }
 
-export function AiMarkdown({ content, darkMode = false }: AiMarkdownProps) {
+export function AiMarkdown({ content = '', darkMode = false }: AiMarkdownProps) {
   // Simple, robust line-by-line markdown parser for clean Vedic AI rendering
-  const lines = content.split('\n');
+  const safeContent = typeof content === 'string' ? content : (content ? String(content) : '');
+  const lines = safeContent.split('\n');
 
   return (
     <div className={`space-y-2.5 text-xs sm:text-sm leading-relaxed ${darkMode ? 'text-slate-100' : 'text-neutral-800'}`}>
@@ -83,8 +84,10 @@ export function AiMarkdown({ content, darkMode = false }: AiMarkdownProps) {
 }
 
 function renderFormattedText(text: string, darkMode = false): React.ReactNode[] {
+  if (!text) return [];
+  const safeText = typeof text === 'string' ? text : String(text);
   // Split by bold (**bold**) and inline code (`code`)
-  const parts = text.split(/(\*\*.*?\*\*|`.*?`)/g);
+  const parts = safeText.split(/(\*\*.*?\*\*|`.*?`)/g);
 
   return parts.map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {

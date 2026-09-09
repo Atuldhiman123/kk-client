@@ -23,9 +23,14 @@ export function Header({ contact }: { contact: ContactInfo }) {
             alt="Kundli Kendra Logo"
             className="h-8 w-8 sm:h-9 sm:w-9 rounded-full object-cover border-1.5 border-amber-400/80 shadow-xs transition-transform duration-200 group-hover:scale-105 shrink-0"
           />
-          <span className="hidden sm:inline font-serif tracking-tight text-base sm:text-lg whitespace-nowrap leading-none">
-            {t.nav.brand_name} <span className="text-orange-600 font-black">{t.nav.brand_highlight}</span>
-          </span>
+          <div className="hidden sm:flex flex-col">
+            <span className="font-serif tracking-tight text-base sm:text-lg whitespace-nowrap leading-none">
+              {t.nav.brand_name} <span className="text-orange-600 font-black">{t.nav.brand_highlight}</span>
+            </span>
+            <span className="text-[8px] sm:text-[8.5px] font-extrabold tracking-widest text-amber-800/80 uppercase mt-0.5 leading-none">
+              YOUR DESTINY &bull; OUR GUIDANCE
+            </span>
+          </div>
         </Link>
 
         {/* Desktop Navigation Links */}
@@ -75,7 +80,7 @@ export function Header({ contact }: { contact: ContactInfo }) {
               <PhoneOutlined className="text-[13px]" />
             </a>
           )}
-          {contact.whatsapp && (
+          {contact?.whatsapp && (
             <a
               href={waLink(contact.whatsapp)}
               target="_blank"
@@ -87,7 +92,7 @@ export function Header({ contact }: { contact: ContactInfo }) {
             </a>
           )}
 
-          {/* Book Now Button */}
+          {/* Book Consultation Button */}
           <Link
             href="/#booking"
             onClick={(e) => {
@@ -100,12 +105,14 @@ export function Header({ contact }: { contact: ContactInfo }) {
                 }
               }
             }}
-            className="rounded-full bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 px-2.5 py-1.5 xs:px-3.5 sm:px-4 sm:py-2 text-[10.5px] xs:text-[11px] sm:text-xs font-bold text-white shadow-xs hover:from-orange-600 hover:to-red-700 transition duration-150 whitespace-nowrap shrink-0 cursor-pointer"
+            className="rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-orange-600 px-3 py-1.5 xs:px-4 sm:px-4.5 sm:py-2 text-[11px] xs:text-[11.5px] sm:text-xs font-bold text-white shadow-xs hover:from-amber-600 hover:to-orange-700 transition duration-150 whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1.5"
             style={{ color: '#ffffff' }}
           >
+            <span className="text-[11px] sm:text-xs">📅</span>
             <span className="text-white whitespace-nowrap font-bold" style={{ color: '#ffffff' }}>
               {t.nav.book_now}
             </span>
+            <span className="text-xs">&rarr;</span>
           </Link>
 
           {/* Mobile Menu Toggle Button */}

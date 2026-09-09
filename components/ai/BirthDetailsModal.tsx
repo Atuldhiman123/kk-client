@@ -38,7 +38,6 @@ export function BirthDetailsModal({
   useEffect(() => {
     if (open) {
       if (initialPlaceName) {
-        // Find in flat list
         const raw = initialPlaceName.trim().toLowerCase();
         let matched = ALL_INDIA_CITIES_FLAT.find((c) =>
           c.label.toLowerCase() === raw ||
@@ -141,7 +140,7 @@ export function BirthDetailsModal({
       message.success(
         locale === 'hi'
           ? `जन्म विवरण (${placeDisplayName}) सुरक्षित कर लिया गया!`
-          : `Birth details saved (${placeDisplayName}) for Kundli analysis!`
+          : `Birth details saved (${placeDisplayName})!`
       );
       onClose();
     } catch {
@@ -155,64 +154,67 @@ export function BirthDetailsModal({
       onCancel={onClose}
       footer={null}
       title={
-        <div className="flex items-center gap-2 pb-2 border-b border-orange-100">
-          <span className="text-2xl">🪐</span>
-          <div>
-            <h3 className="font-serif text-base font-bold text-orange-950">
+        <div className="flex items-center gap-2 pb-1.5 border-b border-orange-100">
+          <span className="text-xl">🪐</span>
+          <div className="min-w-0">
+            <h3 className="font-serif text-sm sm:text-base font-bold text-neutral-900 leading-tight">
               {locale === 'hi' ? 'जन्म विवरण दर्ज करें' : 'Add Birth Details'}
             </h3>
-            <p className="text-xs text-neutral-500 font-normal">
+            <p className="text-[10.5px] text-neutral-500 font-normal truncate mt-0.5">
               {locale === 'hi'
-                ? 'सटीक वैदिक कुंडली और ग्रह दशा गणना हेतु'
-                : 'Accurate Vedic Kundli & planetary calculation location'}
+                ? 'सटीक लग्न कुंडली व ग्रह दशा गणना हेतु'
+                : 'Accurate Vedic Kundli & planetary calculation'}
             </p>
           </div>
         </div>
       }
       centered
-      width={460}
+      width="100%"
+      style={{ maxWidth: 400, margin: '12px auto' }}
+      styles={{
+        body: { padding: '4px 0' },
+      }}
     >
       <Form
         form={form}
         layout="vertical"
         onFinish={handleFinish}
-        className="mt-3 space-y-3"
+        className="mt-2.5 space-y-2"
       >
-        {/* Row 1: DOB and Birth Time */}
-        <div className="grid grid-cols-2 gap-3">
-          <Form.Item
-            label={<span className="text-xs font-semibold text-neutral-700">{t.booking.dob}</span>}
-            name="dob"
-            rules={[{ required: true, message: t.booking.dob_required }]}
-          >
-            <DatePicker
-              className="w-full !rounded-xl"
-              format="DD MMM YYYY"
-              placeholder={t.booking.dob_placeholder}
-              prefix={<CalendarOutlined className="text-orange-500" />}
-            />
-          </Form.Item>
+        {/* Row 1: Date of Birth */}
+        <Form.Item
+          label={<span className="text-[11px] font-medium text-neutral-700">{t.booking.dob}</span>}
+          name="dob"
+          rules={[{ required: true, message: t.booking.dob_required }]}
+          className="!mb-2"
+        >
+          <DatePicker
+            className="w-full !rounded-xl !h-9 text-xs"
+            format="DD MMM YYYY"
+            placeholder={locale === 'hi' ? 'जन्म दिनांक चुनें (उदा. 15 Aug 1995)' : 'Select Birth Date (DD MMM YYYY)'}
+          />
+        </Form.Item>
 
-          <Form.Item
-            label={<span className="text-xs font-semibold text-neutral-700">{t.booking.birth_time}</span>}
-            name="time"
-            rules={[{ required: true, message: t.booking.birth_time_required }]}
-          >
-            <TimePicker
-              className="w-full !rounded-xl"
-              format="HH:mm"
-              placeholder={t.booking.birth_time_placeholder}
-              prefix={<ClockCircleOutlined className="text-orange-500" />}
-            />
-          </Form.Item>
-        </div>
+        {/* Row 2: Time of Birth */}
+        <Form.Item
+          label={<span className="text-[11px] font-medium text-neutral-700">{t.booking.birth_time}</span>}
+          name="time"
+          rules={[{ required: true, message: t.booking.birth_time_required }]}
+          className="!mb-2"
+        >
+          <TimePicker
+            className="w-full !rounded-xl !h-9 text-xs"
+            format="HH:mm"
+            placeholder={locale === 'hi' ? 'जन्म समय चुनें (उदा. 10:30 AM)' : 'Select Birth Time (HH:mm)'}
+          />
+        </Form.Item>
 
         {/* Place of Birth Selection */}
         {!isCustomMode ? (
           <Form.Item
             label={
-              <span className="text-xs font-semibold text-neutral-700 flex items-center gap-1">
-                <EnvironmentOutlined className="text-orange-600" />
+              <span className="text-[11px] font-medium text-neutral-700 flex items-center gap-1">
+                <EnvironmentOutlined className="text-orange-600 text-xs" />
                 <span>{t.booking.birth_place}</span>
               </span>
             }
@@ -226,10 +228,10 @@ export function BirthDetailsModal({
               placeholder={
                 locale === 'hi'
                   ? 'जिला या शहर खोजें...'
-                  : 'Search by district...'
+                  : 'Search city or district...'
               }
               className="w-full !rounded-xl"
-              size="middle"
+              style={{ height: 36 }}
               onChange={handleCitySelect}
               filterOption={(input, option) =>
                 ((option?.label as string) || '').toLowerCase().includes(input.toLowerCase())
@@ -248,13 +250,13 @@ export function BirthDetailsModal({
           </Form.Item>
         ) : (
           /* Custom Coordinates Section */
-          <div className="rounded-2xl bg-orange-50/70 p-3 border border-orange-200 space-y-2">
-            <div className="flex items-center justify-between text-xs font-bold text-orange-950">
+          <div className="rounded-xl bg-orange-50/60 p-2.5 border border-orange-200 space-y-1.5">
+            <div className="flex items-center justify-between text-[11px] font-semibold text-orange-950">
               <span>📍 {locale === 'hi' ? 'मैन्युअल निर्देशांक' : 'Manual Coordinates'}</span>
               <button
                 type="button"
                 onClick={() => setIsCustomMode(false)}
-                className="text-orange-700 underline text-[11px] font-semibold cursor-pointer"
+                className="text-orange-700 underline text-[10.5px] font-medium cursor-pointer"
               >
                 {locale === 'hi' ? 'वापस लिस्ट पर जाएं' : 'Back to list'}
               </button>
@@ -262,30 +264,30 @@ export function BirthDetailsModal({
 
             <Form.Item
               name="customCityName"
-              label={<span className="text-[10.5px] font-medium text-neutral-700">{locale === 'hi' ? 'स्थान / शहर का नाम' : 'Place / City Name'}</span>}
-              className="!mb-1.5"
+              label={<span className="text-[10px] font-medium text-neutral-700">{locale === 'hi' ? 'स्थान / शहर का नाम' : 'Place / City Name'}</span>}
+              className="!mb-1"
             >
-              <Input placeholder={locale === 'hi' ? 'उदा. मेरा गांव / शहर' : 'e.g. Village / City'} size="small" className="!rounded-xl" />
+              <Input placeholder={locale === 'hi' ? 'उदा. मेरा गांव / शहर' : 'e.g. City'} size="small" className="!rounded-lg" />
             </Form.Item>
 
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-1.5">
               <Form.Item
                 name="latitude"
-                label={<span className="text-[10px] font-medium text-neutral-700">Latitude (अक्षांश)</span>}
+                label={<span className="text-[9.5px] font-medium text-neutral-700">Lat (अक्षांश)</span>}
                 className="!mb-0"
               >
                 <Input placeholder="28.61" size="small" className="!rounded-lg" />
               </Form.Item>
               <Form.Item
                 name="longitude"
-                label={<span className="text-[10px] font-medium text-neutral-700">Longitude (देशांतर)</span>}
+                label={<span className="text-[9.5px] font-medium text-neutral-700">Lon (देशांतर)</span>}
                 className="!mb-0"
               >
                 <Input placeholder="77.20" size="small" className="!rounded-lg" />
               </Form.Item>
               <Form.Item
                 name="timezone"
-                label={<span className="text-[10px] font-medium text-neutral-700">Timezone</span>}
+                label={<span className="text-[9.5px] font-medium text-neutral-700">Timezone</span>}
                 className="!mb-0"
               >
                 <Input placeholder="5.5" size="small" className="!rounded-lg" />
@@ -296,27 +298,27 @@ export function BirthDetailsModal({
 
         {/* Selected Coordinates Pill */}
         {selectedPlaceString && !isCustomMode && (
-          <div className="flex items-center justify-between text-[11px] bg-orange-50/80 px-3 py-1.5 rounded-xl border border-orange-200/80 text-orange-950">
-            <span className="font-semibold flex items-center gap-1 truncate max-w-[65%]">
-              📍 <span>{selectedPlaceString}</span>
+          <div className="flex items-center justify-between text-[10.5px] bg-orange-50/60 px-2.5 py-1 rounded-lg border border-orange-200/60 text-orange-950">
+            <span className="font-medium flex items-center gap-1 truncate max-w-[65%]">
+              📍 <span className="truncate">{selectedPlaceString}</span>
             </span>
-            <span className="text-[10px] text-neutral-600 font-mono shrink-0">
-              Lat: {currentCoordinates.lat.toFixed(2)}°, Lon: {currentCoordinates.lon.toFixed(2)}°
+            <span className="text-[9.5px] text-neutral-500 font-mono shrink-0">
+              {currentCoordinates.lat.toFixed(2)}°, {currentCoordinates.lon.toFixed(2)}°
             </span>
           </div>
         )}
 
-        {/* Buttons */}
-        <div className="pt-2.5 flex items-center justify-end gap-2 border-t border-neutral-100">
-          <Button onClick={onClose} className="rounded-xl">
+        {/* Compact Action Buttons */}
+        <div className="pt-2 flex items-center justify-end gap-2 border-t border-neutral-100 mt-2">
+          <Button onClick={onClose} className="rounded-xl h-8.5 px-3.5 text-xs">
             {locale === 'hi' ? 'रद्द करें' : 'Cancel'}
           </Button>
           <Button
             type="primary"
             htmlType="submit"
-            className="rounded-xl bg-gradient-to-r from-orange-500 to-red-600 border-0 font-bold shadow-md hover:from-orange-600 hover:to-red-700"
+            className="rounded-xl h-8.5 px-4 bg-gradient-to-r from-orange-500 to-red-600 border-0 font-semibold text-xs shadow-xs hover:from-orange-600 hover:to-red-700"
           >
-            {locale === 'hi' ? 'सुरक्षित करें एवं कुंडली देखें' : 'Save & Calculate Kundli'}
+            {locale === 'hi' ? 'सुरक्षित करें' : 'Save & Calculate'}
           </Button>
         </div>
       </Form>

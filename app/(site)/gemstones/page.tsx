@@ -48,3 +48,5 @@ export default async function GemstonesPage(props: { searchParams: Promise<{ sea
     </div>
   );
 }
+
+

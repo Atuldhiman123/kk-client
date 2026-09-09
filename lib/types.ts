@@ -212,6 +212,7 @@ export interface AiChatPayload {
   message: string;
   conversationId?: string;
   birthDetails?: BirthDetailsPayload;
+  locale?: string;
 }
 
 export interface AiChatResponse {

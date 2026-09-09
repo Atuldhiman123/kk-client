@@ -191,30 +191,32 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, i
         <div className="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-center">
           {/* Left Column Skeleton Cards */}
           <div className="sm:col-span-5 space-y-2">
-            {/* Lagna Skeleton Card */}
-            <div className="rounded-xl bg-slate-900/95 p-2 border border-amber-400/30 shadow-xs">
-              <div className="flex items-center justify-between">
-                <div className="h-2.5 w-16 bg-amber-400/30 rounded animate-pulse" />
-                <div className="h-2.5 w-8 bg-amber-400/20 rounded animate-pulse" />
+            <div className="grid grid-cols-2 sm:grid-cols-1 gap-2">
+              {/* Lagna Skeleton Card */}
+              <div className="rounded-xl bg-slate-900/95 p-2 border border-amber-400/30 shadow-xs">
+                <div className="flex items-center justify-between">
+                  <div className="h-2.5 w-16 bg-amber-400/30 rounded animate-pulse" />
+                  <div className="h-2.5 w-8 bg-amber-400/20 rounded animate-pulse" />
+                </div>
+                <div className="mt-2 flex items-center justify-between">
+                  <div className="h-4 w-20 bg-gradient-to-r from-amber-400/40 to-amber-200/20 rounded animate-pulse" />
+                  <div className="h-4 w-10 bg-amber-300/30 rounded animate-pulse" />
+                </div>
+                <div className="mt-2 h-2.5 w-24 bg-slate-700/60 rounded animate-pulse" />
               </div>
-              <div className="mt-2 flex items-center justify-between">
-                <div className="h-4 w-20 bg-gradient-to-r from-amber-400/40 to-amber-200/20 rounded animate-pulse" />
-                <div className="h-4 w-10 bg-amber-300/30 rounded animate-pulse" />
-              </div>
-              <div className="mt-2 h-2.5 w-24 bg-slate-700/60 rounded animate-pulse" />
-            </div>
 
-            {/* Rashi Skeleton Card */}
-            <div className="rounded-xl bg-slate-900/95 p-2 border border-sky-400/30 shadow-xs">
-              <div className="flex items-center justify-between">
-                <div className="h-2.5 w-20 bg-sky-400/30 rounded animate-pulse" />
-                <div className="h-2.5 w-8 bg-sky-400/20 rounded animate-pulse" />
+              {/* Rashi Skeleton Card */}
+              <div className="rounded-xl bg-slate-900/95 p-2 border border-sky-400/30 shadow-xs">
+                <div className="flex items-center justify-between">
+                  <div className="h-2.5 w-20 bg-sky-400/30 rounded animate-pulse" />
+                  <div className="h-2.5 w-8 bg-sky-400/20 rounded animate-pulse" />
+                </div>
+                <div className="mt-2 flex items-center justify-between">
+                  <div className="h-4 w-22 bg-gradient-to-r from-sky-400/40 to-sky-200/20 rounded animate-pulse" />
+                  <div className="h-4 w-10 bg-sky-300/30 rounded animate-pulse" />
+                </div>
+                <div className="mt-2 h-2.5 w-28 bg-slate-700/60 rounded animate-pulse" />
               </div>
-              <div className="mt-2 flex items-center justify-between">
-                <div className="h-4 w-22 bg-gradient-to-r from-sky-400/40 to-sky-200/20 rounded animate-pulse" />
-                <div className="h-4 w-10 bg-sky-300/30 rounded animate-pulse" />
-              </div>
-              <div className="mt-2 h-2.5 w-28 bg-slate-700/60 rounded animate-pulse" />
             </div>
 
             {/* Mahadasha Skeleton Card */}
@@ -325,12 +327,12 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, i
   if (!chartData || !chartData.ascendant) {
     return (
       <div
-        className={`rounded-2xl border border-amber-500/30 bg-gradient-to-br from-[#070B14] via-[#0F172A] to-[#070B14] p-3 sm:p-4 text-center shadow-xl text-white w-full min-w-0 ${className}`}
+        className={`rounded-2xl border border-amber-500/30 bg-gradient-to-br from-[#070B14] via-[#0F172A] to-[#070B14] p-4 text-center shadow-xl text-white w-full min-w-0 flex flex-col items-center justify-center ${className}`}
       >
-        <div className="py-4 text-xs">
-          <span className="text-3xl block mb-1.5 filter drop-shadow">☸️</span>
-          <p className="font-bold text-sm text-amber-300 font-serif tracking-wide">LAGNA KUNDLI (लग्न चक्र)</p>
-          <p className="mt-1 text-slate-300 text-xs max-w-xs mx-auto">
+        <div className="py-4 text-xs max-w-xs mx-auto">
+          <span className="text-3xl sm:text-4xl block mb-2 filter drop-shadow">☸️</span>
+          <p className="font-bold text-sm sm:text-base text-amber-300 font-serif tracking-wide">LAGNA KUNDLI (लग्न चक्र)</p>
+          <p className="mt-1.5 text-slate-400 text-xs max-w-xs mx-auto leading-relaxed">
             {locale === 'hi'
               ? 'सटीक वैदिक लग्न चक्र व ग्रह स्थिति देखने के लिए ऊपर जन्म विवरण भरें।'
               : 'Add birth date & time above to view your Vedic Lagna Chart & planetary positions.'}
@@ -373,7 +375,7 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, i
 
   return (
     <div
-      className={`rounded-2xl border border-amber-400/40 bg-gradient-to-br from-[#060911] via-[#0E1726] to-[#060911] p-3 sm:p-3.5 shadow-2xl space-y-2.5 text-white w-full min-w-0 ${className}`}
+      className={`rounded-2xl border border-amber-400/40 bg-gradient-to-br from-[#060911] via-[#0E1726] to-[#060911] p-3 sm:p-3.5 shadow-2xl space-y-2.5 text-white w-full min-w-0 overflow-hidden flex flex-col justify-start ${className}`}
     >
       {/* Header */}
       <div className="flex items-center justify-between border-b border-amber-500/25 pb-1.5 gap-2">
@@ -392,40 +394,43 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, i
       <div className="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-center">
         {/* Left Column (sm:col-span-5): Lagna, Rashi & Active Mahadasha */}
         <div className="sm:col-span-5 space-y-2">
-          {/* Lagna Highlight Card */}
-          <div className="rounded-xl bg-slate-900/95 p-2 border border-amber-400/40 shadow-xs">
-            <div className="text-[9px] font-bold text-amber-300 uppercase tracking-wider">
-              Lagna (लग्न)
-            </div>
-            <div className="font-extrabold text-amber-200 text-xs mt-0.5 flex items-center justify-between">
-              <span>{lagnaSign || '—'}</span>
-              <span className="text-[11px] text-amber-300 font-serif font-bold">
-                {lagnaSign ? SIGN_MAP[lagnaSign.toLowerCase()]?.hi : ''}
-              </span>
-            </div>
-            {lagnaNakshatra && (
-              <div className="text-[9.5px] text-slate-300 mt-0.5 truncate">
-                Nak: <span className="text-amber-100 font-bold">{lagnaNakshatra}</span>
+          {/* On mobile: Lagna & Rashi side-by-side; On desktop: stacked */}
+          <div className="grid grid-cols-2 sm:grid-cols-1 gap-2">
+            {/* Lagna Highlight Card */}
+            <div className="rounded-xl bg-slate-900/95 p-2 border border-amber-400/40 shadow-xs">
+              <div className="text-[9px] font-bold text-amber-300 uppercase tracking-wider">
+                Lagna (लग्न)
               </div>
-            )}
-          </div>
+              <div className="font-extrabold text-amber-200 text-xs mt-0.5 flex items-center justify-between">
+                <span>{lagnaSign || '—'}</span>
+                <span className="text-[11px] text-amber-300 font-serif font-bold">
+                  {lagnaSign ? SIGN_MAP[lagnaSign.toLowerCase()]?.hi : ''}
+                </span>
+              </div>
+              {lagnaNakshatra && (
+                <div className="text-[9.5px] text-slate-300 mt-0.5 truncate">
+                  Nak: <span className="text-amber-100 font-bold">{lagnaNakshatra}</span>
+                </div>
+              )}
+            </div>
 
-          {/* Rashi Highlight Card */}
-          <div className="rounded-xl bg-slate-900/95 p-2 border border-sky-400/40 shadow-xs">
-            <div className="text-[9px] font-bold text-sky-300 uppercase tracking-wider">
-              Rashi (राशि / Moon)
-            </div>
-            <div className="font-extrabold text-sky-200 text-xs mt-0.5 flex items-center justify-between">
-              <span>{moonSign || '—'}</span>
-              <span className="text-[11px] text-sky-300 font-serif font-bold">
-                {moonSign ? SIGN_MAP[moonSign.toLowerCase()]?.hi : ''}
-              </span>
-            </div>
-            {moonNakshatra && (
-              <div className="text-[9.5px] text-slate-300 mt-0.5 truncate">
-                Janma Nak: <span className="text-sky-100 font-bold">{moonNakshatra}</span>
+            {/* Rashi Highlight Card */}
+            <div className="rounded-xl bg-slate-900/95 p-2 border border-sky-400/40 shadow-xs">
+              <div className="text-[9px] font-bold text-sky-300 uppercase tracking-wider">
+                Rashi (राशि / Moon)
               </div>
-            )}
+              <div className="font-extrabold text-sky-200 text-xs mt-0.5 flex items-center justify-between">
+                <span>{moonSign || '—'}</span>
+                <span className="text-[11px] text-sky-300 font-serif font-bold">
+                  {moonSign ? SIGN_MAP[moonSign.toLowerCase()]?.hi : ''}
+                </span>
+              </div>
+              {moonNakshatra && (
+                <div className="text-[9.5px] text-slate-300 mt-0.5 truncate">
+                  Janma Nak: <span className="text-sky-100 font-bold">{moonNakshatra}</span>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Active Mahadasha Card */}
@@ -452,7 +457,7 @@ export const LagnaKundliChart: React.FC<LagnaKundliChartProps> = ({ chartData, i
 
         {/* Right Column (sm:col-span-7): The SVG North Indian Lagna Chart */}
         <div className="sm:col-span-7 flex justify-center items-center py-1 sm:py-0">
-          <div className="relative w-full max-w-[210px] aspect-square flex items-center justify-center p-1 rounded-2xl bg-[#050811] border-2 border-amber-500/40 shadow-inner mx-auto">
+          <div className="relative w-full max-w-[210px] aspect-square flex items-center justify-center p-1 rounded-2xl bg-[#050811] border-2 border-amber-500/40 shadow-inner mx-auto overflow-hidden">
             <svg
               viewBox="0 0 300 300"
               className="w-full h-full select-none"

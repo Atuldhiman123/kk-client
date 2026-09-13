@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useMemo, useRef } from 'react';
-import { DatePicker, Form, Radio, Spin, Segmented, Tag, type FormInstance } from 'antd';
+import { DatePicker, Form, Radio, Spin, Segmented, Tag, Input, type FormInstance } from 'antd';
 import dayjs, { type Dayjs } from 'dayjs';
 import {
   CalendarOutlined,
@@ -337,9 +337,9 @@ export function ConsultationStep({ form, categories, combos }: Props) {
         <Form.Item
           name="selection"
           rules={[{ required: true, message: t.booking.session_required }]}
-          className="!hidden"
+          className="!mb-0"
         >
-          <input type="hidden" />
+          <Input type="hidden" />
         </Form.Item>
 
         {/* Selected Session Pill Indicator */}

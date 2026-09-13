@@ -34,7 +34,7 @@ export function PersonalDetailsStep() {
             label={t.booking.full_name}
             name="name"
             rules={[{ required: true, message: t.booking.full_name_required }]}
-            className="!mb-1.5"
+            className="!mb-0"
           >
             <Input placeholder={t.booking.full_name_placeholder} size="middle" className="!rounded-xl" />
           </Form.Item>
@@ -57,7 +57,7 @@ export function PersonalDetailsStep() {
                 message: t.booking.phone_valid,
               },
             ]}
-            className="!mb-1.5"
+            className="!mb-0"
           >
             <Input
               prefix={<span className="text-neutral-400 font-bold text-xs pr-1.5 border-r border-neutral-200 mr-1.5">+91</span>}
@@ -68,15 +68,6 @@ export function PersonalDetailsStep() {
             />
           </Form.Item>
         </div>
-
-        <Form.Item
-          label={t.booking.email}
-          name="email"
-          rules={[{ type: 'email', message: t.booking.email_valid }]}
-          className="!mb-0"
-        >
-          <Input placeholder="you@example.com" size="middle" className="!rounded-xl" />
-        </Form.Item>
       </div>
 
       {/* 2. Birth Details for Kundli Analysis */}

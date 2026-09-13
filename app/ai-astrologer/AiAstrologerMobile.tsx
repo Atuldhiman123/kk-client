@@ -46,23 +46,33 @@ const DEFAULT_SUGGESTIONS_EN = [
   '💎 Which lucky gemstone is most auspicious for my Kundli?',
   '🪐 Which gemstone gives good results in Saturn / Rahu Dasha?',
   '🌟 What are the most beneficial planets and gems for me?',
-  '⚖️ What is the right Ratti and ritual method to wear my gemstone?',
+  '⚖️ What is the right Ratti calculation for my gemstone?',
   '💎 Is wearing Pukhraj / Moonga / Pearl safe for my Lagna?',
-  '✨ How to get 100% lab certified and energized gemstones?',
+  '✨ How to get 100% original lab-certified gemstones?',
 ];
 
 const DEFAULT_SUGGESTIONS_HI = [
   '💎 मेरी कुंडली के अनुसार मेरा लकी रत्न कौन सा है?',
   '🪐 शनि या राहु की दशा में कौन सा रत्न शुभ फल देगा?',
   '🌟 मेरी कुंडली के सबसे शुभ ग्रह और रत्न कौन से हैं?',
-  '⚖️ रत्न कितने रत्ती का और किस विधि से धारण करना चाहिए?',
+  '⚖️ मेरी कुंडली के अनुसार सही रत्ती का निर्धारण कैसे होता है?',
   '💎 क्या मेरे लिए पुखराज / मूंगा / मोती धारण करना शुभ है?',
-  '✨ 100% प्रमाणित एवं प्राण प्रतिष्ठित रत्न कैसे प्राप्त करें?',
+  '✨ 100% असली व लैब प्रमाणित शुद्ध रत्न कैसे प्राप्त करें?',
 ];
 
 const getBirthKey = (details: BirthDetailsPayload | null) => {
   if (!details) return 'no_birth_details';
   return `${details.dateOfBirth}_${details.timeOfBirth}_${Number(details.latitude || 0).toFixed(2)}_${Number(details.longitude || 0).toFixed(2)}`;
+};
+
+const format12HourTime = (timeStr?: string) => {
+  if (!timeStr) return '';
+  const [h, m] = timeStr.split(':').map(Number);
+  if (isNaN(h) || isNaN(m)) return timeStr;
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const hour12 = h % 12 || 12;
+  const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
+  return `${pad(hour12)}:${pad(m)} ${ampm}`;
 };
 
 const CHAT_WALLPAPER_STYLE: React.CSSProperties = {
@@ -103,7 +113,7 @@ export default function AiAstrologerMobile() {
   const [isBirthModalOpen, setIsBirthModalOpen] = useState(false);
   const [useBirthChart, setUseBirthChart] = useState(false);
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
   const workspaceRef = useRef<HTMLDivElement>(null);
   const unlockCardRef = useRef<HTMLDivElement>(null);
 
@@ -162,13 +172,20 @@ export default function AiAstrologerMobile() {
 
   useEffect(() => {
     if (activeTab === 'chat' && (messages.length > 1 || isLoading)) {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTo({
+          top: chatContainerRef.current.scrollHeight,
+          behavior: 'smooth',
+        });
+      }
     }
   }, [messages, isLoading, activeTab]);
 
   useEffect(() => {
     if (activeTab === 'chat' && birthDetails && !isUnlocked) {
-      unlockCardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   }, [birthDetails, isUnlocked, activeTab]);
 
@@ -809,6 +826,7 @@ export default function AiAstrologerMobile() {
               <div className="flex-1 flex flex-col min-h-0">
                 {/* Chat Stream Area */}
                 <div
+                  ref={chatContainerRef}
                   style={CHAT_WALLPAPER_STYLE}
                   className="flex-1 p-3 pb-6 space-y-3 relative overflow-y-auto scrollbar-thin"
                 >
@@ -1109,8 +1127,6 @@ export default function AiAstrologerMobile() {
                       )}
                     </>
                   )}
-
-                  <div ref={messagesEndRef} />
                 </div>
 
                 {/* Quick Prompts Suggestions (Compact Horizontal Chips) */}
@@ -1219,7 +1235,7 @@ export default function AiAstrologerMobile() {
 
                   {birthDetails ? (
                     <div className="text-[11px] text-neutral-700 font-normal bg-orange-50/30 p-2 rounded-lg border border-orange-200/60 leading-snug">
-                      <span>📅 {birthDetails.dateOfBirth} • ⏰ {birthDetails.timeOfBirth}</span>
+                      <span>📅 {birthDetails.dateOfBirth} • ⏰ {format12HourTime(birthDetails.timeOfBirth)}</span>
                       <br />
                       <span>📍 {placeName}</span>
                     </div>

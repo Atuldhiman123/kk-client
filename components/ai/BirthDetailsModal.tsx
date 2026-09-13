@@ -204,8 +204,9 @@ export function BirthDetailsModal({
         >
           <TimePicker
             className="w-full !rounded-xl !h-9 text-xs"
-            format="HH:mm"
-            placeholder={locale === 'hi' ? 'जन्म समय चुनें (उदा. 10:30 AM)' : 'Select Birth Time (HH:mm)'}
+            format="hh:mm A"
+            use12Hours
+            placeholder={locale === 'hi' ? 'जन्म समय चुनें (उदा. 10:30 AM)' : 'Select Birth Time (hh:mm A)'}
           />
         </Form.Item>
 

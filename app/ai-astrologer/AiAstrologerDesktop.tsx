@@ -42,23 +42,33 @@ const DEFAULT_SUGGESTIONS_EN = [
   '💎 Which lucky gemstone is most auspicious for my Kundli?',
   '🪐 Which gemstone gives good results in Saturn / Rahu Dasha?',
   '🌟 What are the most beneficial planets and gems for me?',
-  '⚖️ What is the right Ratti and ritual method to wear my gemstone?',
+  '⚖️ What is the right Ratti calculation for my gemstone?',
   '💎 Is wearing Pukhraj / Moonga / Pearl safe for my Lagna?',
-  '✨ How to get 100% lab certified and energized gemstones?',
+  '✨ How to get 100% original lab-certified gemstones?',
 ];
 
 const DEFAULT_SUGGESTIONS_HI = [
   '💎 मेरी कुंडली के अनुसार मेरा लकी रत्न कौन सा है?',
   '🪐 शनि या राहु की दशा में कौन सा रत्न शुभ फल देगा?',
   '🌟 मेरी कुंडली के सबसे शुभ ग्रह और रत्न कौन से हैं?',
-  '⚖️ रत्न कितने रत्ती का और किस विधि से धारण करना चाहिए?',
+  '⚖️ मेरी कुंडली के अनुसार सही रत्ती का निर्धारण कैसे होता है?',
   '💎 क्या मेरे लिए पुखराज / मूंगा / मोती धारण करना शुभ है?',
-  '✨ 100% प्रमाणित एवं प्राण प्रतिष्ठित रत्न कैसे प्राप्त करें?',
+  '✨ 100% असली व लैब प्रमाणित शुद्ध रत्न कैसे प्राप्त करें?',
 ];
 
 const getBirthKey = (details: BirthDetailsPayload | null) => {
   if (!details) return 'no_birth_details';
   return `${details.dateOfBirth}_${details.timeOfBirth}_${Number(details.latitude || 0).toFixed(2)}_${Number(details.longitude || 0).toFixed(2)}`;
+};
+
+const format12HourTime = (timeStr?: string) => {
+  if (!timeStr) return '';
+  const [h, m] = timeStr.split(':').map(Number);
+  if (isNaN(h) || isNaN(m)) return timeStr;
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const hour12 = h % 12 || 12;
+  const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
+  return `${pad(hour12)}:${pad(m)} ${ampm}`;
 };
 
 const CHAT_WALLPAPER_STYLE: React.CSSProperties = {
@@ -96,7 +106,7 @@ export default function AiAstrologerDesktop() {
   const [isBirthModalOpen, setIsBirthModalOpen] = useState(false);
   const [useBirthChart, setUseBirthChart] = useState(false);
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
   const workspaceRef = useRef<HTMLDivElement>(null);
 
   const consultationPrice = paymentConfig?.gemstoneConsultationPrice ?? 49;
@@ -154,7 +164,12 @@ export default function AiAstrologerDesktop() {
   }, [locale]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
   }, [messages, isLoading]);
 
   const loadChart = async (details: BirthDetailsPayload) => {
@@ -750,7 +765,9 @@ export default function AiAstrologerDesktop() {
                         <div className="text-[10px] text-amber-300 font-bold flex items-center gap-1">
                           <ClockCircleOutlined /> {t.booking.birth_time}
                         </div>
-                        <div className="font-extrabold text-slate-100 mt-0.5 text-xs sm:text-sm">{birthDetails.timeOfBirth}</div>
+                        <div className="font-extrabold text-slate-100 mt-0.5 text-xs sm:text-sm">
+                          {format12HourTime(birthDetails.timeOfBirth)}
+                        </div>
                       </div>
                     </div>
 
@@ -869,6 +886,7 @@ export default function AiAstrologerDesktop() {
 
               {/* Chat Stream Area */}
               <div
+                ref={chatContainerRef}
                 style={CHAT_WALLPAPER_STYLE}
                 className="flex-1 p-3.5 sm:p-5 space-y-3.5 sm:space-y-4 relative overflow-y-auto scrollbar-thin"
               >
@@ -882,7 +900,7 @@ export default function AiAstrologerDesktop() {
 
                 {/* CASE 1: Birth Details NOT entered yet (!birthDetails) */}
                 {!birthDetails ? (
-                  <div className="space-y-3.5 sm:space-y-4">
+                  <div className="space-y-4">
                     {/* Astrologer Atul Opening Message */}
                     <div className="flex items-start gap-2 sm:gap-2.5 max-w-[92%] sm:max-w-[85%]">
                       <img
@@ -913,38 +931,49 @@ export default function AiAstrologerDesktop() {
                       </div>
                     </div>
 
-                    {/* Step 1 Clean Guidance Card inside Chat */}
-                    <div className="ml-10 sm:ml-11 max-w-[400px] rounded-2xl bg-gradient-to-b from-white to-orange-50/50 border-2 border-orange-200/90 p-3.5 sm:p-4 shadow-sm space-y-3">
-                      <div className="flex items-center gap-2.5">
-                        <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white flex items-center justify-center text-lg shadow-xs shrink-0">
-                          📜
-                        </div>
-                        <div>
-                          <div className="text-[9.5px] font-bold uppercase tracking-wider text-orange-900 bg-orange-100 px-2 py-0.2 rounded-full inline-block mb-0.5">
-                            {locale === 'hi' ? 'चरण 1 आवश्यक' : 'Step 1 Required'}
+                    {/* Aesthetic Blurred Preview of Consultation Stream */}
+                    <div className="relative mt-2 rounded-2xl border border-orange-200/70 overflow-hidden bg-orange-50/20 p-3.5 select-none">
+                      <div className="space-y-3 filter blur-[3px] opacity-35 pointer-events-none">
+                        <div className="flex items-start gap-2 max-w-[80%]">
+                          <div className="h-7 w-7 rounded-full bg-amber-300 shrink-0" />
+                          <div className="rounded-2xl rounded-tl-xs bg-white p-3 shadow-2xs space-y-1.5 w-full">
+                            <div className="h-2.5 bg-orange-200 rounded w-3/5" />
+                            <div className="h-2 bg-neutral-200 rounded w-full" />
+                            <div className="h-2 bg-neutral-200 rounded w-4/5" />
                           </div>
-                          <h4 className="font-serif font-bold text-xs sm:text-sm text-neutral-900">
-                            {locale === 'hi' ? 'पहले जन्म विवरण भरें' : 'Enter Birth Details First'}
-                          </h4>
+                        </div>
+                        <div className="flex justify-end">
+                          <div className="rounded-2xl rounded-br-xs bg-gradient-to-r from-orange-400 to-amber-500 text-white p-2.5 shadow-2xs w-48">
+                            <div className="h-2.5 bg-white/70 rounded w-4/5" />
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-2 max-w-[85%]">
+                          <div className="h-7 w-7 rounded-full bg-amber-300 shrink-0" />
+                          <div className="rounded-2xl rounded-tl-xs bg-white p-3 shadow-2xs space-y-1.5 w-full">
+                            <div className="h-2.5 bg-orange-200 rounded w-2/3" />
+                            <div className="h-2 bg-neutral-200 rounded w-full" />
+                          </div>
                         </div>
                       </div>
-                      <p className="text-[11px] text-neutral-600 leading-relaxed">
-                        {locale === 'hi'
-                          ? 'सटीक लग्न व ग्रह स्थिति की गणना के बाद ही ज्योतिषाचार्य अतुल से लाइव चैट परामर्श सक्रिय होगा।'
-                          : 'Live consultation chat activates immediately after calculating your Lagna Kundli & planetary positions.'}
-                      </p>
-                      <button
-                        type="button"
-                        onClick={() => setIsBirthModalOpen(true)}
-                        className="w-full rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-2.5 px-3.5 text-xs shadow-md transition cursor-pointer flex items-center justify-center gap-1.5"
-                      >
-                        <span>+</span>
-                        <span>{locale === 'hi' ? 'जन्म विवरण भरें' : 'Enter Birth Details'}</span>
-                      </button>
+
+                      {/* Centered Glassmorphism Lock Overlay */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center p-4 bg-white/40 backdrop-blur-[2px]">
+                        <div className="rounded-2xl bg-white/95 border border-orange-200/90 p-3.5 shadow-md text-center max-w-[340px] space-y-1.5">
+                          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-900 text-[10px] font-bold">
+                            <span>👈</span>
+                            <span>{locale === 'hi' ? 'चरण 1: बाईं ओर जन्म विवरण भरें' : 'Step 1: Enter Birth Details on Left'}</span>
+                          </div>
+                          <p className="text-xs font-semibold text-neutral-800 leading-snug">
+                            {locale === 'hi'
+                              ? 'जैसे ही आप विवरण भरेंगे, आपकी लग्न कुंडली की गणना होगी और चैट सक्रिय हो जाएगी।'
+                              : 'Chat stream activates immediately after calculating your Lagna Kundli on the left.'}
+                          </p>
+                        </div>
+                      </div>
                     </div>
 
                     {/* Astrologer Online indicator */}
-                    <div className="flex items-center gap-2 text-xs text-neutral-500 pl-10 pt-1">
+                    <div className="flex items-center gap-2 text-xs text-neutral-500 pl-1 pt-0.5">
                       <span className="relative flex h-2 w-2">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
@@ -1138,8 +1167,6 @@ export default function AiAstrologerDesktop() {
                     )}
                   </>
                 )}
-
-                <div ref={messagesEndRef} />
               </div>
 
               {/* Quick Prompts Suggestions (Compact Horizontal Chips) */}

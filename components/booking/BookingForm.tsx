@@ -37,7 +37,7 @@ interface BookingFormValues {
 }
 
 const STEP_FIELDS: (keyof BookingFormValues)[][] = [
-  ['name', 'phone', 'email', 'profileName', 'dob', 'birthTime', 'birthPlace'],
+  ['name', 'phone', 'profileName', 'dob', 'birthTime', 'birthPlace'],
   ['selection', 'bookingDate', 'slot'],
   ['paymentMethod', 'transactionId', 'paymentScreenshot'],
   [],
@@ -51,7 +51,7 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
   const router = useRouter();
   const searchParams = useSearchParams();
   const { message } = App.useApp();
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
 
   const stepTitles = t.booking.steps || ['Details', 'Session & Slot', 'Payment', 'Confirm'];
 
@@ -119,7 +119,31 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
       await form.validateFields(fields);
       setCurrent((c) => c + 1);
     } catch {
-      // validation errors are shown inline by AntD
+      if (current === 1) {
+        const sel = form.getFieldValue('selection');
+        const bDate = form.getFieldValue('bookingDate');
+        const slot = form.getFieldValue('slot');
+        if (!sel) {
+          message.warning(
+            locale === 'hi'
+              ? 'कृपया पहले परामर्श श्रेणी (Category / Combo) चुनें!'
+              : 'Please select a consultation session (Category / Combo) first!'
+          );
+          return;
+        }
+        if (!bDate) {
+          message.warning(
+            locale === 'hi' ? 'कृपया अपॉइंटमेंट तिथि चुनें' : 'Please select an appointment date'
+          );
+          return;
+        }
+        if (!slot) {
+          message.warning(
+            locale === 'hi' ? 'कृपया उपलब्ध समय स्लॉट चुनें' : 'Please select an available time slot'
+          );
+          return;
+        }
+      }
     }
   };
 

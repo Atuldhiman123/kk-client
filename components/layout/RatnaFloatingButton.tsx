@@ -8,8 +8,8 @@ export function RatnaFloatingButton() {
   const { t } = useLanguage();
   const pathname = usePathname();
 
-  // Do not show the floating CTA when the user is already on the AI Astrologer consultation page or admin pages
-  if (pathname === '/ai-astrologer' || pathname?.startsWith('/admin')) {
+  // Do not show the floating CTA when the user is already on the AI Astrologer consultation page, admin pages, or booking/checkout pages
+  if (pathname === '/ai-astrologer' || pathname?.startsWith('/admin') || pathname?.startsWith('/booking')) {
     return null;
   }
 

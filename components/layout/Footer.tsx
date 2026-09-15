@@ -17,7 +17,7 @@ export function Footer({ contact }: { contact: ContactInfo }) {
         <div className="md:col-span-2">
           <Link href="/" className="flex items-center gap-2.5 text-xl font-bold tracking-tight text-orange-950 group">
             <img
-              src="/images/logo.png"
+              src="/images/logo.webp"
               alt="Kundli Kendra Logo"
               className="h-10 w-10 rounded-xl object-cover border border-amber-400/80 shadow-xs transition-transform duration-200 group-hover:scale-105"
             />

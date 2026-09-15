@@ -126,7 +126,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         <div>
           <div className="flex items-center gap-2.5 px-2 text-xl font-bold tracking-tight text-neutral-900">
             <img
-              src="/images/logo.png"
+              src="/images/logo.webp"
               alt="Kundli Kendra Logo"
               className="h-9 w-9 rounded-xl object-cover border border-amber-300"
             />

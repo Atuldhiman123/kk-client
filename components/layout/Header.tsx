@@ -19,7 +19,7 @@ export function Header({ contact }: { contact: ContactInfo }) {
         {/* Left: Brand Identity */}
         <Link href="/" className="flex items-center gap-2 font-bold tracking-tight text-neutral-900 group shrink-0">
           <img
-            src="/images/logo.png"
+            src="/images/logo.webp"
             alt="Kundli Kendra Logo"
             className="h-8 w-8 sm:h-9 sm:w-9 rounded-full object-cover border-1.5 border-amber-400/80 shadow-xs transition-transform duration-200 group-hover:scale-105 shrink-0"
           />

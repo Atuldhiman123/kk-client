@@ -8,26 +8,25 @@ import { categoryIcon } from '@/lib/category-icons';
 import { useLanguage, getLocalizedCategoryName, getLocalizedCategoryDesc, getLocalizedCategoryTags } from '@/lib/i18n';
 
 const CATEGORY_IMAGES: Record<string, string> = {
-  education: '/home-categories/education.png',
-  'family-problems': '/home-categories/family-problems.png',
-  finance: '/home-categories/finance.png',
-  'foreign-settlement': '/home-categories/foreign-settlement.png',
-  'gemstone-guidance': '/home-categories/gemstone-guidance.png',
-  health: '/home-categories/health.png',
-  'full-kundli-analysis': '/home-categories/kundli-analysis.png',
-  'kundli-matching': '/home-categories/kundli-matching.png',
-  love: '/home-categories/love.png',
-  marriage: '/home-categories/marriage.png',
-  'muhurat-guidance': '/home-categories/muhurat.png',
-  property: '/home-categories/property.png',
-  career: '/home-categories/career.png',
-  // No new asset provided for these yet — keep the existing images
-  business: '/home-categories/business.png',
-  'child-birth': '/home-categories/child-birth.png',
+  education: '/home-categories/education.webp',
+  'family-problems': '/home-categories/family-problems.webp',
+  finance: '/home-categories/finance.webp',
+  'foreign-settlement': '/home-categories/foreign-settlement.webp',
+  'gemstone-guidance': '/home-categories/gemstone-guidance.webp',
+  health: '/home-categories/health.webp',
+  'full-kundli-analysis': '/home-categories/kundli-analysis.webp',
+  'kundli-matching': '/home-categories/kundli-matching.webp',
+  love: '/home-categories/love.webp',
+  marriage: '/home-categories/marriage.webp',
+  'muhurat-guidance': '/home-categories/muhurat.webp',
+  property: '/home-categories/property.webp',
+  career: '/home-categories/career.webp',
+  business: '/home-categories/business.webp',
+  'child-birth': '/home-categories/child-birth.webp',
 };
 
 function categoryImage(slug: string): string {
-  return CATEGORY_IMAGES[slug] ?? '/images/categories/default.jpg';
+  return CATEGORY_IMAGES[slug] ?? '/images/categories/default.webp';
 }
 
 export function CategoryCard({ category }: { category: ConsultationCategory }) {

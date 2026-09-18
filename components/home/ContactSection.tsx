@@ -1,6 +1,7 @@
 'use client';
 
-import { InstagramOutlined, MailOutlined, PhoneOutlined, WhatsAppOutlined } from '@ant-design/icons';
+import { InstagramOutlined, MailOutlined, WhatsAppOutlined } from '@ant-design/icons';
+import { PhoneIcon } from '@/components/icons/PhoneIcon';
 import type { ContactInfo } from '@/lib/types';
 import { waLink, telLink } from '@/lib/contact';
 import { useLanguage } from '@/lib/i18n';
@@ -31,7 +32,7 @@ export function ContactSection({ contact }: { contact: ContactInfo }) {
             className="group flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-2 sm:gap-4 rounded-2xl sm:rounded-3xl border border-orange-100 bg-white p-3 sm:p-5 shadow-2xs transition hover:border-orange-400 hover:shadow-md"
           >
             <div className="flex h-9 w-9 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl bg-orange-50 text-orange-600 transition group-hover:scale-110">
-              <PhoneOutlined className="text-base sm:text-xl text-orange-600" />
+              <PhoneIcon className="h-4 w-4 sm:h-6 sm:w-6 text-orange-600" />
             </div>
             <div className="min-w-0 flex-1 w-full">
               <div className="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-neutral-400">{t.contact.phone}</div>

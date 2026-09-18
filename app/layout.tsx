@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
-import { Outfit, Playfair_Display, Geist_Mono } from "next/font/google";
+import { Cormorant_Garamond, Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { RatnaFloatingButton } from "@/components/layout/RatnaFloatingButton";
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
-const playfair = Playfair_Display({
-  variable: "--font-serif",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
@@ -35,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${outfit.variable} ${playfair.variable} ${geistMono.variable} h-full antialiased overflow-x-hidden`}
+      className={`${inter.variable} ${cormorant.variable} ${geistMono.variable} h-full antialiased overflow-x-hidden`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden w-full">
         <Providers>

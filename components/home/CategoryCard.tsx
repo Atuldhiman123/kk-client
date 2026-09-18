@@ -92,7 +92,7 @@ export function CategoryCard({ category }: { category: ConsultationCategory }) {
       <div className="flex flex-1 flex-col p-4 sm:p-5 justify-between">
         <div>
           <div className="flex items-start justify-between gap-2">
-            <h3 className="font-serif text-lg sm:text-xl font-bold text-neutral-900 transition group-hover:text-orange-600 m-0 leading-tight">
+            <h3 className="font-serif text-xl sm:text-2xl font-black tracking-tight text-neutral-950 transition group-hover:text-orange-600 m-0 leading-tight">
               {localizedName}
             </h3>
           </div>
@@ -103,8 +103,8 @@ export function CategoryCard({ category }: { category: ConsultationCategory }) {
             </p>
           )}
 
-          {/* Astrotalk-style Feature Highlights / Topic Tags */}
-          <div className="mt-3 flex flex-wrap gap-1.5">
+          {/* Astrotalk-style Feature Highlights / Topic Tags (Hidden on Mobile) */}
+          <div className="mt-3 hidden sm:flex flex-wrap gap-1.5">
             {tags.map((tag, idx) => (
               <span
                 key={idx}

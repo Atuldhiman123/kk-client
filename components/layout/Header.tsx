@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { PhoneOutlined, WhatsAppOutlined, MenuOutlined, CloseOutlined, InstagramOutlined } from '@ant-design/icons';
+import { WhatsAppOutlined, MenuOutlined, CloseOutlined, InstagramOutlined } from '@ant-design/icons';
+import { PhoneIcon } from '@/components/icons/PhoneIcon';
 import type { ContactInfo } from '@/lib/types';
 import { waLink, telLink } from '@/lib/contact';
 import { useLanguage } from '@/lib/i18n';
@@ -17,17 +18,17 @@ export function Header({ contact }: { contact: ContactInfo }) {
     <header className="sticky top-0 z-50 w-full border-b border-orange-200/80 bg-[#FFFDF9]/95 shadow-xs backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-2 py-1.5 sm:px-5 sm:py-2.5 lg:px-8 gap-1 sm:gap-2">
         {/* Left: Brand Identity */}
-        <Link href="/" className="flex items-center gap-2 font-bold tracking-tight text-neutral-900 group shrink-0">
+        <Link href="/" className="flex items-center gap-1.5 xs:gap-2 font-bold tracking-tight text-neutral-900 group shrink-0">
           <img
             src="/images/logo.webp"
             alt="Kundli Kendra Logo"
             className="h-8 w-8 sm:h-9 sm:w-9 rounded-full object-cover border-1.5 border-amber-400/80 shadow-xs transition-transform duration-200 group-hover:scale-105 shrink-0"
           />
-          <div className="hidden sm:flex flex-col">
-            <span className="font-serif tracking-tight text-base sm:text-lg whitespace-nowrap leading-none">
+          <div className="flex flex-col">
+            <span className="font-serif tracking-tight text-sm xs:text-base sm:text-lg whitespace-nowrap leading-none">
               {t.nav.brand_name} <span className="text-orange-600 font-black">{t.nav.brand_highlight}</span>
             </span>
-            <span className="text-[8px] sm:text-[8.5px] font-extrabold tracking-widest text-amber-800/80 uppercase mt-0.5 leading-none">
+            <span className="text-[7.5px] xs:text-[8px] sm:text-[8.5px] font-extrabold tracking-widest text-amber-800/80 uppercase mt-0.5 leading-none">
               YOUR DESTINY &bull; OUR GUIDANCE
             </span>
           </div>
@@ -56,7 +57,7 @@ export function Header({ contact }: { contact: ContactInfo }) {
         </nav>
 
         {/* Right Header Actions */}
-        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           {/* Language Switcher Pill */}
           <LanguageSwitcher variant="header" />
 
@@ -77,7 +78,7 @@ export function Header({ contact }: { contact: ContactInfo }) {
               className="hidden xl:flex h-8 w-8 items-center justify-center rounded-full border border-orange-200 bg-white text-orange-900 transition hover:border-orange-400 hover:text-orange-600 shadow-2xs"
               aria-label="Call"
             >
-              <PhoneOutlined className="text-[13px]" />
+              <PhoneIcon className="h-3.5 w-3.5" />
             </a>
           )}
           {contact?.whatsapp && (
@@ -92,7 +93,7 @@ export function Header({ contact }: { contact: ContactInfo }) {
             </a>
           )}
 
-          {/* Book Consultation Button */}
+          {/* Book Consultation Button (Tablet & Desktop) */}
           <Link
             href="/#booking"
             onClick={(e) => {
@@ -105,10 +106,10 @@ export function Header({ contact }: { contact: ContactInfo }) {
                 }
               }
             }}
-            className="rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-orange-600 px-3 py-1.5 xs:px-4 sm:px-4.5 sm:py-2 text-[11px] xs:text-[11.5px] sm:text-xs font-bold text-white shadow-xs hover:from-amber-600 hover:to-orange-700 transition duration-150 whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1.5"
+            className="hidden sm:flex rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-orange-600 px-3.5 py-1.5 sm:px-4.5 sm:py-2 text-xs font-bold text-white shadow-xs hover:from-amber-600 hover:to-orange-700 transition duration-150 whitespace-nowrap shrink-0 cursor-pointer items-center gap-1.5"
             style={{ color: '#ffffff' }}
           >
-            <span className="text-[11px] sm:text-xs">📅</span>
+            <span className="text-xs">📅</span>
             <span className="text-white whitespace-nowrap font-bold" style={{ color: '#ffffff' }}>
               {t.nav.book_now}
             </span>
@@ -118,10 +119,10 @@ export function Header({ contact }: { contact: ContactInfo }) {
           {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex h-7.5 w-7.5 xs:h-8 xs:w-8 items-center justify-center rounded-lg p-1 text-orange-950 hover:bg-orange-100/60 lg:hidden cursor-pointer shrink-0"
+            className="flex h-8 w-8 items-center justify-center rounded-lg p-1 text-orange-950 hover:bg-orange-100/60 lg:hidden cursor-pointer shrink-0"
             aria-label="Toggle Navigation Menu"
           >
-            {mobileMenuOpen ? <CloseOutlined className="text-sm sm:text-base" /> : <MenuOutlined className="text-sm sm:text-base" />}
+            {mobileMenuOpen ? <CloseOutlined className="text-base" /> : <MenuOutlined className="text-base" />}
           </button>
         </div>
       </div>
@@ -205,7 +206,7 @@ export function Header({ contact }: { contact: ContactInfo }) {
                     href={telLink(contact.phone)}
                     className="flex flex-col items-center justify-center rounded-xl border border-orange-100 bg-white p-2 text-neutral-800 shadow-2xs hover:border-orange-300"
                   >
-                    <PhoneOutlined className="text-base text-orange-600" />
+                    <PhoneIcon className="h-4 w-4 text-orange-600" />
                     <span className="text-[10px] font-bold mt-1">{t.nav.call}</span>
                   </a>
                 )}

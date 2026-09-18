@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { MailOutlined, PhoneOutlined, EnvironmentOutlined, WhatsAppOutlined, InstagramOutlined } from '@ant-design/icons';
+import { MailOutlined, EnvironmentOutlined, WhatsAppOutlined, InstagramOutlined } from '@ant-design/icons';
+import { PhoneIcon } from '@/components/icons/PhoneIcon';
 import type { ContactInfo } from '@/lib/types';
 import { telLink, waLink } from '@/lib/contact';
 import { useLanguage } from '@/lib/i18n';
@@ -94,7 +95,7 @@ export function Footer({ contact }: { contact: ContactInfo }) {
             <ul className="mt-3 sm:mt-4 space-y-2.5 sm:space-y-3 font-medium">
               <li>
                 <a href={telLink(contact.phone)} className="flex items-center gap-2.5 transition hover:text-red-700 break-all">
-                  <PhoneOutlined className="text-orange-700 shrink-0" /> <span>{contact.phone}</span>
+                  <PhoneIcon className="h-4 w-4 text-orange-700 shrink-0" /> <span>{contact.phone}</span>
                 </a>
               </li>
               <li>

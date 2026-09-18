@@ -12,14 +12,10 @@ export function PersonalDetailsStep() {
 
   return (
     <div className="space-y-2.5 sm:space-y-3">
-      {/* Slim Top WhatsApp Info Banner */}
-      <div className="flex items-center gap-2 text-[11px] sm:text-xs text-emerald-900 bg-emerald-50/90 border border-emerald-200/80 rounded-xl px-3 py-1.5 font-medium">
+      {/* Slim Top WhatsApp Info Banner (Hidden on Mobile) */}
+      <div className="hidden sm:flex items-center gap-2 text-[11px] sm:text-xs text-emerald-900 bg-emerald-50/90 border border-emerald-200/80 rounded-xl px-3 py-1.5 font-medium">
         <span className="text-emerald-600 font-bold text-xs shrink-0">📲</span>
-        <span>
-          {locale === 'hi'
-            ? 'अपॉइंटमेंट लिंक व कॉल अपडेट के लिए कृपया सक्रिय व्हाट्सएप नंबर दर्ज करें।'
-            : 'Please enter an active WhatsApp number to receive appointment link & call updates.'}
-        </span>
+        <span>{t.booking.phone_note}</span>
       </div>
 
       {/* 1. Contact Details */}

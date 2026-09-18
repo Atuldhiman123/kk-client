@@ -153,39 +153,63 @@ export function getLocalizedComboDesc(combo: ComboOffer | { name: string; descri
 
 export function getLocalizedTestimonial(testimonial: Testimonial, locale: Locale): Testimonial {
   if (locale !== 'hi') return testimonial;
-  const review = testimonial.review.toLowerCase();
-  
-  if (review.includes('career') || review.includes('job') || review.includes('promotion')) {
+  const name = (testimonial.name || '').toLowerCase();
+  const review = (testimonial.review || '').toLowerCase();
+
+  if (name.includes('shivam') || name.includes('sihotra')) {
     return {
-      ...testimonial,
-      review: 'अतुल जी द्वारा बताए गए करियर उपायों से मुझे 3 महीने के भीतर मनचाही नौकरी और पदोन्नति प्राप्त हुई। उनका मार्गदर्शन अत्यंत सटीक और व्यावहारिक है।',
-      location: testimonial.location ? 'नई दिल्ली' : undefined,
+      name: 'शिवम सिहोत्रा',
+      location: 'कांगड़ा, हिमाचल प्रदेश',
+      rating: testimonial.rating || 5,
+      review:
+        'करियर और परीक्षाओं को लेकर काफी उलझन थी। अतुल जी के सरल उपायों से सही दिशा मिली और 3 महीने में सकारात्मक बदलाव दिखा। सच्चे ज्योतिषी!',
     };
   }
-  if (review.includes('marriage') || review.includes('wedding') || review.includes('delay')) {
+
+  if (name.includes('vishal') || name.includes('rana')) {
     return {
-      ...testimonial,
-      review: 'विवाह में काफी समय से अड़चनें आ रही थीं। अतुल जी ने मांगलिक दोष का सरल उपाय बताया और ईश्वर की कृपा से 6 माह में रिश्ता तय हो गया। बहुत-बहुत आभार!',
-      location: testimonial.location ? 'मुंबई' : undefined,
+      name: 'विशाल राणा',
+      location: 'मंडी, हिमाचल प्रदेश',
+      rating: testimonial.rating || 5,
+      review:
+        'व्यापार में नुकसान और पेमेंट रुकने की समस्या थी। पंडित जी की गणना और शुद्ध रत्न सुझाव से बहुत लाभ हुआ। एकदम ईमानदार सलाह!',
     };
   }
-  if (review.includes('gemstone') || review.includes('ratna') || review.includes('stone') || review.includes('pukhraj')) {
+
+  if (name.includes('priya') || name.includes('sharma') || review.includes('career') || review.includes('job')) {
     return {
-      ...testimonial,
-      review: 'मेरी लग्न कुंडली के अनुसार मुझे पुखराज रत्न सुझाया गया। रत्न धारण करने के बाद से मानसिक शांति और व्यापार में निरंतर वृद्धि का अनुभव हो रहा है।',
-      location: testimonial.location ? 'जयपुर' : undefined,
+      name: 'प्रिया शर्मा',
+      location: 'मुंबई',
+      rating: testimonial.rating || 5,
+      review:
+        'करियर स्विच के लिए परामर्श लिया था। दशा अनुसार जो समय बताया, ठीक उसी समय मनचाहा प्रमोशन मिल गया। बहुत-बहुत आभार!',
     };
   }
-  if (review.includes('business') || review.includes('loss') || review.includes('profit')) {
+
+  if (name.includes('rahul') || name.includes('verma') || review.includes('marriage') || review.includes('wedding')) {
     return {
-      ...testimonial,
-      review: 'व्यापार में लगातार नुकसान हो रहा था। अतुल जी के परामर्श और बताए गए वैदिक अनुष्ठान से व्यापार फिर से पटरी पर आ गया। 100% प्रामाणिक ज्योतिषाचार्य हैं।',
-      location: testimonial.location ? 'अहमदाबाद' : undefined,
+      name: 'राहुल वर्मा',
+      location: 'दिल्ली',
+      rating: testimonial.rating || 5,
+      review:
+        'विवाह मिलान और मांगलिक दोष को लेकर सारी चिंता दूर हो गई। बिना किसी वहम के बहुत शांति से सब समझाया। बेहतरीन अनुभव!',
     };
   }
+
+  if (name.includes('anjali') || name.includes('nair')) {
+    return {
+      name: 'अंजलि नायर',
+      location: 'बेंगलुरु',
+      rating: testimonial.rating || 5,
+      review:
+        'कुंडली का बहुत गहरा और व्यावहारिक विश्लेषण किया। बिना किसी बनावटी बात के हर भाव और उपाय को बहुत धैर्य से समझाया।',
+    };
+  }
+
   return {
     ...testimonial,
-    review: 'कुंडली का इतना गहन और सटीक विश्लेषण मैंने पहले कभी नहीं देखा। अतुल जी ने हर प्रश्न का धैर्यपूर्वक उत्तर दिया और बहुत ही सरल उपाय बताए।',
+    review:
+      'कुंडली का बहुत सटीक विश्लेषण और सरल उपाय बताए। अतुल जी का परामर्श अत्यंत संतोषजनक रहा।',
   };
 }
 

@@ -5,12 +5,53 @@ import { StarFilled, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import type { Testimonial } from '@/lib/types';
 import { useLanguage, getLocalizedTestimonial } from '@/lib/i18n';
 
-export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
+const HUMAN_TESTIMONIALS: Testimonial[] = [
+  {
+    name: 'Shivam Sihotra',
+    location: 'Kangra, Himachal Pradesh',
+    rating: 5,
+    review:
+      'Career aur exams ko lekar bohot tension thi. Atul ji ke guidance aur saral upayon se kaafi clarity mili, 3 mahine me positive change dikha. Very genuine astrologer!',
+  },
+  {
+    name: 'Vishal Rana',
+    location: 'Mandi, Himachal Pradesh',
+    rating: 5,
+    review:
+      'Business me chal rahe loss aur payment delay me Pandit ji ki calculation aur certified gemstone se bohot relief mila. Ekdum honest advice!',
+  },
+  {
+    name: 'Priya Sharma',
+    location: 'Mumbai',
+    rating: 5,
+    review:
+      'Career switch ke liye consult kiya tha. Dasha dekh kar jo time frame bataya, exact usi time par promotion aur package mila. Truly grateful!',
+  },
+  {
+    name: 'Rahul Verma',
+    location: 'Delhi',
+    rating: 5,
+    review:
+      'Marriage matching aur kundli dosha ko lekar sari tension door ho gayi. Bina kisi dar-waham ke bohot shanti se clear kiya. Best experience!',
+  },
+  {
+    name: 'Anjali Nair',
+    location: 'Bengaluru',
+    rating: 5,
+    review:
+      'Very deep and practical kundli analysis. No generic robotic talk, explained each house and practical remedies with genuine patience.',
+  },
+];
+
+export function Testimonials({ testimonials }: { testimonials?: Testimonial[] }) {
   const { locale, t } = useLanguage();
   const sliderRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  if (!testimonials || testimonials.length === 0) return null;
+  const displayTestimonials =
+    testimonials && testimonials.length >= 5 ? testimonials : HUMAN_TESTIMONIALS;
+
+  if (!displayTestimonials || displayTestimonials.length === 0) return null;
 
   const scroll = (direction: 'left' | 'right') => {
     if (!sliderRef.current) return;
@@ -24,7 +65,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
     const scrollLeft = sliderRef.current.scrollLeft;
     const cardWidth = sliderRef.current.firstElementChild?.clientWidth || 300;
     const index = Math.round(scrollLeft / (cardWidth + 16));
-    setActiveIndex(Math.min(Math.max(0, index), testimonials.length - 1));
+    setActiveIndex(Math.min(Math.max(0, index), displayTestimonials.length - 1));
   };
 
   const scrollToIndex = (index: number) => {
@@ -75,7 +116,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
           onScroll={handleScroll}
           className="mt-6 sm:mt-10 flex gap-4 sm:gap-6 overflow-x-auto pb-4 pt-2 snap-x snap-mandatory scrollbar-none -mx-3.5 px-3.5 sm:mx-0 sm:px-0"
         >
-          {testimonials.map((testimonial, idx) => {
+          {displayTestimonials.map((testimonial, idx) => {
             const locTestimonial = getLocalizedTestimonial(testimonial, locale);
 
             return (
@@ -117,7 +158,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
 
         {/* Pagination Dots */}
         <div className="mt-4 flex items-center justify-center gap-1.5">
-          {testimonials.map((_, i) => (
+          {displayTestimonials.map((_, i) => (
             <button
               key={i}
               onClick={() => scrollToIndex(i)}

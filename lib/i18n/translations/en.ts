@@ -203,9 +203,20 @@ export const en = {
     subtitle: 'Everything you need to know about our astrological consultations, remedies, and online slot bookings.',
   },
   booking_section: {
-    badge: '📅 Reserve Your Slot',
+    badge: 'Reserve Your Slot',
     title: 'Book Your Consultation',
     subtitle: 'Fill in your details below — it only takes a couple of minutes.',
+    mobile_card: {
+      badge: 'Vedic Kundli & Cosmic Guidance',
+      title: 'Decode Your Destiny with Vedic Kundli',
+      subtitle: 'Accurate 12-House Kundli Analysis, Planetary Dasha & Remedies with Astrologer Atul.',
+      feature_1: '12 Houses & Planetary Dasha Analysis',
+      feature_2: '100% Scripture-Backed Remedies',
+      feature_3: 'Direct 1-on-1 Astrologer Consultation',
+      live_slots: 'Live Slots Available Today',
+      cta_btn: 'Book Consultation Slot',
+      drawer_title: 'Book Your Vedic Consultation',
+    },
   },
   booking: {
     steps: ['Details', 'Session & Slot', 'Payment', 'Confirm'],

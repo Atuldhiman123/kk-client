@@ -37,9 +37,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${inter.variable} ${cormorant.variable} ${geistMono.variable} h-full antialiased overflow-x-hidden`}
     >
-      <body className="min-h-full flex flex-col overflow-x-hidden w-full">
+      <body suppressHydrationWarning className="min-h-full flex flex-col overflow-x-hidden w-full">
         <Providers>
           {children}
           <RatnaFloatingButton />

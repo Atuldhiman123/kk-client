@@ -216,3 +216,80 @@ button.text-white,
 .border-gold {
   border-color: #C14B0F;
 }
+
+/* Mobile Booking Bottom Sheet Styling */
+.booking-mobile-bottom-sheet .ant-drawer-content-wrapper {
+  border-radius: 24px 24px 0 0 !important;
+  overflow: hidden !important;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.25) !important;
+}
+
+.booking-mobile-bottom-sheet .ant-drawer-content {
+  border-radius: 24px 24px 0 0 !important;
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  background-color: #FFFDF9 !important;
+}
+
+.booking-mobile-bottom-sheet .ant-drawer-wrapper-body {
+  height: 100% !important;
+  max-height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  background-color: #FFFDF9 !important;
+}
+
+.booking-mobile-bottom-sheet .ant-drawer-header {
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  min-height: 64px !important;
+  padding: 14px 16px 10px !important;
+  background-color: #FFFDF9 !important;
+  border-bottom: 1px solid rgba(251, 146, 60, 0.2) !important;
+  box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.04) !important;
+  flex-shrink: 0 !important;
+  position: relative !important;
+  z-index: 50 !important;
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
+
+.booking-mobile-bottom-sheet .ant-drawer-header-title {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.booking-mobile-bottom-sheet .ant-drawer-title {
+  display: flex !important;
+  align-items: center !important;
+  flex: 1 !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+.booking-mobile-bottom-sheet .ant-drawer-body {
+  flex: 1 1 auto !important;
+  padding: 8px 10px 24px !important;
+  background-color: #FFFDF9 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  overscroll-behavior: contain !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+
+

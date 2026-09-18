@@ -253,7 +253,7 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
   };
 
   const wrapperClass = isModal
-    ? 'mx-auto max-w-2xl p-2 sm:p-4 bg-[#FFFDF9]'
+    ? 'w-full max-w-full p-1 sm:p-4 bg-[#FFFDF9] overflow-x-hidden'
     : 'mx-auto max-w-2xl rounded-2xl sm:rounded-3xl border border-orange-200 bg-[#FFFDF9] p-3.5 sm:p-7 md:p-8 shadow-lg';
 
   return (
@@ -306,16 +306,16 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
         </div>
 
         {/* Mobile Stepper */}
-        <div className="flex sm:hidden flex-col gap-1.5">
-          <div className="flex items-center justify-between text-xs font-bold text-neutral-800">
-            <span className="text-orange-800 font-bold text-[11px]">
+        <div className="flex sm:hidden flex-col gap-1">
+          <div className="flex items-center justify-between text-[11px] font-medium text-neutral-600">
+            <span className="text-orange-700 font-bold text-[10.5px]">
               {t.booking.step_label} {current + 1} {t.booking.step_of} {stepTitles.length}
             </span>
-            <span className="text-neutral-900 font-black text-xs flex items-center gap-1">
-              <span>{stepTitles[current]}</span>
+            <span className="text-neutral-800 font-bold text-[11px]">
+              {stepTitles[current]}
             </span>
           </div>
-          <div className="h-1.5 w-full bg-neutral-100 rounded-full overflow-hidden">
+          <div className="h-1 w-full bg-neutral-100 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-orange-500 to-red-600 rounded-full transition-all duration-300"
               style={{ width: `${((current + 1) / stepTitles.length) * 100}%` }}
@@ -329,7 +329,7 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
         layout="vertical"
         requiredMark="optional"
         preserve
-        className="[&_.ant-form-item]:!mb-1.5 sm:[&_.ant-form-item]:!mb-2 [&_.ant-form-item-label]:!pb-0.5 [&_.ant-form-item-label_label]:!text-xs sm:[&_.ant-form-item-label_label]:!text-sm [&_.ant-form-item-label_label]:!font-semibold"
+        className="[&_.ant-form-item]:!mb-1 sm:[&_.ant-form-item]:!mb-2 [&_.ant-form-item-label]:!pb-0.5 [&_.ant-form-item-label_label]:!text-[11px] sm:[&_.ant-form-item-label_label]:!text-xs [&_.ant-form-item-label_label]:!font-medium [&_.ant-form-item-label_label]:!text-neutral-700"
       >
         <div className={current === 0 ? '' : 'hidden'}>
           <PersonalDetailsStep />
@@ -346,12 +346,12 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
       </Form>
 
       {/* Navigation Buttons */}
-      <div className="mt-4 sm:mt-6 flex items-center justify-between gap-2.5 border-t border-orange-100 pt-3.5 sm:pt-4">
+      <div className="mt-4 sm:mt-6 flex items-center justify-between gap-3 border-t border-orange-100 pt-3.5 sm:pt-4">
         <Button
           size="middle"
           onClick={goBack}
           disabled={current === 0}
-          className="!rounded-full !px-4 sm:!px-6 !text-xs sm:!text-sm !h-8.5 sm:!h-10 shrink-0 font-bold border border-orange-200"
+          className="!rounded-full !px-5 sm:!px-6 !text-xs sm:!text-sm !h-8.5 sm:!h-10 !w-auto shrink-0 font-bold border border-orange-200 shadow-2xs"
         >
           {t.booking.btn_back}
         </Button>
@@ -360,7 +360,7 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
             type="primary"
             size="middle"
             onClick={goNext}
-            className="!rounded-full !bg-orange-600 !px-5 sm:!px-8 !font-bold hover:!bg-orange-700 !text-xs sm:!text-sm !h-8.5 sm:!h-10 flex-1 sm:flex-none justify-center shadow-xs"
+            className="!rounded-full !bg-orange-600 !px-6 sm:!px-8 !font-bold hover:!bg-orange-700 !text-xs sm:!text-sm !h-8.5 sm:!h-10 !w-auto shrink-0 shadow-xs"
           >
             {t.booking.btn_next}
           </Button>
@@ -370,7 +370,7 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
             size="middle"
             loading={submitting}
             onClick={handleSubmit}
-            className="!rounded-full !bg-gradient-to-r !from-orange-500 !to-red-600 !px-5 sm:!px-8 !font-bold hover:!from-orange-600 hover:!to-red-700 !text-xs sm:!text-sm !h-8.5 sm:!h-10 flex-1 sm:flex-none justify-center shadow-sm"
+            className="!rounded-full !bg-gradient-to-r !from-orange-500 !to-red-600 !px-6 sm:!px-8 !font-bold hover:!from-orange-600 hover:!to-red-700 !text-xs sm:!text-sm !h-8.5 sm:!h-10 !w-auto shrink-0 shadow-sm"
           >
             {t.booking.btn_submit}
           </Button>

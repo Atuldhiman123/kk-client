@@ -277,7 +277,7 @@ export function ConsultationStep({ form, categories, combos }: Props) {
                     form.setFieldValue('selection', `combo:${combo.id}`);
                     form.validateFields(['selection']).catch(() => {});
                   }}
-                  className={`relative flex flex-col justify-between rounded-xl border p-2.5 sm:p-3 text-left transition-all duration-200 select-none w-[68vw] max-w-[200px] sm:w-48 shrink-0 snap-start cursor-pointer ${
+                  className={`relative flex flex-col justify-between rounded-xl border p-2 sm:p-2.5 text-left transition-all duration-200 select-none w-[68vw] max-w-[190px] sm:w-48 shrink-0 snap-start cursor-pointer ${
                     isSelected
                       ? 'border-orange-600 bg-orange-50/75 shadow-md ring-2 ring-orange-500/30'
                       : 'border-orange-200/90 bg-white hover:border-orange-400 hover:bg-orange-50/20 shadow-2xs hover:-translate-y-0.5'
@@ -286,7 +286,7 @@ export function ConsultationStep({ form, categories, combos }: Props) {
                   <div>
                     <div className="flex items-start justify-between gap-1">
                       <div className="flex items-center gap-1.5 min-w-0">
-                        <span className="text-base shrink-0">🎁</span>
+                        <GiftOutlined className="text-orange-600 text-sm shrink-0" />
                         <span
                           className={`font-bold text-xs sm:text-sm leading-tight truncate ${
                             isSelected ? 'text-orange-950 font-black' : 'text-neutral-900'
@@ -353,7 +353,7 @@ export function ConsultationStep({ form, categories, combos }: Props) {
         {(selectedCategory || selectedCombo) && (
           <div className="rounded-xl border border-orange-300/80 bg-orange-100/60 px-3 py-1.5 flex items-center justify-between shadow-2xs">
             <div className="text-[11px] sm:text-xs font-bold text-orange-950 flex items-center gap-1.5 truncate">
-              <span className="text-orange-600 text-xs">🎯</span>
+              <CompassOutlined className="text-orange-600 text-xs shrink-0" />
               <span className="truncate">
                 {t.booking.selected_label}{' '}
                 <span className="font-extrabold text-orange-900">

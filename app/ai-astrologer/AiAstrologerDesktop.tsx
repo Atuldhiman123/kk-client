@@ -17,6 +17,8 @@ import {
   CheckOutlined,
   IdcardOutlined,
   ApartmentOutlined,
+  CompassOutlined,
+  EditOutlined,
 } from '@ant-design/icons';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -739,16 +741,23 @@ export default function AiAstrologerDesktop() {
               <div className="rounded-2xl border border-amber-400/40 bg-gradient-to-br from-[#060911] via-[#0E1726] to-[#060911] p-3.5 sm:p-4 shadow-xl text-white space-y-3 w-full min-w-0 max-w-full shrink-0">
                 <div className="flex items-center justify-between border-b border-amber-500/25 pb-2.5 gap-1.5">
                   <div className="flex items-center gap-1.5 min-w-0">
-                    <span className="text-sm shrink-0">🪐</span>
+                    <CompassOutlined className="text-sm shrink-0 text-amber-300" />
                     <h3 className="font-serif text-[11.5px] xs:text-xs sm:text-sm font-bold text-amber-300 uppercase tracking-wider truncate">
                       {locale === 'hi' ? 'जन्म विवरण (चरण 1)' : 'Birth Details (Step 1)'}
                     </h3>
                   </div>
                   <button
                     onClick={() => setIsBirthModalOpen(true)}
-                    className="cursor-pointer rounded-lg border border-amber-400/70 bg-amber-400/20 px-2.5 py-1 text-[10.5px] sm:text-xs font-black text-amber-200 hover:bg-amber-400/30 transition shadow-xs shrink-0 whitespace-nowrap"
+                    className="cursor-pointer rounded-lg border border-amber-400/70 bg-amber-400/20 px-2.5 py-1 text-[10.5px] sm:text-xs font-black text-amber-200 hover:bg-amber-400/30 transition shadow-xs shrink-0 whitespace-nowrap inline-flex items-center gap-1"
                   >
-                    {birthDetails ? (locale === 'hi' ? '✏️ विवरण बदलें' : '✏️ Edit Details') : (locale === 'hi' ? '+ जन्म विवरण भरें' : '+ Enter Details')}
+                    {birthDetails ? (
+                      <>
+                        <EditOutlined className="text-xs" />
+                        <span>{locale === 'hi' ? 'विवरण बदलें' : 'Edit Details'}</span>
+                      </>
+                    ) : (
+                      <span>{locale === 'hi' ? '+ जन्म विवरण भरें' : '+ Enter Details'}</span>
+                    )}
                   </button>
                 </div>
 

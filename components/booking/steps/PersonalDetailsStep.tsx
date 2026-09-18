@@ -3,7 +3,15 @@
 import React from 'react';
 import { DatePicker, Form, Input, TimePicker, Select } from 'antd';
 import dayjs from 'dayjs';
-import { UserOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import {
+  UserOutlined,
+  EnvironmentOutlined,
+  CompassOutlined,
+  WhatsAppOutlined,
+  CalendarOutlined,
+  ClockCircleOutlined,
+  IdcardOutlined,
+} from '@ant-design/icons';
 import { useLanguage } from '@/lib/i18n';
 import { ALL_INDIA_CITIES_FLAT } from '@/lib/data/indiaLocations';
 
@@ -14,7 +22,7 @@ export function PersonalDetailsStep() {
     <div className="space-y-2.5 sm:space-y-3">
       {/* Slim Top WhatsApp Info Banner (Hidden on Mobile) */}
       <div className="hidden sm:flex items-center gap-2 text-[11px] sm:text-xs text-emerald-900 bg-emerald-50/90 border border-emerald-200/80 rounded-xl px-3 py-1.5 font-medium">
-        <span className="text-emerald-600 font-bold text-xs shrink-0">📲</span>
+        <WhatsAppOutlined className="text-emerald-600 text-sm shrink-0" />
         <span>{t.booking.phone_note}</span>
       </div>
 
@@ -27,7 +35,12 @@ export function PersonalDetailsStep() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1">
           <Form.Item
-            label={t.booking.full_name}
+            label={
+              <span className="flex items-center gap-1">
+                <UserOutlined className="text-orange-600 text-xs" />
+                <span>{t.booking.full_name}</span>
+              </span>
+            }
             name="name"
             rules={[{ required: true, message: t.booking.full_name_required }]}
             className="!mb-0"
@@ -39,8 +52,9 @@ export function PersonalDetailsStep() {
             label={
               <span className="flex items-center gap-1.5">
                 <span>{t.booking.phone}</span>
-                <span className="rounded-md bg-emerald-100 text-emerald-800 text-[10px] px-1.5 py-0.2 font-black">
-                  {t.booking.phone_badge}
+                <span className="inline-flex items-center gap-1 rounded-md bg-emerald-100 text-emerald-800 text-[10px] px-1.5 py-0.5 font-bold">
+                  <WhatsAppOutlined className="text-[11px] text-emerald-600" />
+                  <span>{t.booking.phone_badge}</span>
                 </span>
               </span>
             }
@@ -69,14 +83,19 @@ export function PersonalDetailsStep() {
       {/* 2. Birth Details for Kundli Analysis */}
       <div className="rounded-2xl border border-orange-200/80 bg-orange-50/20 p-2.5 sm:p-3 space-y-2">
         <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-orange-950 border-b border-orange-100 pb-1.5">
-          <span className="text-sm">🪐</span>
+          <CompassOutlined className="text-orange-600" />
           <span>{t.booking.birth_header}</span>
         </div>
 
         {/* Row 1: Profile Name & Date of Birth */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1">
           <Form.Item
-            label={t.booking.profile_name}
+            label={
+              <span className="flex items-center gap-1">
+                <IdcardOutlined className="text-orange-600 text-xs" />
+                <span>{t.booking.profile_name}</span>
+              </span>
+            }
             name="profileName"
             tooltip={t.booking.profile_name_tooltip}
             rules={[{ required: true, message: t.booking.profile_name_required }]}
@@ -86,7 +105,12 @@ export function PersonalDetailsStep() {
           </Form.Item>
 
           <Form.Item
-            label={t.booking.dob}
+            label={
+              <span className="flex items-center gap-1">
+                <CalendarOutlined className="text-orange-600 text-xs" />
+                <span>{t.booking.dob}</span>
+              </span>
+            }
             name="dob"
             rules={[{ required: true, message: t.booking.dob_required }]}
             className="!mb-1.5"
@@ -104,7 +128,12 @@ export function PersonalDetailsStep() {
         {/* Row 2: Time of Birth & Place of Birth */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1">
           <Form.Item
-            label={t.booking.birth_time}
+            label={
+              <span className="flex items-center gap-1">
+                <ClockCircleOutlined className="text-orange-600 text-xs" />
+                <span>{t.booking.birth_time}</span>
+              </span>
+            }
             name="birthTime"
             rules={[{ required: true, message: t.booking.birth_time_required }]}
             className="!mb-0"
@@ -121,7 +150,7 @@ export function PersonalDetailsStep() {
           <Form.Item
             label={
               <span className="flex items-center gap-1">
-                <EnvironmentOutlined className="text-orange-600" />
+                <EnvironmentOutlined className="text-orange-600 text-xs" />
                 <span>{t.booking.birth_place}</span>
               </span>
             }

@@ -1,6 +1,7 @@
 'use client';
 
 import { Alert, Form, type FormInstance } from 'antd';
+import { UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import type { Dayjs } from 'dayjs';
 import type { ComboOffer, ConsultationCategory } from '@/lib/types';
 import { formatInr } from '@/lib/format';
@@ -76,6 +77,7 @@ export function ConfirmationStep({ form, categories, combos, error }: Props) {
       {/* 1. Personal & Kundli Details Summary */}
       <div className="overflow-hidden rounded-2xl border border-orange-200/80 bg-white shadow-2xs">
         <div className="bg-orange-50/60 px-3 py-1.5 border-b border-orange-100 text-[11px] font-bold uppercase tracking-wider text-orange-950 flex items-center gap-1.5">
+          <UserOutlined className="text-orange-600 text-xs" />
           <span>{t.booking.confirm_contact_header}</span>
         </div>
         <div>
@@ -94,6 +96,7 @@ export function ConfirmationStep({ form, categories, combos, error }: Props) {
       {/* 2. Session & Appointment Summary */}
       <div className="overflow-hidden rounded-2xl border border-orange-200/80 bg-white shadow-2xs">
         <div className="bg-orange-50/60 px-3 py-1.5 border-b border-orange-100 text-[11px] font-bold uppercase tracking-wider text-orange-950 flex items-center gap-1.5">
+          <CalendarOutlined className="text-orange-600 text-xs" />
           <span>{t.booking.confirm_appointment_header}</span>
         </div>
         <div>

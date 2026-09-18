@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { SafetyCertificateFilled } from '@ant-design/icons';
 import { useLanguage } from '@/lib/i18n';
 
 export function RatnaFloatingButton() {
@@ -30,7 +31,7 @@ export function RatnaFloatingButton() {
             <span className="relative inline-flex rounded-full h-2 sm:h-2.5 w-2 sm:w-2.5 bg-white shadow-xs" />
           </span>
 
-          <span className="text-sm sm:text-base">💎</span>
+          <SafetyCertificateFilled className="text-sm sm:text-base text-amber-200" />
           <span className="text-xs sm:text-sm font-bold whitespace-nowrap" style={{ color: '#ffffff' }}>
             {t.nav.gemstone_nav_short}
           </span>

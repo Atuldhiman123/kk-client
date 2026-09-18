@@ -21,6 +21,7 @@ import {
   EditOutlined,
   MessageOutlined,
   FileTextOutlined,
+  CompassOutlined,
 } from '@ant-design/icons';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -1219,7 +1220,7 @@ export default function AiAstrologerMobile() {
                 <div className="rounded-xl border border-orange-200/90 bg-white p-2.5 text-neutral-800 shadow-2xs shrink-0">
                   <div className="flex items-center justify-between gap-2 mb-1.5">
                     <div className="flex items-center gap-1.5 min-w-0">
-                      <span className="text-xs">🪐</span>
+                      <CompassOutlined className="text-xs text-orange-600" />
                       <h3 className="font-serif text-[11px] font-bold text-neutral-900 uppercase tracking-wide truncate">
                         {locale === 'hi' ? 'जन्म विवरण' : 'Birth Details'}
                       </h3>

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Form, Input, DatePicker, TimePicker, Select, Button, message } from 'antd';
 import dayjs from 'dayjs';
 import type { BirthDetailsPayload } from '@/lib/types';
-import { CalendarOutlined, ClockCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { CalendarOutlined, ClockCircleOutlined, EnvironmentOutlined, CompassOutlined } from '@ant-design/icons';
 import { useLanguage } from '@/lib/i18n';
 import { ALL_INDIA_CITIES_FLAT } from '@/lib/data/indiaLocations';
 
@@ -155,7 +155,7 @@ export function BirthDetailsModal({
       footer={null}
       title={
         <div className="flex items-center gap-2 pb-1.5 border-b border-orange-100">
-          <span className="text-xl">🪐</span>
+          <CompassOutlined className="text-xl text-orange-600" />
           <div className="min-w-0">
             <h3 className="font-serif text-sm sm:text-base font-bold text-neutral-900 leading-tight">
               {locale === 'hi' ? 'जन्म विवरण दर्ज करें' : 'Add Birth Details'}

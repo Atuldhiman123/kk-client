@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { WhatsAppOutlined, MenuOutlined, CloseOutlined, InstagramOutlined } from '@ant-design/icons';
+import { WhatsAppOutlined, MenuOutlined, CloseOutlined, InstagramOutlined, CalendarOutlined } from '@ant-design/icons';
 import { PhoneIcon } from '@/components/icons/PhoneIcon';
 import type { ContactInfo } from '@/lib/types';
 import { waLink, telLink } from '@/lib/contact';
@@ -109,7 +109,7 @@ export function Header({ contact }: { contact: ContactInfo }) {
             className="hidden sm:flex rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-orange-600 px-3.5 py-1.5 sm:px-4.5 sm:py-2 text-xs font-bold text-white shadow-xs hover:from-amber-600 hover:to-orange-700 transition duration-150 whitespace-nowrap shrink-0 cursor-pointer items-center gap-1.5"
             style={{ color: '#ffffff' }}
           >
-            <span className="text-xs">📅</span>
+            <CalendarOutlined className="text-xs text-white" />
             <span className="text-white whitespace-nowrap font-bold" style={{ color: '#ffffff' }}>
               {t.nav.book_now}
             </span>

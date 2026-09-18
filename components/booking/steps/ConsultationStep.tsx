@@ -12,6 +12,13 @@ import {
   FireOutlined,
   GiftOutlined,
   StarOutlined,
+  CompassOutlined,
+  HeartOutlined,
+  MedicineBoxOutlined,
+  DollarOutlined,
+  SafetyCertificateOutlined,
+  SmileOutlined,
+  ProjectOutlined,
 } from '@ant-design/icons';
 import type { ComboOffer, ConsultationCategory } from '@/lib/types';
 import { formatInr } from '@/lib/format';
@@ -24,17 +31,17 @@ interface Props {
   combos: ComboOffer[];
 }
 
-function getCategoryIcon(name: string, slug?: string) {
+function getCategoryIcon(name: string, slug?: string): React.ReactNode {
   const n = (name + ' ' + (slug || '')).toLowerCase();
-  if (n.includes('career') || n.includes('job') || n.includes('business')) return '💼';
-  if (n.includes('marriage') || n.includes('match') || n.includes('relationship') || n.includes('love')) return '💍';
-  if (n.includes('child') || n.includes('santana') || n.includes('birth')) return '👶';
-  if (n.includes('health') || n.includes('medical') || n.includes('roga')) return '🩺';
-  if (n.includes('wealth') || n.includes('money') || n.includes('finance') || n.includes('property')) return '💰';
-  if (n.includes('gem') || n.includes('stone') || n.includes('ratna')) return '💎';
-  if (n.includes('dasha') || n.includes('rahu') || n.includes('shani') || n.includes('planet')) return '🪐';
-  if (n.includes('combo')) return '🎁';
-  return '✨';
+  if (n.includes('career') || n.includes('job') || n.includes('business')) return <ProjectOutlined className="text-orange-600" />;
+  if (n.includes('marriage') || n.includes('match') || n.includes('relationship') || n.includes('love')) return <HeartOutlined className="text-rose-500" />;
+  if (n.includes('child') || n.includes('santana') || n.includes('birth')) return <SmileOutlined className="text-amber-600" />;
+  if (n.includes('health') || n.includes('medical') || n.includes('roga')) return <MedicineBoxOutlined className="text-emerald-600" />;
+  if (n.includes('wealth') || n.includes('money') || n.includes('finance') || n.includes('property')) return <DollarOutlined className="text-amber-600" />;
+  if (n.includes('gem') || n.includes('stone') || n.includes('ratna')) return <SafetyCertificateOutlined className="text-indigo-600" />;
+  if (n.includes('dasha') || n.includes('rahu') || n.includes('shani') || n.includes('planet')) return <CompassOutlined className="text-purple-600" />;
+  if (n.includes('combo')) return <GiftOutlined className="text-orange-600" />;
+  return <StarOutlined className="text-amber-500" />;
 }
 
 export function ConsultationStep({ form, categories, combos }: Props) {

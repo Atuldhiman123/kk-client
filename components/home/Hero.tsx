@@ -69,7 +69,7 @@ export function Hero({ contact }: { contact: ContactInfo }) {
       className={
         mobile
           ? 'mt-4 grid grid-cols-3 divide-x divide-orange-100 rounded-2xl border border-orange-100/90 bg-orange-50/80 shadow-xs md:hidden'
-          : 'relative z-20 -mr-14 hidden w-28 shrink-0 flex-col divide-y divide-orange-100 overflow-hidden rounded-2xl border border-orange-100 bg-orange-50/80 shadow-xl md:flex'
+          : 'relative z-0 -mr-12 lg:-mr-14 hidden w-28 shrink-0 flex-col divide-y divide-orange-100/80 overflow-hidden rounded-2xl border border-amber-200/80 bg-white/85 backdrop-blur-md shadow-xl md:flex'
       }
     >
       {statCards.map((stat) => (
@@ -125,22 +125,22 @@ export function Hero({ contact }: { contact: ContactInfo }) {
             {/* Mobile-Only Circular Celestial Astrologer Showcase with Large Portrait & Elegant Zodiac Orbit */}
             <div className="relative mt-1 mb-2 w-full max-w-[340px] xs:max-w-[360px] mx-auto md:hidden">
               {/* Cosmic Aura & Rotating Orbit Wheel */}
-              <div className="relative h-[270px] xs:h-[290px] w-full flex items-center justify-center overflow-visible">
+              <div className="relative h-[275px] xs:h-[295px] w-full flex items-center justify-center overflow-visible">
                 {/* Background Cosmic Glow Aura */}
-                <div className="absolute inset-0 m-auto h-[230px] w-[230px] rounded-full bg-gradient-to-tr from-amber-500/15 via-orange-500/20 to-amber-900/15 blur-xl pointer-events-none" />
+                <div className="absolute inset-0 m-auto h-[240px] w-[240px] xs:h-[260px] xs:w-[260px] rounded-full bg-gradient-to-tr from-amber-500/20 via-orange-500/25 to-amber-900/20 blur-xl pointer-events-none" />
 
                 {/* Outer Celestial Orbit Guide Rings */}
-                <div className="absolute inset-0 m-auto h-[240px] w-[240px] xs:h-[260px] xs:w-[260px] rounded-full border border-amber-400/40 border-dashed pointer-events-none" />
-                <div className="absolute inset-0 m-auto h-[220px] w-[220px] xs:h-[238px] xs:w-[238px] rounded-full border border-amber-300/20 pointer-events-none" />
+                <div className="absolute inset-0 m-auto h-[250px] w-[250px] xs:h-[270px] xs:w-[270px] rounded-full border border-amber-400/45 border-dashed pointer-events-none" />
+                <div className="absolute inset-0 m-auto h-[230px] w-[230px] xs:h-[248px] xs:w-[248px] rounded-full border border-amber-300/25 pointer-events-none" />
 
                 {/* Rotating 12 Zodiac & Nakshatra Orbit Wheel (Elegant Golden Cosmic Theme) */}
                 <div
-                  className="absolute inset-0 m-auto h-[240px] w-[240px] xs:h-[260px] xs:w-[260px] rounded-full animate-spin-slow pointer-events-none"
+                  className="absolute inset-0 m-auto h-[250px] w-[250px] xs:h-[270px] xs:w-[270px] rounded-full animate-spin-slow pointer-events-none"
                   style={{ animationDuration: '34s' }}
                 >
                   {ZODIAC_ORBIT_SIGNS.map((sign, idx) => {
                     const angle = idx * 30; // 360 / 12 = 30 deg
-                    const radius = 120; // px for orbit radius
+                    const radius = 125; // px for orbit radius (balanced)
                     return (
                       <div
                         key={sign.name}
@@ -161,7 +161,7 @@ export function Hero({ contact }: { contact: ContactInfo }) {
                 </div>
 
                 {/* Center: Large Astrologer Atul Circular Portrait */}
-                <div className="relative z-10 h-44 w-44 xs:h-48 xs:w-48 rounded-full border-[3.5px] border-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.45)] overflow-hidden bg-[#071322] shrink-0">
+                <div className="relative z-10 h-[180px] w-[180px] xs:h-[196px] xs:w-[196px] rounded-full border-[3.5px] border-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.45)] overflow-hidden bg-[#071322] shrink-0">
                   <img
                     src="/images/hero-person-3d-nakshatra.webp"
                     alt="Astrologer Atul - Senior Vedic Astrologer"
@@ -216,7 +216,7 @@ export function Hero({ contact }: { contact: ContactInfo }) {
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 px-4 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm font-extrabold text-white shadow-lg shadow-orange-500/25 transition-all hover:scale-[1.02] hover:from-amber-600 hover:to-red-600 whitespace-nowrap"
                 style={{ color: '#ffffff' }}
               >
-                <span className="text-sm sm:text-base">💎</span>
+                <SafetyCertificateOutlined className="text-sm sm:text-base text-amber-200" />
                 <span style={{ color: '#ffffff' }}>{t.hero.gemstone_hook.cta}</span>
               </Link>
 
@@ -290,24 +290,62 @@ export function Hero({ contact }: { contact: ContactInfo }) {
             </div>
           </div>
 
-          {/* Right: Desktop Visual with 3D Celestial Nakshatra Sphere */}
+          {/* Right: Desktop Visual with 3D Celestial Nakshatra Orbit & Circular Astrologer Portrait */}
           <div className="hidden md:flex flex-col items-end gap-6">
-            <div className="flex items-center mt-0 md:mr-6 lg:mr-10">
+            <div className="flex items-center mt-0 md:mr-2 lg:mr-4 gap-2 lg:gap-5">
               <StatColumn />
 
-              {/* Image + badges */}
-              <div className="relative z-10">
-                {/* Portrait */}
-                <div className="h-80 w-80 overflow-hidden rounded-[28px] border-2 border-amber-300 shadow-2xl sm:h-96 sm:w-96 sm:rounded-[32px] md:h-[26rem] md:w-[26rem] lg:h-[28rem] lg:w-[28rem] bg-[#06111d]">
+              {/* Grand Celestial Orbit Showcase */}
+              <div className="relative z-10 h-[380px] w-[380px] lg:h-[440px] lg:w-[440px] flex items-center justify-center overflow-visible">
+                {/* Background Cosmic Glow Aura */}
+                <div className="absolute inset-0 m-auto h-[320px] w-[320px] lg:h-[380px] lg:w-[380px] rounded-full bg-gradient-to-tr from-amber-500/20 via-orange-500/25 to-amber-900/20 blur-2xl pointer-events-none" />
+
+                {/* Outer Celestial Orbit Guide Rings */}
+                <div className="absolute inset-0 m-auto h-[345px] w-[345px] lg:h-[400px] lg:w-[400px] rounded-full border border-amber-400/50 border-dashed pointer-events-none" />
+                <div className="absolute inset-0 m-auto h-[320px] w-[320px] lg:h-[370px] lg:w-[370px] rounded-full border border-amber-300/30 pointer-events-none" />
+
+                {/* Rotating 12 Zodiac & Nakshatra Orbit Wheel */}
+                <div
+                  className="absolute inset-0 m-auto h-[345px] w-[345px] lg:h-[400px] lg:w-[400px] rounded-full animate-spin-slow pointer-events-none z-20"
+                  style={{ animationDuration: '36s' }}
+                >
+                  {ZODIAC_ORBIT_SIGNS.map((sign, idx) => {
+                    const angle = idx * 30; // 360 / 12 = 30 deg
+                    return (
+                      <div
+                        key={sign.name}
+                        className="absolute top-1/2 left-1/2 -mt-4 -ml-4 lg:-mt-4.5 lg:-ml-4.5 flex items-center justify-center [transform:rotate(var(--rot))_translateY(-172px)_rotate(var(--inv-rot))] lg:[transform:rotate(var(--rot))_translateY(-200px)_rotate(var(--inv-rot))]"
+                        style={
+                          {
+                            '--rot': `${angle}deg`,
+                            '--inv-rot': `-${angle}deg`,
+                          } as React.CSSProperties
+                        }
+                      >
+                        <div
+                          className="h-8 w-8 lg:h-9 lg:w-9 rounded-full bg-[#081728]/95 text-amber-300 flex items-center justify-center text-xs lg:text-sm font-bold shadow-[0_0_12px_rgba(245,158,11,0.45)] border border-amber-400/80 drop-shadow-sm transition-transform"
+                          title={`${sign.name} (${sign.hi})`}
+                        >
+                          <span>{sign.symbol}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Center: Astrologer Atul Circular Portrait */}
+                <div className="relative z-10 h-[240px] w-[240px] lg:h-[280px] lg:w-[280px] rounded-full border-[4px] border-amber-400 shadow-[0_0_40px_rgba(245,158,11,0.5)] overflow-hidden bg-[#071322] shrink-0">
                   <img
-                    src="/images/hero-person-3d-nakshatra.jpg"
-                    alt="Astrologer Atul with 3D Nakshatras & Rashis Sphere"
-                    className="h-full w-full object-cover object-top"
+                    src="/images/hero-person-3d-nakshatra.webp"
+                    alt="Astrologer Atul - Senior Vedic Astrologer"
+                    className="h-full w-full object-cover object-top scale-105"
                   />
+                  {/* Subtle golden ring edge highlight */}
+                  <div className="absolute inset-0 rounded-full ring-2 ring-inset ring-amber-300/60 pointer-events-none" />
                 </div>
 
                 {/* Instant Slot Booking badge */}
-                <div className="absolute -bottom-4 right-2 z-20 flex items-center gap-2.5 rounded-2xl border border-emerald-900/40 bg-[#14241a] px-3.5 py-2.5 shadow-xl sm:-bottom-5 sm:right-4 sm:px-4 sm:py-3">
+                <div className="absolute -bottom-2 right-0 lg:-bottom-3 lg:right-2 z-30 flex items-center gap-2.5 rounded-2xl border border-emerald-900/40 bg-[#14241a]/95 backdrop-blur-md px-3.5 py-2.5 shadow-xl sm:px-4 sm:py-3">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-amber-300 sm:h-9 sm:w-9">
                     <ClockCircleOutlined />
                   </div>

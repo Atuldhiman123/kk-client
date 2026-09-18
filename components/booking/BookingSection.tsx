@@ -206,8 +206,8 @@ export function BookingSection({ categories, combos, paymentConfig }: Props) {
             styles={{
               wrapper: { borderRadius: '24px 24px 0 0', overflow: 'hidden' },
               content: { borderRadius: '24px 24px 0 0', backgroundColor: '#FFFDF9', overflow: 'hidden' },
-              header: { padding: '20px 20px 12px', backgroundColor: '#FFFDF9', borderBottom: '1px solid rgba(251, 146, 60, 0.2)' },
-              body: { padding: '8px 12px 24px', backgroundColor: '#FFFDF9', overflowX: 'hidden' },
+              header: { padding: '16px 16px 10px', backgroundColor: '#FFFDF9', borderBottom: '1px solid rgba(251, 146, 60, 0.2)' },
+              body: { padding: 0, backgroundColor: '#FFFDF9', overflow: 'hidden', height: '100%' },
             }}
             title={
               <div className="w-full select-none">
@@ -238,15 +238,13 @@ export function BookingSection({ categories, combos, paymentConfig }: Props) {
               </div>
             }
           >
-            {/* Embedded Responsive Booking Form in Modal/Sheet Mode */}
-            <div className="pb-6">
-              <BookingForm
-                categories={categories}
-                combos={combos}
-                paymentConfig={paymentConfig}
-                isModal={true}
-              />
-            </div>
+            {/* Embedded Responsive Booking Form in Modal/Sheet Mode with Fixed Footer */}
+            <BookingForm
+              categories={categories}
+              combos={combos}
+              paymentConfig={paymentConfig}
+              isModal={true}
+            />
           </Drawer>
         </div>
       </div>

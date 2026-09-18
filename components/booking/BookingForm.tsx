@@ -252,14 +252,28 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
     }
   };
 
-  const wrapperClass = isModal
-    ? 'w-full max-w-full p-1 sm:p-4 bg-[#FFFDF9] overflow-x-hidden'
+  const isModalMode = Boolean(isModal);
+
+  const wrapperClass = isModalMode
+    ? 'w-full max-w-full flex flex-col h-full bg-[#FFFDF9] overflow-hidden'
     : 'mx-auto max-w-2xl rounded-2xl sm:rounded-3xl border border-orange-200 bg-[#FFFDF9] p-3.5 sm:p-7 md:p-8 shadow-lg';
+
+  const stepperClass = isModalMode
+    ? 'shrink-0 px-3.5 sm:px-6 pt-3 pb-2.5 border-b border-orange-100/70 select-none bg-[#FFFDF9]'
+    : 'mb-4 sm:mb-6 select-none';
+
+  const contentClass = isModalMode
+    ? 'flex-1 overflow-y-auto px-3.5 sm:px-6 py-3 scrollbar-thin overscroll-contain'
+    : '';
+
+  const footerClass = isModalMode
+    ? 'shrink-0 px-3.5 sm:px-6 py-3 bg-[#FFFDF9] border-t border-orange-200/80 shadow-[0_-4px_16px_rgba(249,115,22,0.08)] z-30 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex items-center justify-between gap-3'
+    : 'mt-4 sm:mt-6 flex items-center justify-between gap-3 border-t border-orange-100 pt-3.5 sm:pt-4';
 
   return (
     <div className={wrapperClass}>
       {/* 4-Step Stepper Header */}
-      <div className="mb-4 sm:mb-6 select-none">
+      <div className={stepperClass}>
         {/* Desktop Stepper */}
         <div className="hidden sm:flex items-center justify-between">
           {stepTitles.map((title, idx) => {
@@ -324,34 +338,37 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
         </div>
       </div>
 
-      <Form
-        form={form}
-        layout="vertical"
-        requiredMark="optional"
-        preserve
-        className="[&_.ant-form-item]:!mb-1 sm:[&_.ant-form-item]:!mb-2 [&_.ant-form-item-label]:!pb-0.5 [&_.ant-form-item-label_label]:!text-[11px] sm:[&_.ant-form-item-label_label]:!text-xs [&_.ant-form-item-label_label]:!font-medium [&_.ant-form-item-label_label]:!text-neutral-700"
-      >
-        <div className={current === 0 ? '' : 'hidden'}>
-          <PersonalDetailsStep />
-        </div>
-        <div className={current === 1 ? '' : 'hidden'}>
-          <ConsultationStep form={form} categories={categories} combos={combos} />
-        </div>
-        <div className={current === 2 ? '' : 'hidden'}>
-          <PaymentStep form={form} paymentConfig={paymentConfig} />
-        </div>
-        <div className={current === 3 ? '' : 'hidden'}>
-          <ConfirmationStep form={form} categories={categories} combos={combos} error={error} />
-        </div>
-      </Form>
+      {/* Scrollable Form Content */}
+      <div className={contentClass}>
+        <Form
+          form={form}
+          layout="vertical"
+          requiredMark="optional"
+          preserve
+          className="[&_.ant-form-item]:!mb-1.5 sm:[&_.ant-form-item]:!mb-2.5 [&_.ant-form-item-label]:!pb-0.5 [&_.ant-form-item-label_label]:!text-[11px] sm:[&_.ant-form-item-label_label]:!text-xs [&_.ant-form-item-label_label]:!font-medium [&_.ant-form-item-label_label]:!text-neutral-700"
+        >
+          <div className={current === 0 ? '' : 'hidden'}>
+            <PersonalDetailsStep />
+          </div>
+          <div className={current === 1 ? '' : 'hidden'}>
+            <ConsultationStep form={form} categories={categories} combos={combos} />
+          </div>
+          <div className={current === 2 ? '' : 'hidden'}>
+            <PaymentStep form={form} paymentConfig={paymentConfig} />
+          </div>
+          <div className={current === 3 ? '' : 'hidden'}>
+            <ConfirmationStep form={form} categories={categories} combos={combos} error={error} />
+          </div>
+        </Form>
+      </div>
 
-      {/* Navigation Buttons */}
-      <div className="mt-4 sm:mt-6 flex items-center justify-between gap-3 border-t border-orange-100 pt-3.5 sm:pt-4">
+      {/* Fixed / Sticky Navigation Action Footer */}
+      <div className={footerClass}>
         <Button
           size="middle"
           onClick={goBack}
           disabled={current === 0}
-          className="!rounded-full !px-5 sm:!px-6 !text-xs sm:!text-sm !h-8.5 sm:!h-10 !w-auto shrink-0 font-bold border border-orange-200 shadow-2xs"
+          className="!rounded-full !px-5 sm:!px-6 !text-xs sm:!text-sm !h-9 sm:!h-10 !w-auto shrink-0 font-bold border border-orange-200 shadow-2xs cursor-pointer hover:!border-orange-400"
         >
           {t.booking.btn_back}
         </Button>
@@ -360,7 +377,7 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
             type="primary"
             size="middle"
             onClick={goNext}
-            className="!rounded-full !bg-orange-600 !px-6 sm:!px-8 !font-bold hover:!bg-orange-700 !text-xs sm:!text-sm !h-8.5 sm:!h-10 !w-auto shrink-0 shadow-xs"
+            className="!rounded-full !bg-orange-600 !px-6 sm:!px-8 !font-bold hover:!bg-orange-700 !text-xs sm:!text-sm !h-9 sm:!h-10 !w-auto shrink-0 shadow-xs cursor-pointer"
           >
             {t.booking.btn_next}
           </Button>
@@ -370,7 +387,7 @@ export function BookingForm({ categories, combos, paymentConfig, isModal }: Prop
             size="middle"
             loading={submitting}
             onClick={handleSubmit}
-            className="!rounded-full !bg-gradient-to-r !from-orange-500 !to-red-600 !px-6 sm:!px-8 !font-bold hover:!from-orange-600 hover:!to-red-700 !text-xs sm:!text-sm !h-8.5 sm:!h-10 !w-auto shrink-0 shadow-sm"
+            className="!rounded-full !bg-gradient-to-r !from-orange-500 !to-red-600 !px-6 sm:!px-8 !font-bold hover:!from-orange-600 hover:!to-red-700 !text-xs sm:!text-sm !h-9 sm:!h-10 !w-auto shrink-0 shadow-sm cursor-pointer"
           >
             {t.booking.btn_submit}
           </Button>
